@@ -11,7 +11,7 @@ const Dashboard = ({auth})=> {
 }
 function mapStateToProps(state) {
   return {
-    auth:state.auth
+    auth: state.auth
 
   }
 
