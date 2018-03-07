@@ -48,6 +48,7 @@ class LoginForm extends Component {
   render() {
     error = true
     return (
+      <View style={{paddingTop: 50}}  >
       <Card>
         <CardSection>
           <Input
@@ -75,6 +76,7 @@ class LoginForm extends Component {
           </Link>
         </CardSection>
       </Card>
+    </View>
     )
   }
 }
