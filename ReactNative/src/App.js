@@ -7,30 +7,32 @@ import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
-import { NativeRouter, Route, Link } from 'react-router-native'
-import Router from './Router'
 class App extends Component {
   componentWillMount() {
     // make new web proj in firebase
     var config = {
-    apiKey: "AIzaSyC94Mn8F6yWZ9ghbhPQk_URaL9FtLrUFTg",
-    authDomain: "fir-boilerplate-e7d5f.firebaseapp.com",
-    databaseURL: "https://fir-boilerplate-e7d5f.firebaseio.com",
-    projectId: "fir-boilerplate-e7d5f",
-    storageBucket: "",
-    messagingSenderId: "54632576453"
-  };
-  firebase.initializeApp(config)
-  console.log('hello');
+     apiKey: "AIzaSyCKDkWCy04iN7MA2jXz-QIjtC8czvjkdJU",
+     authDomain: "pokergoapp.firebaseapp.com",
+     databaseURL: "https://pokergoapp.firebaseio.com",
+     projectId: "pokergoapp",
+     storageBucket: "",
+     messagingSenderId: "756523341581"
+   }
+    firebase.initializeApp(config);
+    console.log('hello');
   // console.log(firebase.initializeApp(config));
   }
 
   render() {
     console.disableYellowBox = true
+    console.log('herer in app');
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
     return (
       <Provider store={ store }>
-        <Router />
+        <View>
+          <LoginForm />
+          <Dashboard />
+        </View>
       </Provider>
     )
   }
