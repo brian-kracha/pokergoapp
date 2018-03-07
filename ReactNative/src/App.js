@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
+import Router from './Router'
 class App extends Component {
   componentWillMount() {
     // make new web proj in firebase
@@ -19,8 +20,6 @@ class App extends Component {
      messagingSenderId: "756523341581"
    }
     firebase.initializeApp(config);
-    console.log('hello');
-  // console.log(firebase.initializeApp(config));
   }
 
   render() {
@@ -29,10 +28,8 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
     return (
       <Provider store={ store }>
-        <View>
-          <LoginForm />
-          <Dashboard />
-        </View>
+          <Router />
+          {/* <Dashboard /> */}
       </Provider>
     )
   }
