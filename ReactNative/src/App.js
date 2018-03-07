@@ -4,8 +4,6 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import ReduxThunk from 'redux-thunk'
-import { NativeRouter, Route, Router, Link } from 'react-router-native'
-// import history from "./history"
 import reducers from './reducers'
 // import LoginForm from './components/LoginForm'
 import header from './components/Header'

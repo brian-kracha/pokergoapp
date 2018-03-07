@@ -15,7 +15,7 @@ const RouterComponent = () => {
             onRight={()=> Actions.table()}
             rightTitle='room'
             key='dashboard' component={Dashboard} title='Dashboard' initial/>
-          <Scene key='table' component={Table} title='Table' />
+          <Scene key='table' component={Table} hideNavBar  />
         </Scene>
       </Scene>
     </Router>
