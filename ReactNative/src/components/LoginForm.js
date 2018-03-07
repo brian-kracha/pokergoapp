@@ -17,7 +17,7 @@ class LoginForm extends Component {
     const { email, password } = this.props
 
     this.props.loginUser({ email, password })
-    
+
   }
   renderError() {
     if (this.props.error) {
@@ -44,8 +44,8 @@ class LoginForm extends Component {
 
   render() {
     return (
+      <View style={{paddingTop: 50}}  >
       <Card>
-
         <CardSection>
           <Input
             label="Email"
@@ -72,6 +72,7 @@ class LoginForm extends Component {
         </CardSection>
 
       </Card>
+    </View>
     )
   }
 }

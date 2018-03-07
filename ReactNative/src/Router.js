@@ -5,7 +5,7 @@ import Dashboard from './components/Dashboard'
 import Table from './components/Table'
 const RouterComponent = () => {
   return(
-    <Router style={{paddingTop: '15%'}}>
+    <Router style={{paddingTop: 10}}>
       <Scene key='root' hideNavBar>
         <Scene key='auth'>
           <Scene key='login' component={LoginForm} title='please login' initial/>
