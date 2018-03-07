@@ -19,15 +19,10 @@
     "native-base": "^2.3.9",
     "react": "^16.0.0",
     "react-native": "^0.52.0",
-<<<<<<< HEAD
     "react-native-router-flux": "^3.43.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-=======
-    "react-native-cli": "^2.0.1",
-    "react-redux": "^5.0.6",
->>>>>>> 10dbb4cb0d1181f8e3a7a7184fd9db8d071d45d0
     "react-router-native": "^4.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"

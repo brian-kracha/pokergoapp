@@ -21,15 +21,8 @@ class App extends Component {
      projectId: "pokergoapp",
      storageBucket: "",
      messagingSenderId: "756523341581"
-<<<<<<< HEAD
    }
     firebase.initializeApp(config);
-=======
-   };
-   firebase.initializeApp(config);
-  console.log('hello');
-  // console.log(firebase.initializeApp(config));
->>>>>>> 10dbb4cb0d1181f8e3a7a7184fd9db8d071d45d0
   }
 
   render() {
@@ -38,17 +31,8 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
     return (
       <Provider store={ store }>
-<<<<<<< HEAD
           <Router />
           {/* <Dashboard /> */}
-=======
-
-      <View>
-            <Dashboard/>
-
-      </View>
-
->>>>>>> 10dbb4cb0d1181f8e3a7a7184fd9db8d071d45d0
       </Provider>
     )
   }
