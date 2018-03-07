@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../actions'
 import { Card, CardSection, Input, Button, Spinner } from './common'
-
+import { NativeRouter, Route, Link, Redirect } from 'react-router-native'
 class LoginForm extends Component {
   onEmailChange(text) {
     this.props.emailChanged(text)
@@ -17,7 +17,7 @@ class LoginForm extends Component {
     const { email, password } = this.props
 
     this.props.loginUser({ email, password })
-    
+
   }
   renderError() {
     if (this.props.error) {
@@ -35,17 +35,20 @@ class LoginForm extends Component {
     if (this.props.loading) {
       return <Spinner size="large" />
     }
+    error = true
     return (
-      <Button onPress={ this.onButtonPress.bind(this) }>
-        Login
-      </Button>
+      // <Link to = '/dashboard'>
+        <Button onPress={ this.onButtonPress.bind(this) }>
+          Login
+        </Button>
+      // </Link>
     )
   }
 
   render() {
+    error = true
     return (
       <Card>
-
         <CardSection>
           <Input
             label="Email"
@@ -66,11 +69,11 @@ class LoginForm extends Component {
         </CardSection>
 
         { this.renderError() }
-
         <CardSection>
-          { this.renderButton() }
+          <Link to ='/dashboard'>
+            { this.renderButton() }
+          </Link>
         </CardSection>
-
       </Card>
     )
   }
