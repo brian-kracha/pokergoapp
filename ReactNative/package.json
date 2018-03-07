@@ -1,5 +1,5 @@
 {
-  "name": "react_native_redux_firebase_boilerplate",
+  "name": "pokergoapp",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,9 +16,12 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
     "firebase": "^4.8.1",
-    "react": "16.0.0",
+    "native-base": "^2.3.9",
+    "react": "^16.0.0",
     "react-native": "^0.52.0",
+    "react-native-cli": "^2.0.1",
     "react-redux": "^5.0.6",
+    "react-router-native": "^4.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
