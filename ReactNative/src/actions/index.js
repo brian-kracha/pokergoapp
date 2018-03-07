@@ -48,9 +48,5 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   })
-<<<<<<< HEAD
-  
-=======
   Actions.main()
->>>>>>> bac6ccdd7d7fb4d6b8e2f5c964c355d86d5c9ae6
 }
