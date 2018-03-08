@@ -3,17 +3,22 @@ import {
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER
+  LOGIN_USER,
+  ROOM_JOINED,
+  TAKE_SEAT,
+  SEND_MESSAGE,
 } from '../actions/types'
-
+let messages = []
 const INITIAL_STATE = {
   email: '',
   password: '',
   user: null,
   error: '',
-  loading: false
+  loading: false,
+  socket: null,
+  sit: 'sit',
+  message: [],
 }
-
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 
@@ -28,6 +33,18 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE, user: action.payload }
     case LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed.', password: '', loading: false }
+    case ROOM_JOINED:
+      return {...state, socket: action.payload}
+    case TAKE_SEAT:
+      console.log(action.payload)
+      return{...state, sit: action.payload}
+    case SEND_MESSAGE:
+      messages.push(action.payload)
+      console.log(messages)
+      return {
+        ...state,
+        message: messages
+      }
     default:
       return state
   }

@@ -9,6 +9,8 @@ import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 import header from './components/Header'
 import Dashboard from './components/Dashboard'
+import Messages from './components/Messages'
+import Table from './components/Table'
 import Router from './Router'
 class App extends Component {
   componentWillMount() {
@@ -31,7 +33,9 @@ class App extends Component {
     return (
       <Provider store={ store }>
           <Router />
-          {/* <LoginForm /> */}
+          {/* <Dashboard /> */}
+          {/* {<Table />} */}
+        {/* {<Messages />} */}
       </Provider>
     )
   }
