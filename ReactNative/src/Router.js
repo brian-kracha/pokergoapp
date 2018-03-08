@@ -8,13 +8,6 @@ import {joinRoom} from './actions'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
 const RouterComponent = ({joinRoom}) => {
-  // let a  = true
-  // function joinRoom() {
-  //   console.log('in this room')
-  //   var socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-  //   Actions.table()
-  //   console.log(socket)
-  // }
   return(
     <Router style={{paddingTop: 10}}>
       <Scene key='root' hideNavBar>

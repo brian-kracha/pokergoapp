@@ -7,7 +7,7 @@ server.listen(process.env.PORT || 3000)
 console.log('server started')
 
 io.sockets.on('connection', socket => {
-  socket.on('joinTable1', function(mytable){
+  socket.on('joinTable1', function(mytable) {
     // console.log(mytable);
     socket.join(mytable)
   })
@@ -19,8 +19,8 @@ io.sockets.on('connection', socket => {
     // io.sockets.emit('from server', data)
     io.in(socket.rooms.table1).emit('from server', data)
   });
-  socket.on('sendMessage',function(mesg){
-    console.log(mesg)
-    io.in(socket.rooms.table1).emit('server sent message', mesg)
+  socket.on('sendMessage', function(msg) {
+    console.log(msg)
+    io.in(socket.rooms.table1).emit('server message response', msg)
   })
 })

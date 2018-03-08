@@ -13,19 +13,7 @@ import {
 } from './types'
 var socket = null
 
-export const sendMessage =(message)=>{
-  return async (dispatch) => {
-    socket.emit('sendMessage', message)
-    console.log('message sent', message)
-    socket.on('server sent message', function(data) {
-      console.log(data)
-      dispatch({
-        type: SEND_MESSAGE,
-        payload: data
-      })
-    })
-  }
-}
+
 export const joinRoom = () => {
   console.log('in this room')
   socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
@@ -37,6 +25,19 @@ export const joinRoom = () => {
   return {
     type: ROOM_JOINED,
     payload: socket
+  }
+}
+export const sendMessage = (message) => {
+  return async (dispatch) => {
+    socket.emit('sendMessage', message)
+    console.log('message send', message)
+    socket.on('server message response', function(data) {
+      console.log(data)
+      dispatch({
+        type: SEND_MESSAGE,
+        payload: data
+      })
+    })
   }
 }
 
