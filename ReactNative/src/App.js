@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
+import Table from './components/Table'
 import Router from './Router'
 class App extends Component {
   componentWillMount() {
@@ -30,6 +31,7 @@ class App extends Component {
       <Provider store={ store }>
           <Router />
           {/* <Dashboard /> */}
+          {/* {<Table />} */}
       </Provider>
     )
   }

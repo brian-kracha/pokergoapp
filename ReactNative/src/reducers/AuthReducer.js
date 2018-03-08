@@ -6,6 +6,7 @@ import {
   LOGIN_USER,
   ROOM_JOINED,
   TAKE_SEAT,
+  SEND_MESSAGE,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -15,9 +16,10 @@ const INITIAL_STATE = {
   error: '',
   loading: false,
   socket: null,
-  sit: 'sit'
+  sit: 'sit',
+  message: [],
 }
-
+var messages = []
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 
@@ -37,6 +39,13 @@ export default (state = INITIAL_STATE, action) => {
     case TAKE_SEAT:
       console.log(action.payload)
       return{...state, sit: action.payload}
+    case SEND_MESSAGE:
+      messages.push(action.payload)
+      console.log(messages)
+      return {
+        ...state,
+        message: messages
+      }
     default:
       return state
   }

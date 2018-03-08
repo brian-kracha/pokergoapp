@@ -2,62 +2,79 @@ import React from 'react';
 import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Text, View, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native';
-import {takeSeat} from '../actions'
-const gameRoom = ({socket,sit,takeSeat})=> {
-  console.log(sit)
-  // onPress = ()=> {
-  //   console.log('seat taken')
-  //   console.log(socket);brian@badass.com
-  //   socket.emit('from client side', 'taken')
-    // socket.on('from server', function() {
-    //
-    // })
-  // }
+import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput } from 'react-native';
+import {takeSeat,sendMessage} from '../actions'
+class gameRoom extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      text: ''
+    }
+  }
+  render() {
+    console.log(this.props.sit)
+    let message = ''
     return (
+      <View>
         <ImageBackground
           source={require('../Images/images.jpeg')}
           style= { styles.background }>
           <View>
             <TouchableHighlight
                style={styles.button1}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button2}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button3}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button4}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button5}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button6}
-               onPress={takeSeat}
+               onPress={this.props.takeSeat}
               >
-             <Text> {sit} </Text>
+             <Text> {this.props.sit} </Text>
             </TouchableHighlight>
           </View>
+          <View style={{marginTop: 200}}>
+            <TextInput
+            style={{height: 40, borderColor: 'blue', borderWidth: 1,topPadding: 200}}
+            onChangeText={(text) => this.setState({text}) }
+            value={this.state.text}
+            />
+            <Button
+              onPress={()=> {this.props.sendMessage(this.state.text)}}
+              title="send"
+              color="red"
+              accessibilityLabel="Learn more about this purple button"
+            />
+          </View>
         </ImageBackground>
+
+      </View>
     );
+  }
 }
 var styles = StyleSheet.create({
   background: {
@@ -123,10 +140,12 @@ function mapStateToProps(state) {
   return {
     socket: state.auth.socket,
     sit: state.auth.sit,
+    text: state.auth.text,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  takeSeat
+  takeSeat,
+  sendMessage
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(gameRoom)
