@@ -23,6 +23,10 @@ const header = ()=> {
           </Right>
         </Header>
       </Container>
+<<<<<<< HEAD
+=======
+
+>>>>>>> a853cfe28887d5ccc4b68130f63345722a5f2325
   )
 }
 
