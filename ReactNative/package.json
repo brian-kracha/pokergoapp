@@ -21,7 +21,8 @@
     "react-native-router-flux": "^3.43.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "socket.io-client": "^2.0.4"
   },
   "devDependencies": {
     "babel-jest": "22.0.4",
