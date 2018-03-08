@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
+import Messages from './components/Messages'
 import Table from './components/Table'
 import Router from './Router'
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
           <Router />
           {/* <Dashboard /> */}
           {/* {<Table />} */}
+        {/* {<Messages />} */}
       </Provider>
     )
   }

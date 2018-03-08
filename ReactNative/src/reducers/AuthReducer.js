@@ -8,7 +8,7 @@ import {
   TAKE_SEAT,
   SEND_MESSAGE,
 } from '../actions/types'
-
+let messages = []
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -19,7 +19,6 @@ const INITIAL_STATE = {
   sit: 'sit',
   message: [],
 }
-var messages = []
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 
