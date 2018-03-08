@@ -45,7 +45,6 @@ export const takeSeat = () => {
   return async (dispatch) => {
     console.log('seat taken')
     console.log(socket);
-    var sit
     socket.emit('from client side', 'taken')
     socket.on('from server', function(data) {
       console.log(data)

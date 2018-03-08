@@ -8,7 +8,7 @@ import {
   TAKE_SEAT,
   SEND_MESSAGE,
 } from '../actions/types'
-
+let messages = []
 const INITIAL_STATE = {
   email: '',
   password: '',

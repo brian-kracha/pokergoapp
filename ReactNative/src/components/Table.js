@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput } from 'react-native';
 import {takeSeat,sendMessage} from '../actions'
+import Messages from './Messages'
 class gameRoom extends React.Component{
   constructor(props){
     super(props)
@@ -57,7 +58,7 @@ class gameRoom extends React.Component{
              <Text> {this.props.sit} </Text>
             </TouchableHighlight>
           </View>
-          <View style={{marginTop: 200}}>
+          <View style={{marginTop: 150}}>
             <TextInput
             style={{height: 40, borderColor: 'blue', borderWidth: 1,topPadding: 200}}
             onChangeText={(text) => this.setState({text}) }
@@ -70,6 +71,7 @@ class gameRoom extends React.Component{
               accessibilityLabel="Learn more about this purple button"
             />
           </View>
+          <Messages />
         </ImageBackground>
 
       </View>
@@ -146,7 +148,7 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
   takeSeat,
-  sendMessage
+  sendMessage,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(gameRoom)
