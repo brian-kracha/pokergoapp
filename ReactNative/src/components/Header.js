@@ -3,7 +3,7 @@ import {View, Text} from 'react-native'
 import { connect } from 'react-redux'
 import { NativeRouter, Route, Link } from 'react-router-native'
 import  { Container, Header, Left, Body, Right, Button, Icon, Title } from "native-base"
-const header = ()=>{
+const header = ()=> {
   return(
 
     <Container>
@@ -23,7 +23,6 @@ const header = ()=>{
           </Right>
         </Header>
       </Container>
-      
   )
 }
 
