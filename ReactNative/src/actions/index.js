@@ -8,9 +8,24 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER,
   ROOM_JOINED,
-  TAKE_SEAT
+  TAKE_SEAT,
+  SEND_MESSAGE,
 } from './types'
 var socket = null
+
+export const sendMessage =(message)=>{
+  return async (dispatch) => {
+    socket.emit('sendMessage', message)
+    console.log('message sent', message)
+    socket.on('server sent message', function(data) {
+      console.log(data)
+      dispatch({
+        type: SEND_MESSAGE,
+        payload: data
+      })
+    })
+  }
+}
 export const joinRoom = () => {
   console.log('in this room')
   socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
