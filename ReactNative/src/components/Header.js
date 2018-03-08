@@ -23,7 +23,7 @@ const header = ()=>{
           </Right>
         </Header>
       </Container>
-      
+
   )
 }
 

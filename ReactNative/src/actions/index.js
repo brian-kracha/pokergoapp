@@ -1,12 +1,46 @@
 import firebase from 'firebase'
 import {Actions} from 'react-native-router-flux'
+import SocketIOClient from 'socket.io-client';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER
+  LOGIN_USER,
+  ROOM_JOINED,
+  TAKE_SEAT
 } from './types'
+var socket = null
+export const joinRoom = () => {
+  console.log('in this room')
+  socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
+
+  socket.emit('joinTable1', 'table1')
+
+  Actions.table()
+  console.log(socket)
+  return {
+    type: ROOM_JOINED,
+    payload: socket
+  }
+}
+
+export const takeSeat = () => {
+  return async (dispatch) => {
+    console.log('seat taken')
+    console.log(socket);
+    var sit
+    socket.emit('from client side', 'taken')
+    socket.on('from server', function(data) {
+      console.log(data)
+      console.log(typeof(data))
+      dispatch({
+        type: TAKE_SEAT,
+        payload: data
+      })
+    })
+  }
+}
 
 export const emailChanged = (text) => {
   return {

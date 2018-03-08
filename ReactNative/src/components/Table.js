@@ -1,92 +1,75 @@
 import React from 'react';
 import SocketIOClient from 'socket.io-client';
-import {Text, View, ImageBackground, StyleSheet, TouchableHighlight } from 'react-native';
-let firstPlayer = true
-let secondPlayer = true
-let thirdPlayer = true
-let fourthPlayer = true
-let fifthPlayer = true
-let sixthPlayer = true
-export default class gameRoom extends React.Component {
-
-  onPress() {
-    console.log("here", this);
-    if(this.style == 60 && firstPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      firstPlayer = false
-    }
-    if(this.style == 61 && secondPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      console.log(this)
-      secondPlayer = false
-    }
-    if(this.style == 62 && thirdPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      console.log(this)
-      thirdPlayer = false
-    }
-    if(this.style == 63 && fourthPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      console.log(this)
-      fourthPlayer = false
-    }
-    if(this.style == 64 && fifthPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      console.log(this)
-      fifthPlayer = false
-    }
-    if(this.style == 65 && sixthPlayer == true) {
-      this.socket = SocketIOClient('http://localhost:3000', {jsonp: false, transports: ['websocket']});
-      console.log(this)
-      sixthPlayer = false
-    }
-  }
-  render() {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput } from 'react-native';
+import {takeSeat} from '../actions'
+const gameRoom = ({socket,sit,takeSeat})=> {
+  console.log(sit)
+  // onPress = ()=> {
+  //   console.log('seat taken')
+  //   console.log(socket);brian@badass.com
+  //   socket.emit('from client side', 'taken')
+    // socket.on('from server', function() {
+    //
+    // })
+  // }
     return (
+      <View>
         <ImageBackground
-          source={require('../images/Table.png')}
+          source={require('../Images/images.jpeg')}
           style= { styles.background }>
           <View>
             <TouchableHighlight
                style={styles.button1}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button2}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button3}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button4}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button5}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
             <TouchableHighlight
                style={styles.button6}
-               onPress={this.onPress}
+               onPress={takeSeat}
               >
-             <Text> Sit </Text>
+             <Text> {sit} </Text>
             </TouchableHighlight>
           </View>
+          <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          />
+          <Button
+            // onPress={sendMessage}
+            title="send"
+            color="red"
+            accessibilityLabel="Learn more about this purple button"
+          />
         </ImageBackground>
+
+      </View>
     );
-  }
 }
 var styles = StyleSheet.create({
   background: {
@@ -148,3 +131,14 @@ var styles = StyleSheet.create({
    borderRadius: 100
   },
 })
+function mapStateToProps(state) {
+  return {
+    socket: state.auth.socket,
+    sit: state.auth.sit,
+  }
+}
+const mapDispatchToProps = dispatch => bindActionCreators({
+  takeSeat
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(gameRoom)
