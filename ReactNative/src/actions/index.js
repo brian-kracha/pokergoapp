@@ -19,9 +19,9 @@ import {
 var socket = null
 export const joinRoom = () => {
   console.log('in this room')
-  socket = SocketIOClient('http://localhost:3000/', {jsonp: false, transports: ['websocket']})
+  socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
 
-  socket.emit('joinTable1', 'table1')
+  // socket.emit('joinTable1', 'table1')
 
   Actions.table()
   console.log(socket)
