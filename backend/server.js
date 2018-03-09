@@ -20,7 +20,7 @@ io.sockets.on('connection', socket => {
     console.log(data);
     people.push(data.name)
     // io.sockets.emit('from server', data)
-    io.in(socket.rooms.table1).emit('from server', {people: people})
+    io.emit('from server', {people: people})
   });
   socket.on('sendMessage', function(msg) {
     console.log(msg)
