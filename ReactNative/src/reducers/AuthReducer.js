@@ -8,7 +8,6 @@ import {
   TAKE_SEAT,
   SEND_MESSAGE,
 } from '../actions/types'
-let messages = []
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -18,7 +17,9 @@ const INITIAL_STATE = {
   socket: null,
   sit: 'sit',
   message: [],
+  messages:[]
 }
+// let  = []
 
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
@@ -40,8 +41,8 @@ export default (state = INITIAL_STATE, action) => {
       console.log(action.payload)
       return{...state, sit: action.payload}
     case SEND_MESSAGE:
-    var messages = []
-      messages.push(action.payload)
+
+      this.messages.push(action.payload)
       console.log(messages)
       return {
         ...state,
