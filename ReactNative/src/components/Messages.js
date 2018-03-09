@@ -24,9 +24,9 @@ class Messages extends Component {
           <View
             style={{marginTop: 22}}>
             <View>
-              {this.props.message.map(ele => {
+              {this.props.message.map((ele,i) => {
                 return(
-                  <Text>{ele}</Text>
+                  <Text key={i}>{ele}</Text>
                 )
               })}
               <TouchableHighlight
