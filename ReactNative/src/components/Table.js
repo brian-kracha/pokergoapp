@@ -32,7 +32,7 @@ class gameRoom extends React.Component{
     return (
       <View>
         <ImageBackground
-          source={require('../Images/images.jpeg')}
+          source={require('../images/Table.png')}
           style= { styles.background }>
           <View>
             <TouchableHighlight

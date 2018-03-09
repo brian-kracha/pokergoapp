@@ -25,6 +25,7 @@ const INITIAL_STATE = {
   message: [],
   people: [],
 }
+
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 

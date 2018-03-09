@@ -19,7 +19,9 @@ const RouterComponent = ({joinRoom}) => {
             onRight={joinRoom}
             rightTitle='room'
             key='dashboard' component={Dashboard} title='Dashboard' initial/>
+
           <Scene key='table' component={Table} hideNavBar />
+
         </Scene>
       </Scene>
     </Router>
