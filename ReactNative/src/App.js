@@ -4,10 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import ReduxThunk from 'redux-thunk'
-<<<<<<< HEAD
-// import history from "./history"
-=======
->>>>>>> 4cc827776099191f43613b55f65c94adfa329b43
+
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
 // import header from './components/Header'

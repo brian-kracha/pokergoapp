@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {View, Text} from 'react-native'
+import {View, FlatList, Text} from 'react-native'
+import FlatListTable from './common/List'
 import { connect } from 'react-redux'
 
 const Dashboard = ({auth, message})=> {
@@ -7,7 +8,7 @@ const Dashboard = ({auth, message})=> {
   console.log(message);
   return(
     <View>
-      <Text>Hello</Text>
+      <FlatListTable/>
     </View>
   )
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
+
 import { bindActionCreators } from 'redux'
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput } from 'react-native';
+import Player from "./common/player"
 import {takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,sendMessage} from '../actions'
 import Messages from './Messages'
 class gameRoom extends React.Component{

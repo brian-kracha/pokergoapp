@@ -1,6 +1,7 @@
 import firebase from 'firebase'
 import {Actions} from 'react-native-router-flux'
 import SocketIOClient from 'socket.io-client';
+// import Player from '../ components/common/player'
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
@@ -19,16 +20,22 @@ import {
 var socket = null
 export const joinRoom = () => {
   console.log('in this room')
-  socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
+  socket = SocketIOClient('https://localhost:3000/', {jsonp: false, transports: ['websocket']})
+  socket.on('connect',function(data){
+    dispatch({
+      type:ROOM_JOINED,
+      payload: data.connections
+    })
+  })
 
   // socket.emit('joinTable1', 'table1')
 
-  Actions.table()
-  console.log(socket)
-  return {
-    type: ROOM_JOINED,
-    payload: socket
-  }
+  // Actions.table()
+  // console.log(socket)
+  // return {
+  //   type: ROOM_JOINED,
+  //   payload: socket
+  // }
 }
 export const sendMessage = (message) => {
   return async (dispatch) => {
@@ -48,7 +55,7 @@ export const takeSeat1 = () => {
   return async (dispatch) => {
     console.log('seat taken')
     // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'brian'})
+    // socket.emit('from client side', {<Player/>)
     socket.on('from server', function(data) {
       console.log(data.people)
       // console.log(typeof(data))
