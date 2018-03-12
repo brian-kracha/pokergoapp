@@ -5,17 +5,13 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER,
   ROOM_JOINED,
-  TAKE_SEAT1,
-  TAKE_SEAT2,
-  TAKE_SEAT3,
-  TAKE_SEAT4,
-  TAKE_SEAT5,
-  TAKE_SEAT6,
+  TAKE_SEAT,
   SEND_MESSAGE,
   CARDS_RECEIVED,
   SEND_CARDS,
   GAME_READY_TO_PLAY,
   CARDS_FOR_EACH_PLAYER,
+  CARDS_FOR_PLAYER1,
 } from '../actions/types'
 let messages = []
 const INITIAL_STATE = {
@@ -37,7 +33,11 @@ const INITIAL_STATE = {
   isTopFifteenCardsReady: false,
   isGameStarting: false,
   display: 0,
-  playersCard: []
+  playersCard: [],
+  player1Display: 0,
+  player1Cards: [],
+  player2Display: 0,
+  player2Cards: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -56,21 +56,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: 'Authentication Failed.', password: '', loading: false }
     case ROOM_JOINED:
       return {...state, socket: action.payload}
-    case TAKE_SEAT1:
-      return{...state, people: action.payload, count: action.count}
-    case TAKE_SEAT2:
-      return{...state, people: action.payload, count: action.count}
-
-    case TAKE_SEAT3:
-      return{...state, people: action.payload, count: action.count}
-
-    case TAKE_SEAT4:
-      return{...state, people: action.payload, count: action.count}
-
-    case TAKE_SEAT5:
-      return{...state, people: action.payload, count: action.count}
-
-    case TAKE_SEAT6:
+    case TAKE_SEAT:
       return{...state, people: action.payload, count: action.count}
     case SEND_MESSAGE:
       return {
@@ -95,10 +81,17 @@ export default (state = INITIAL_STATE, action) => {
         ...state, isGameStarting: true
       }
     case CARDS_FOR_EACH_PLAYER:
-    console.log('from reducer', action.playersCard)
       return{
-        ...state, display: 1, playersCard: action.playersCard
+        ...state, display: 1, playersCard: action.playersCard, player1Display: 1, player2Display: 1
       }
+    // case CARDS_FOR_PLAYER1:
+    //   return{
+    //     ...state,player1Card: action.player1Card, player1Display: 1,
+    //   }
+    // case CARDS_FOR_PLAYER1:
+    //     return{
+    //       ...state,player2Cards: action.player2Card, player2Display: 1
+    // }
     default:
       return state
   }

@@ -8,20 +8,17 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER,
   ROOM_JOINED,
-  TAKE_SEAT1,
-  TAKE_SEAT2,
-  TAKE_SEAT3,
-  TAKE_SEAT4,
-  TAKE_SEAT5,
-  TAKE_SEAT6,
+  TAKE_SEAT,
   SEND_MESSAGE,
   CARDS_RECEIVED,
   SEND_CARDS,
   GAME_READY_TO_PLAY,
   CARDS_FOR_EACH_PLAYER,
+  CARDS_FOR_PLAYER1,
+  CARDS_FOR_PLAYER2,
 } from './types'
 var socket = null
-var count = 0
+let countPlayer = 0
 export const joinRoom = () => {
   console.log('in this room')
   return async (dispatch) => {
@@ -47,99 +44,32 @@ export const sendMessage = (message) => {
   }
 }
 
-export const takeSeat1 = () => {
+export const takeSeat = (count) => {
   return async (dispatch) => {
+    console.log('count', count);
+    count++
     console.log('seat taken')
     // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'brian'})
-    socket.on('from server', function(data) {
+    socket.emit('TAKE_SEAT', {name: 'player'})
+    socket.on('FROM_SERVER', function(data) {
       console.log(data.people)
       // console.log(typeof(data))
       dispatch({
-        type: TAKE_SEAT1,
+        type: TAKE_SEAT,
         payload: data.people,
         count: data.count
       })
     })
-  }
-}
-export const takeSeat2 = () => {
-  return async (dispatch) => {
-    console.log('seat taken')
-    // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'bishal'})
-    socket.on('from server', function(data) {
-      console.log(data.people)
-      // console.log(typeof(data))
-      dispatch({
-        type: TAKE_SEAT2,
-        payload: data.people,
-        count: data.count
-      })
+    socket.on('SET_PLAYER' , function(data) {
+      console.log('SET_PLAYER', data);
     })
-  }
-}
-export const takeSeat3 = () => {
-  return async (dispatch) => {
-    console.log('seat taken')
-    // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'sean'})
-    socket.on('from server', function(data) {
-      console.log(data.people)
-      // console.log(typeof(data))
-      dispatch({
-        type: TAKE_SEAT3,
-        payload: data.people,
-        count: data.count
-      })
-    })
-  }
-}
-export const takeSeat4 = () => {
-  return async (dispatch) => {
-    console.log('seat taken')
-    // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'Patrick'})
-    socket.on('from server', function(data) {
-      console.log(data.people)
-      // console.log(typeof(data))
-      dispatch({
-        type: TAKE_SEAT4,
-        payload: data.people,
-        count: data.count
-      })
-    })
-  }
-}
-export const takeSeat5 = () => {
-  return async (dispatch) => {
-    console.log('seat taken')
-    // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'joe'})
-    socket.on('from server', function(data) {
-      console.log(data.people)
-      // console.log(typeof(data))
-      dispatch({
-        type: TAKE_SEAT5,
-        payload: data.people,
-        count: data.count
-      })
-    })
-  }
-}
-export const takeSeat6 = () => {
-  return async (dispatch) => {
-    console.log('seat taken')
-    // console.log(socket);
-    socket.emit('from client side', {user:'user1',name:'judah'})
-    socket.on('from server', function(data) {
-      console.log(data.people)
-      // console.log(typeof(data))
-      dispatch({
-        type: TAKE_SEAT6,
-        payload: data.people,
-        count: data.count
-      })
+    socket.on("GAME_STATUS", function(data) {
+      console.log(data)
+      // dispatch({
+      //   type: TAKE_SEAT,
+      //   payload: data.people,
+      //   count: data.count
+      // })
     })
   }
 }
@@ -226,18 +156,34 @@ export function gameReadyToPlay(cards,totalPeople) {
   }
 }
 
-export function sendCardToServer(card) {
-  return async (dispatch) => {
-    socket.emit('send-card-to-server', card)
-    // socket.on('hey0', function(data) {
-    //   console.log('from server side to get cards', data)
-    // })
-    socket.on('send-card-to-client', function(data) {
-      console.log('from server side to get cards', data)
-      dispatch({
-        type: CARDS_FOR_EACH_PLAYER,
-        playersCard: data.player,
-      })
-    })
-  }
-}
+// export function sendCardToServer(card) {
+//   return async (dispatch) => {
+//     socket.emit('start-game')
+//     // socket.on('hey0', function(data) {
+//     //   console.log('from server side to get cards', data)
+//     // })
+//     // socket.emit('get-player-1', 'hello')
+//     // socket.on('heyplayer1', function(data) {
+//     //   console.log(data)
+//     //   dispatch({
+//     //     type: CARDS_FOR_PLAYER1,
+//     //     player1Card: data.cards,
+//     //   })
+//     // })
+//     // socket.emit('get-player-2', 'hello')
+//     // socket.on('heyplayer2', function(data) {
+//     //   console.log('for player2 only', data)
+//     //   dispatch({
+//     //     type: CARDS_FOR_PLAYER2,
+//     //     player2Card: data.cards,
+//     //   })
+//     // })
+//     // socket.on('send-card-to-client', function(data) {
+//     //   console.log('from server side to get cards', data)
+//     //   dispatch({
+//     //     type: CARDS_FOR_EACH_PLAYER,
+//     //     playersCard: data.player,
+//     //   })
+//     // })
+//   }
+// }

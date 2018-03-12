@@ -3,7 +3,7 @@ import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image } from 'react-native';
-import {takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer} from '../actions'
+import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer} from '../actions'
 import Messages from './Messages'
 import $ from "jquery";
 class gameRoom extends React.Component{
@@ -16,35 +16,13 @@ class gameRoom extends React.Component{
   componentDidMount() {
     this.props.sendMessage()
   }
-  startGame = () => {
-    this.props.fetchCards()
-  }
   render() {
-    console.log('dispaly', this.props.display);
-    if(this.props.count >= 2 && this.props.round == true) {
-      this.startGame()
-    }
-    if(this.props.cardsReady == true) {
-      this.props.sendCard(this.props.cards)
-    }
-    if(this.props.isTopFifteenCardsReady == true) {
-      this.props.gameReadyToPlay(this.props.topFifteenCards, this.props.count)
-    }
-    if(this.props.isGameStarting == true) {
-      console.log('we are ready to go')
-      console.log(this.props.topFifteenCards)
-      this.props.sendCardToServer(this.props.topFifteenCards)
-    }
     let player1 = 'sit'
     let player2 = 'sit'
     let player3 = 'sit'
     let player4 = 'sit'
     let player5 = 'sit'
     let player6 = 'sit'
-
-    // if(this.props.people[0]) {
-    //   console.log('in here')
-    // }
 
     this.props.people[0] ? player1 = this.props.people[0] : console.log('out here')
     this.props.people[1] ? player2 = this.props.people[1] : console.log('out here')
@@ -61,41 +39,44 @@ class gameRoom extends React.Component{
             <View style={{flexDirection: 'row', marginTop: '7%', marginLeft:'12%'}}>
               <TouchableHighlight
                  style={styles.button1}
-                 onPress={this.props.takeSeat1}
+                 onPress={()=>{this.props.takeSeat(this.props.count)}}
                 >
                <Text> {player1} </Text>
               </TouchableHighlight>
-                <Image
-                  style={{width: 30, height: 50, opacity: this.props.display}}
+                {this.props.player1Display == 1 ? <Image
+                  style={{width: 30, height: 50, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                />
+                /> : null}
+                {this.props.player1Display == 1 ?
                 <Image
-                  style={{width: 30, height: 50, opacity: this.props.display}}
+                  style={{width: 30, height: 50, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                />
+                /> : null }
               </View>
 
               <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'5%'}}>
                 <TouchableHighlight
                    style={styles.button2}
-                   onPress={this.props.takeSeat2}
+                   onPress={()=>{this.props.takeSeat(this.props.count)}}
                   >
                  <Text> {player2} </Text>
                 </TouchableHighlight>
+                {this.props.player2Display == 1 ?
                   <Image
-                    style={{width: 30, height: 50, opacity: this.props.display}}
+                    style={{width: 30, height: 50, opacity: this.props.player2Display}}
                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                   />
+                   /> : null }
+                   {this.props.player2Display == 1 ?
                    <Image
-                     style={{width: 30, height: 50, opacity: this.props.display}}
+                     style={{width: 30, height: 50, opacity: this.props.player2Display}}
                       source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                    />
+                    /> : null}
               </View>
 
               <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'12%'}}>
                 <TouchableHighlight
                    style={styles.button3}
-                   onPress={this.props.takeSeat3}
+                   onPress={()=>{this.props.takeSeat(this.props.count)}}
                   >
                  <Text> {player3} </Text>
 
@@ -120,7 +101,7 @@ class gameRoom extends React.Component{
                     />
                 <TouchableHighlight
                    style={styles.button4}
-                   onPress={this.props.takeSeat4}
+                   onPress={()=>{this.props.takeSeat(this.props.count)}}
                   >
                  <Text> {player4} </Text>
                 </TouchableHighlight>
@@ -137,7 +118,7 @@ class gameRoom extends React.Component{
                     />
                 <TouchableHighlight
                    style={styles.button5}
-                   onPress={this.props.takeSeat5}
+                   onPress={()=>{this.props.takeSeat(this.props.count)}}
                   >
                  <Text> {player5} </Text>
                 </TouchableHighlight>
@@ -154,7 +135,7 @@ class gameRoom extends React.Component{
                   />
               <TouchableHighlight
                  style={styles.button6}
-                 onPress={this.props.takeSeat6}
+                 onPress={()=> {this.props.takeSeat(this.props.count)}}
                 >
                <Text> {player6} </Text>
               </TouchableHighlight>
@@ -255,10 +236,13 @@ function mapStateToProps(state) {
     topFifteenCards: state.auth.topFifteenCards,
     isGameStarting: state.auth.isGameStarting,
     display: state.auth.display,
+    player1Display: state.auth.player1Display,
+    player2Display: state.auth.player2Display,
+    player1Card: state.auth.player1Card,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,
+  takeSeat,
   sendMessage,fetchCards,sendCard,gameReadyToPlay,sendCardToServer
 }, dispatch)
 
