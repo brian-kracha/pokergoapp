@@ -1,6 +1,6 @@
 import React, {Component} from "react"
-import {View, Text, FlatList } from 'react-native'
-import {List,ListItem} from 'react-native-elements'
+import {View, Text, FlatList,  ActivityIndicator } from 'react-native'
+import {List,ListItem, SearchBar} from 'react-native-elements'
 class FlatListTable extends Component {
   constructor(props){
     super(props)
@@ -11,9 +11,14 @@ class FlatListTable extends Component {
       page: 1,
       seed: 1,
       error: null,
-      refreshing: false
+      refreshing: false,
+      selectedIndex: 2
     }
+     this.updateIndex = this.updateIndex.bind(this)
   }
+  updateIndex (selectedIndex) {
+  this.setState({selectedIndex})
+}
     componentWillMount(){
       this.makeRemoteRequest()
     }
@@ -37,7 +42,50 @@ class FlatListTable extends Component {
      }
    );
  };
+ handleLoadMore = () => {
+    this.setState(
+      {
+        page: this.state.page + 1
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  };
+
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "86%",
+          backgroundColor: "#CED0CE",
+          marginLeft: "14%"
+        }}
+      />
+    );
+  };
+ renderHeader = () => {
+   return <SearchBar placeholder="Type Here..." lightTheme round />;
+ };
+
+ renderFooter = () => {
+   if (!this.state.loading) return null;
+
+   return (
+     <View
+       style={{
+         paddingVertical: 20,
+         borderTopWidth: 1,
+         borderColor: "#CED0CE"
+       }}
+     >
+       <ActivityIndicator animating size="large" />
+     </View>
+   );
+ };
     render(){
+
       return(
         <List>
           <FlatList
@@ -55,9 +103,12 @@ class FlatListTable extends Component {
               )
             }}
              keyExtractor={item => item.email}
-
+             ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            
           />
         </List>
+
       )
     }
 
