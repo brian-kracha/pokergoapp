@@ -12,6 +12,8 @@ import {
   GAME_READY_TO_PLAY,
   CARDS_FOR_EACH_PLAYER,
   CARDS_FOR_PLAYER1,
+  SET_PLAYER,
+  GAME_STATUS
 } from '../actions/types'
 let messages = []
 const INITIAL_STATE = {
@@ -34,10 +36,9 @@ const INITIAL_STATE = {
   isGameStarting: false,
   display: 0,
   playersCard: [],
-  player1Display: 0,
-  player1Cards: [],
-  player2Display: 0,
-  player2Cards: []
+  player: '',
+  assignCards: [],
+  tableNumber: 0
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -84,14 +85,14 @@ export default (state = INITIAL_STATE, action) => {
       return{
         ...state, display: 1, playersCard: action.playersCard, player1Display: 1, player2Display: 1
       }
-    // case CARDS_FOR_PLAYER1:
-    //   return{
-    //     ...state,player1Card: action.player1Card, player1Display: 1,
-    //   }
-    // case CARDS_FOR_PLAYER1:
-    //     return{
-    //       ...state,player2Cards: action.player2Card, player2Display: 1
-    // }
+    case SET_PLAYER:
+      return{
+        ...state, player: action.payload, tableNumber: action.tableNumber
+      }
+    case GAME_STATUS:
+      return{
+        ...state, assignCards: action.payload
+      }
     default:
       return state
   }

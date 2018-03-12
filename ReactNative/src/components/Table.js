@@ -17,6 +17,10 @@ class gameRoom extends React.Component{
     this.props.sendMessage()
   }
   render() {
+    let cards = this.props.assignCards.filter(ele => {
+      return ele.name == this.props.player
+    })
+    console.log('cards', cards);
     let player1 = 'sit'
     let player2 = 'sit'
     let player3 = 'sit'
@@ -39,7 +43,7 @@ class gameRoom extends React.Component{
             <View style={{flexDirection: 'row', marginTop: '7%', marginLeft:'12%'}}>
               <TouchableHighlight
                  style={styles.button1}
-                 onPress={()=>{this.props.takeSeat(this.props.count)}}
+                 onPress={()=>{this.props.takeSeat(1)}}
                 >
                <Text> {player1} </Text>
               </TouchableHighlight>
@@ -57,7 +61,7 @@ class gameRoom extends React.Component{
               <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'5%'}}>
                 <TouchableHighlight
                    style={styles.button2}
-                   onPress={()=>{this.props.takeSeat(this.props.count)}}
+                   onPress={()=>{this.props.takeSeat(2)}}
                   >
                  <Text> {player2} </Text>
                 </TouchableHighlight>
@@ -76,7 +80,7 @@ class gameRoom extends React.Component{
               <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'12%'}}>
                 <TouchableHighlight
                    style={styles.button3}
-                   onPress={()=>{this.props.takeSeat(this.props.count)}}
+                   onPress={()=>{this.props.takeSeat(3)}}
                   >
                  <Text> {player3} </Text>
 
@@ -101,7 +105,7 @@ class gameRoom extends React.Component{
                     />
                 <TouchableHighlight
                    style={styles.button4}
-                   onPress={()=>{this.props.takeSeat(this.props.count)}}
+                   onPress={()=>{this.props.takeSeat(4)}}
                   >
                  <Text> {player4} </Text>
                 </TouchableHighlight>
@@ -118,7 +122,7 @@ class gameRoom extends React.Component{
                     />
                 <TouchableHighlight
                    style={styles.button5}
-                   onPress={()=>{this.props.takeSeat(this.props.count)}}
+                   onPress={()=>{this.props.takeSeat(5)}}
                   >
                  <Text> {player5} </Text>
                 </TouchableHighlight>
@@ -135,7 +139,7 @@ class gameRoom extends React.Component{
                   />
               <TouchableHighlight
                  style={styles.button6}
-                 onPress={()=> {this.props.takeSeat(this.props.count)}}
+                 onPress={()=> {this.props.takeSeat(6)}}
                 >
                <Text> {player6} </Text>
               </TouchableHighlight>
@@ -239,6 +243,9 @@ function mapStateToProps(state) {
     player1Display: state.auth.player1Display,
     player2Display: state.auth.player2Display,
     player1Card: state.auth.player1Card,
+    assignCards: state.auth.assignCards,
+    player: state.auth.player,
+    tableNumber: state.auth.tableNumber,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({

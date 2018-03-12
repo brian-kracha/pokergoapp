@@ -16,6 +16,8 @@ import {
   CARDS_FOR_EACH_PLAYER,
   CARDS_FOR_PLAYER1,
   CARDS_FOR_PLAYER2,
+  SET_PLAYER,
+  GAME_STATUS,
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -44,13 +46,13 @@ export const sendMessage = (message) => {
   }
 }
 
-export const takeSeat = (count) => {
+export const takeSeat = (tableNumber) => {
   return async (dispatch) => {
     console.log('count', count);
     count++
     console.log('seat taken')
     // console.log(socket);
-    socket.emit('TAKE_SEAT', {name: 'player'})
+    socket.emit('TAKE_SEAT', {name: 'player' , tableNumber: tableNumber})
     socket.on('FROM_SERVER', function(data) {
       console.log(data.people)
       // console.log(typeof(data))
@@ -62,14 +64,19 @@ export const takeSeat = (count) => {
     })
     socket.on('SET_PLAYER' , function(data) {
       console.log('SET_PLAYER', data);
+      dispatch({
+        type: SET_PLAYER,
+        payload: data.name,
+        tableNumber: data.tableNumber
+      })
     })
     socket.on("GAME_STATUS", function(data) {
       console.log(data)
-      // dispatch({
-      //   type: TAKE_SEAT,
-      //   payload: data.people,
-      //   count: data.count
-      // })
+      dispatch({
+        type: GAME_STATUS,
+        payload: data.people,
+        count: data.deckOfCards
+      })
     })
   }
 }
@@ -155,35 +162,3 @@ export function gameReadyToPlay(cards,totalPeople) {
     })
   }
 }
-
-// export function sendCardToServer(card) {
-//   return async (dispatch) => {
-//     socket.emit('start-game')
-//     // socket.on('hey0', function(data) {
-//     //   console.log('from server side to get cards', data)
-//     // })
-//     // socket.emit('get-player-1', 'hello')
-//     // socket.on('heyplayer1', function(data) {
-//     //   console.log(data)
-//     //   dispatch({
-//     //     type: CARDS_FOR_PLAYER1,
-//     //     player1Card: data.cards,
-//     //   })
-//     // })
-//     // socket.emit('get-player-2', 'hello')
-//     // socket.on('heyplayer2', function(data) {
-//     //   console.log('for player2 only', data)
-//     //   dispatch({
-//     //     type: CARDS_FOR_PLAYER2,
-//     //     player2Card: data.cards,
-//     //   })
-//     // })
-//     // socket.on('send-card-to-client', function(data) {
-//     //   console.log('from server side to get cards', data)
-//     //   dispatch({
-//     //     type: CARDS_FOR_EACH_PLAYER,
-//     //     playersCard: data.player,
-//     //   })
-//     // })
-//   }
-// }

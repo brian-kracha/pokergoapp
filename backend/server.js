@@ -181,16 +181,13 @@ io.sockets.on('connection', socket => {
   socket.on('joinTable1', function(mytable) {
     console.log(mytable);
     socket.join(mytable)
-    // io.in(socket.rooms.table1).emit('count', {count: count})
   })
-  // socket.broadcast.emit('count', {count: count})
   connection.push(socket)
   sockets.push(socket.id)
   console.log('socket connected', connection.length, socket.id)
   socket.on('TAKE_SEAT', function(data) {
-    console.log(data);
     count++
-    people.push(data.name + count)
+    people.push({name: data.name + count, tableNumber: data.tableNumber})
     io.in(socket.rooms.table1).emit('FROM_SERVER', {
       people: people,
       count: count
@@ -198,7 +195,7 @@ io.sockets.on('connection', socket => {
     console.log(sockets[sockets.length - 1]);
     console.log('length', sockets.length);
     console.log('socket', sockets);
-    socket.to(sockets[socket.length - 1 ]).emit('SET_PLAYER', data.name + count);
+    socket.emit('SET_PLAYER', {name: data.name + count});
     voteCount++
     console.log('voteCount', voteCount);
     if (voteCount > 2 && !isGameStarted) {
@@ -223,7 +220,7 @@ io.sockets.on('connection', socket => {
     io.in(socket.rooms.table1).emit('GAME_STATUS', {
       people: people.map(person => {
         let personObj = {}
-        personObj.name = person
+        personObj.name = person.name
         personObj.cards = shuffleCards.splice(0, 2)
         return personObj
       }),
