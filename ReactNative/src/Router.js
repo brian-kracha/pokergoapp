@@ -7,25 +7,28 @@ import SocketIOClient from 'socket.io-client';
 import {joinRoom} from './actions'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
-const RouterComponent = ({joinRoom}) => {
-  return(
-    <Router style={{paddingTop: 10}}>
-      <Scene key='root' hideNavBar>
-        <Scene key='auth'>
-          <Scene key='login' component={LoginForm} title='please login' initial/>
-        </Scene>
-        <Scene key='main'>
-          <Scene
-            onRight={joinRoom}
-            rightTitle='room'
-            key='dashboard' component={Dashboard} title='Dashboard' initial/>
+class RouterComponent extends React.Component {
+  render() {
+    return(
+      <Router style={{paddingTop: 10}}>
+        <Scene key='root' hideNavBar>
+          {/* <Scene key='auth'>
+            <Scene key='login' component={LoginForm} title='please login' initial/>
+          </Scene> */}
+          <Scene key='main'>
+            <Scene
+              onRight={this.props.joinRoom}
+              rightTitle='room'
+              key='dashboard' component={Dashboard} title='Dashboard' initial/>
 
-          <Scene key='table' component={Table} hideNavBar />
+            <Scene key='table' component={Table} hideNavBar />
 
+          </Scene>
         </Scene>
-      </Scene>
-    </Router>
-  )
+      </Router>
+    )
+  }
+
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
   joinRoom

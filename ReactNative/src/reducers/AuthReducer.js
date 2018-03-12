@@ -12,6 +12,9 @@ import {
   TAKE_SEAT5,
   TAKE_SEAT6,
   SEND_MESSAGE,
+  CARDS_RECEIVED,
+  SEND_CARDS,
+  GAME_READY_TO_PLAY,
 } from '../actions/types'
 let messages = []
 const INITIAL_STATE = {
@@ -24,6 +27,14 @@ const INITIAL_STATE = {
   sit: ['sit','sit','sit','sit','sit','sit'],
   message: [],
   people: [],
+  count: 0,
+  cards: [],
+  cardsFetched: false,
+  round: true,
+  cardsReady: false,
+  topFifteenCards: [],
+  isTopFifteenCardsReady: false,
+  isGameStarting: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -43,31 +54,42 @@ export default (state = INITIAL_STATE, action) => {
     case ROOM_JOINED:
       return {...state, socket: action.payload}
     case TAKE_SEAT1:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
     case TAKE_SEAT2:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
 
     case TAKE_SEAT3:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
 
     case TAKE_SEAT4:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
 
     case TAKE_SEAT5:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
 
     case TAKE_SEAT6:
-      console.log(action.payload)
-      return{...state, people: action.payload}
+      return{...state, people: action.payload, count: action.count}
     case SEND_MESSAGE:
       return {
         ...state,
         message: action.payload
+      }
+    case CARDS_RECEIVED:
+      return {
+        ...state,
+        cards: action.cards,
+        cardsFetched: true,
+        round: false,
+        cardsReady: true,
+      }
+    case SEND_CARDS:
+      return{
+        ...state,cardsReady: false, topFifteenCards: action.topFifteenCards,
+        isTopFifteenCardsReady: true,
+      }
+    case GAME_READY_TO_PLAY:
+      return{
+        ...state, isGameStarting: true
       }
     default:
       return state

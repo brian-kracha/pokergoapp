@@ -15,27 +15,29 @@ import {
   TAKE_SEAT5,
   TAKE_SEAT6,
   SEND_MESSAGE,
+  CARDS_RECEIVED,
+  SEND_CARDS,
+  GAME_READY_TO_PLAY,
 } from './types'
 var socket = null
+var count = 0
 export const joinRoom = () => {
   console.log('in this room')
-  socket = SocketIOClient('https://bishalchatter.herokuapp.com/', {jsonp: false, transports: ['websocket']})
-
-  // socket.emit('joinTable1', 'table1')
-
-  Actions.table()
-  console.log(socket)
-  return {
-    type: ROOM_JOINED,
-    payload: socket
+  return async (dispatch) => {
+    socket = SocketIOClient('http://localhost:3000/', {jsonp: false, transports: ['websocket']})
+    Actions.table()
+    socket.emit('joinTable1', 'table1')
+    dispatch({
+        type: ROOM_JOINED,
+        payload: socket,
+    })
   }
 }
+
 export const sendMessage = (message) => {
   return async (dispatch) => {
     socket.emit('sendMessage', message)
-    console.log('message send', message)
     socket.on('server message response', function(data) {
-      console.log(data.messages)
       dispatch({
         type: SEND_MESSAGE,
         payload: data.messages
@@ -54,7 +56,8 @@ export const takeSeat1 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT1,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -69,7 +72,8 @@ export const takeSeat2 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT2,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -84,7 +88,8 @@ export const takeSeat3 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT3,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -99,7 +104,8 @@ export const takeSeat4 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT4,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -114,7 +120,8 @@ export const takeSeat5 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT5,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -129,7 +136,8 @@ export const takeSeat6 = () => {
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT6,
-        payload: data.people
+        payload: data.people,
+        count: data.count
       })
     })
   }
@@ -149,7 +157,7 @@ export const passwordChanged = (text) => {
 }
 
 // return (dispatch) is from thunk
-export const loginUser = ({ email, password }) => {
+export const loginUser = ({email, password }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER })
 
@@ -175,4 +183,56 @@ const loginUserSuccess = (dispatch, user) => {
     payload: user
   })
   Actions.main()
+}
+
+export function fetchCards() {
+ return async (dispatch) => {
+   const response = await fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
+   const json = await response.json()
+   dispatch({
+     type: CARDS_RECEIVED,
+     cards: json.cards
+   })
+ }
+}
+
+export function sendCard(cards) {
+ return async (dispatch) => {
+   let topFifteenCards = []
+   for(let i = 0; i < 17; i++) {
+     topFifteenCards.push(cards[i])
+   }
+   dispatch({
+     type: SEND_CARDS,
+     topFifteenCards: topFifteenCards,
+   })
+ }
+}
+
+export function gameReadyToPlay(cards,totalPeople) {
+  return async (dispatch) => {
+    var objectOfCardsAndPeople = {
+      cards: cards,
+      people: totalPeople
+    }
+    socket.emit('game is starting', objectOfCardsAndPeople)
+    socket.on('game starting now', function(data) {
+      console.log('from server hello' + data)
+      dispatch({
+        type: GAME_READY_TO_PLAY,
+      })
+    })
+  }
+}
+
+export function sendCardToServer(card) {
+  return async (dispatch) => {
+    socket.emit('send-card-to-server', card)
+    // socket.on('hey0', function(data) {
+    //   console.log('from server side to get cards', data)
+    // })
+    socket.on('send-card-to-client', function(data) {
+      console.log('from server side to get cards', data)
+    })
+  }
 }
