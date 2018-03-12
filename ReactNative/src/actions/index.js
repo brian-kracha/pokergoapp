@@ -18,6 +18,7 @@ import {
   CARDS_RECEIVED,
   SEND_CARDS,
   GAME_READY_TO_PLAY,
+  CARDS_FOR_EACH_PLAYER,
 } from './types'
 var socket = null
 var count = 0
@@ -233,6 +234,10 @@ export function sendCardToServer(card) {
     // })
     socket.on('send-card-to-client', function(data) {
       console.log('from server side to get cards', data)
+      dispatch({
+        type: CARDS_FOR_EACH_PLAYER,
+        playersCard: data.player,
+      })
     })
   }
 }

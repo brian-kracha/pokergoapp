@@ -10,7 +10,7 @@ class gameRoom extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      text: ''
+      text: '',
     }
   }
   componentDidMount() {
@@ -20,6 +20,7 @@ class gameRoom extends React.Component{
     this.props.fetchCards()
   }
   render() {
+    console.log('dispaly', this.props.display);
     if(this.props.count >= 2 && this.props.round == true) {
       this.startGame()
     }
@@ -64,12 +65,12 @@ class gameRoom extends React.Component{
                 >
                <Text> {player1} </Text>
               </TouchableHighlight>
-              <Image
-                style={{width: 30, height: 50}}
-                 source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-               />
-               <Image
-                 style={{width: 30, height: 50}}
+                <Image
+                  style={{width: 30, height: 50, opacity: this.props.display}}
+                  source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                />
+                <Image
+                  style={{width: 30, height: 50, opacity: this.props.display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 />
               </View>
@@ -81,14 +82,14 @@ class gameRoom extends React.Component{
                   >
                  <Text> {player2} </Text>
                 </TouchableHighlight>
-                <Image
-                  style={{width: 30, height: 50}}
-                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                 />
-                 <Image
-                   style={{width: 30, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                  />
+                  <Image
+                    style={{width: 30, height: 50, opacity: this.props.display}}
+                     source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                   />
+                   <Image
+                     style={{width: 30, height: 50, opacity: this.props.display}}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
               </View>
 
               <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'12%'}}>
@@ -99,24 +100,24 @@ class gameRoom extends React.Component{
                  <Text> {player3} </Text>
 
                 </TouchableHighlight>
-                <Image
-                  style={{width: 30, height: 50}}
-                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                 />
-                 <Image
-                   style={{width: 30, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                  />
+                  <Image
+                    style={{width: 30, height: 50, opacity: this.props.display}}
+                     source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                   />
+                   <Image
+                     style={{width: 30, height: 50, opacity: this.props.display}}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
               </View>
               <View style={{flexDirection: 'row', marginTop: '-7%', marginLeft:'70%'}}>
-                <Image
-                  style={{width: 30, height: 50}}
-                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                 />
-                 <Image
-                   style={{width: 30, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                  />
+                  <Image
+                    style={{width: 30, height: 50, opacity: this.props.display}}
+                     source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                   />
+                   <Image
+                     style={{width: 30, height: 50, opacity: this.props.display}}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
                 <TouchableHighlight
                    style={styles.button4}
                    onPress={this.props.takeSeat4}
@@ -126,14 +127,14 @@ class gameRoom extends React.Component{
               </View>
 
               <View style={{flexDirection: 'row', marginTop: '-20%', marginLeft:'75%'}}>
-                <Image
-                  style={{width: 30, height: 50}}
-                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                 />
-                 <Image
-                   style={{width: 30, height: 50}}
-                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                  />
+                  <Image
+                    style={{width: 30, height: 50, opacity: this.props.display}}
+                     source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                   />
+                   <Image
+                     style={{width: 30, height: 50, opacity: this.props.display}}
+                      source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                    />
                 <TouchableHighlight
                    style={styles.button5}
                    onPress={this.props.takeSeat5}
@@ -143,14 +144,14 @@ class gameRoom extends React.Component{
               </View>
 
             <View style={{flexDirection: 'row', marginTop: '-20%', marginLeft: '70%'}}>
-              <Image
-                style={{width: 30, height: 50}}
-                 source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-               />
-               <Image
-                 style={{width: 30, height: 50}}
-                  source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-                />
+                <Image
+                  style={{width: 30, height: 50, opacity: this.props.display}}
+                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                 />
+                 <Image
+                   style={{width: 30, height: 50, opacity: this.props.display}}
+                    source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+                  />
               <TouchableHighlight
                  style={styles.button6}
                  onPress={this.props.takeSeat6}
@@ -253,6 +254,7 @@ function mapStateToProps(state) {
     isTopFifteenCardsReady: state.auth.isTopFifteenCardsReady,
     topFifteenCards: state.auth.topFifteenCards,
     isGameStarting: state.auth.isGameStarting,
+    display: state.auth.display,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -15,6 +15,7 @@ import {
   CARDS_RECEIVED,
   SEND_CARDS,
   GAME_READY_TO_PLAY,
+  CARDS_FOR_EACH_PLAYER,
 } from '../actions/types'
 let messages = []
 const INITIAL_STATE = {
@@ -35,6 +36,8 @@ const INITIAL_STATE = {
   topFifteenCards: [],
   isTopFifteenCardsReady: false,
   isGameStarting: false,
+  display: 0,
+  playersCard: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -90,6 +93,11 @@ export default (state = INITIAL_STATE, action) => {
     case GAME_READY_TO_PLAY:
       return{
         ...state, isGameStarting: true
+      }
+    case CARDS_FOR_EACH_PLAYER:
+    console.log('from reducer', action.playersCard)
+      return{
+        ...state, display: 1, playersCard: action.playersCard
       }
     default:
       return state

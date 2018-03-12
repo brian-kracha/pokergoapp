@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import {takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,sendMessage} from '../actions'
 class Dashboard extends React.Component{
   render() {
+    console.log(this.props.auth);
     return(
       <View>
         <Text>Hello</Text>
