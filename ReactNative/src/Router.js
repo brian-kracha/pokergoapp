@@ -16,6 +16,7 @@ const RouterComponent = ({joinRoom}) => {
         </Scene>
         <Scene key='main'>
           <Scene
+            onLeft={null}
             onRight={joinRoom}
             rightTitle='room'
             key='dashboard' component={Dashboard} title='Dashboard' initial/>

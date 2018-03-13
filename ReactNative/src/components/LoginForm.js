@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
+// import { GoogleSignin } from 'react-native-google-signin'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../actions'
 import { Card, CardSection, Input, Button, Spinner } from './common'
@@ -41,6 +42,7 @@ class LoginForm extends Component {
       </Button>
     )
   }
+
 
   render() {
     return (
