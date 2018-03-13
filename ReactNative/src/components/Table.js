@@ -50,7 +50,7 @@ class gameRoom extends React.Component{
     return (
       <View>
         <ImageBackground
-          source={require('../images/Table.png')}
+          source={require('../images/pokerTable2.png')}
           style= { styles.background }>
           <View>
             <View style={{flexDirection: 'row', marginTop: '2%', marginLeft:'5%'}}>
@@ -262,7 +262,9 @@ class gameRoom extends React.Component{
 }
 var styles = StyleSheet.create({
   background: {
-    height: '95%',
+    marginTop:-20,
+    marginBottom:40,
+    height: '100%',
     width: '100%'
   },
   button1: {
