@@ -17,6 +17,7 @@
     "eslint-plugin-react": "^7.5.1",
     "express": "^4.16.2",
     "firebase": "^4.8.1",
+    "jquery": "^3.3.1",
     "native-base": "^2.3.9",
     "poker-evaluator": "^0.3.1",
     "react": "^16.2.0",

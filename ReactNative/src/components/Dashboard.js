@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {View, FlatList, Text} from 'react-native'
 import FlatListTable from './common/List'
 import { connect } from 'react-redux'
+
+import { bindActionCreators } from 'redux'
 import SideMenu from 'react-native-side-menu'
 import Menu from './common/Menu'
 
@@ -41,12 +43,16 @@ render(){
   )
 }
 }
+
+
 function mapStateToProps(state) {
   return {
     auth: state.auth,
     message: state.auth.message
   }
-
 }
+const mapDispatchToProps = dispatch => bindActionCreators({
 
-export default connect(mapStateToProps)(Dashboard)
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
