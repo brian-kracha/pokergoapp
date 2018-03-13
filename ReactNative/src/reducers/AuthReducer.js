@@ -87,7 +87,7 @@ export default (state = INITIAL_STATE, action) => {
       }
     case SET_PLAYER:
       return{
-        ...state, player: action.payload, tableNumber: action.tableNumber
+        ...state, player: action.payload
       }
     case GAME_STATUS:
       return{

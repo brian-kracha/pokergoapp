@@ -48,11 +48,10 @@ export const sendMessage = (message) => {
 
 export const takeSeat = (tableNumber) => {
   return async (dispatch) => {
-    console.log('count', count);
-    count++
-    console.log('seat taken')
+    // console.log('count', tableNumber);
+    // console.log('seat taken')
     // console.log(socket);
-    socket.emit('TAKE_SEAT', {name: 'player' , tableNumber: tableNumber})
+    socket.emit('TAKE_SEAT', {name: 'pl' , tableNumber: tableNumber})
     socket.on('FROM_SERVER', function(data) {
       console.log(data.people)
       // console.log(typeof(data))
@@ -67,7 +66,6 @@ export const takeSeat = (tableNumber) => {
       dispatch({
         type: SET_PLAYER,
         payload: data.name,
-        tableNumber: data.tableNumber
       })
     })
     socket.on("GAME_STATUS", function(data) {

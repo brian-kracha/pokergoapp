@@ -179,7 +179,6 @@ console.log('server started')
 
 io.sockets.on('connection', socket => {
   socket.on('joinTable1', function(mytable) {
-    console.log(mytable);
     socket.join(mytable)
   })
   connection.push(socket)
@@ -192,12 +191,8 @@ io.sockets.on('connection', socket => {
       people: people,
       count: count
     })
-    console.log(sockets[sockets.length - 1]);
-    console.log('length', sockets.length);
-    console.log('socket', sockets);
     socket.emit('SET_PLAYER', {name: data.name + count});
     voteCount++
-    console.log('voteCount', voteCount);
     if (voteCount > 2 && !isGameStarted) {
       clearTimeout(startGame)
     }
@@ -208,14 +203,11 @@ io.sockets.on('connection', socket => {
     }
   })
   socket.on('sendMessage', function(msg) {
-    console.log(msg)
     messages.push(msg)
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
   startGameFunc = () => {
-    console.log(people);
     isGameStarted = true
-    console.log('isGameStarted', isGameStarted)
     shuffleCardsFunc(deckOfCards);
     io.in(socket.rooms.table1).emit('GAME_STATUS', {
       people: people.map(person => {
@@ -235,58 +227,4 @@ function shuffleCardsFunc(deckOfCards) {
     shuffleCards.push(tempDeckOfCards.splice((Math.random() * remainingCard).toFixed(0), 1)[0]);
     remainingCard--;
   }
-  // shuffleCards = (Math.random() * remainingCard).toFixed(0)
 }
-
-//when game starts
-// socket.on('game is starting', function(data) {
-//    console.log(data.cards[0])
-//   cards = data.cards
-//    console.log(data.people)
-//   io.in(socket.rooms.table1).emit('game starting now', 'game starting now')
-// })
-
-//   socket.on('start-game', function() {
-//     voteCount++
-//     console.log('voteCount', voteCount);
-//     if(voteCount > 2 && !isGameStarted) {
-//       clearTimeout(startGame)
-//     }
-//     if(voteCount >= 2 && !isGameStarted) {
-//       startGame = setTimeout(function() {
-//         startGameFunc()
-//       }, 5000);
-//     }
-//   })
-// })
-
-// function startGame(count) {
-//
-// socket.on('get-player-1',function(data){
-//   console.log(data)
-//   socket.to(sockets[0]).emit('heyplayer1', {cards: [cards[0],cards[6]]});
-// })
-// socket.on('get-player-2', function(data){
-//   console.log(data)
-//   socket.to(sockets[1]).emit('heyplayer2', {cards: [cards[1],cards[7]]});
-// })
-// io.in(socket.rooms.table1).emit('start-game-from-server', player)
-// }
-
-//   let player = {}
-//   if(sockets.length == 2) {
-//     setTimeout(function() {
-//       console.log('hello')
-//       if(socket.length >2){
-//
-//       }
-//     }, 5000);
-//   }
-//   player.player1Card = [cards[0],cards[6]]
-//   player.player2Card = [cards[1],cards[7]]
-//   player.player3Card = [cards[2],cards[8]]
-//   player.player4Card = [cards[3],cards[9]]
-//   player.player5Card = [cards[4],cards[10]]
-//   player.player6Card = [cards[5],cards[11]]
-//   player.tableCard = [cards[12],cards[13],cards[14],cards[15],cards[16]]
-//   io.in(socket.rooms.table1).emit('send-card-to-client', player)
