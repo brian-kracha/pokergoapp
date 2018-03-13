@@ -73,7 +73,7 @@ export const takeSeat = (tableNumber) => {
       dispatch({
         type: GAME_STATUS,
         payload: data.people,
-        count: data.deckOfCards
+        cardsOntable: data.cardsOntable
       })
     })
   }
@@ -121,42 +121,61 @@ const loginUserSuccess = (dispatch, user) => {
   Actions.main()
 }
 
-export function fetchCards() {
- return async (dispatch) => {
-   const response = await fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
-   const json = await response.json()
-   dispatch({
-     type: CARDS_RECEIVED,
-     cards: json.cards
-   })
- }
-}
+// export function fetchCards() {
+//  return async (dispatch) => {
+//    const response = await fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
+//    const json = await response.json()
+//    dispatch({
+//      type: CARDS_RECEIVED,
+//      cards: json.cards
+//    })
+//  }
+// }
 
-export function sendCard(cards) {
- return async (dispatch) => {
-   let topFifteenCards = []
-   for(let i = 0; i < 17; i++) {
-     topFifteenCards.push(cards[i])
-   }
-   dispatch({
-     type: SEND_CARDS,
-     topFifteenCards: topFifteenCards,
-   })
- }
-}
+// export function sendCard(cards) {
+//  return async (dispatch) => {
+//    let topFifteenCards = []
+//    for(let i = 0; i < 17; i++) {
+//      topFifteenCards.push(cards[i])
+//    }
+//    dispatch({
+//      type: SEND_CARDS,
+//      topFifteenCards: topFifteenCards,
+//    })
+//  }
+// }
 
-export function gameReadyToPlay(cards,totalPeople) {
+// export function gameReadyToPlay(cards,totalPeople) {
+//   return async (dispatch) => {
+//     var objectOfCardsAndPeople = {
+//       cards: cards,
+//       people: totalPeople
+//     }
+//     socket.emit('game is starting', objectOfCardsAndPeople)
+//     socket.on('game starting now', function(data) {
+//       console.log('from server hello' + data)
+//       dispatch({
+//         type: GAME_READY_TO_PLAY,
+//       })
+//     })
+//   }
+// }
+
+export function evalWinner(cards) {
+  console.log(cards);
   return async (dispatch) => {
-    var objectOfCardsAndPeople = {
-      cards: cards,
-      people: totalPeople
-    }
-    socket.emit('game is starting', objectOfCardsAndPeople)
-    socket.on('game starting now', function(data) {
-      console.log('from server hello' + data)
-      dispatch({
-        type: GAME_READY_TO_PLAY,
-      })
+    let cardsSending = []
+    cards.forEach(ele => {
+      let evaluateCard = []
+      for(let i = 0 ; i < 7; i++) {
+        evaluateCard.push(ele[i].code)
+      }
+      cardsSending.push(evaluateCard)
+    })
+    console.log(cardsSending);
+    socket.emit('CALCULATE_WINNER_HAND', cardsSending)
+    socket.on('WINNING_CARDS', function(data) {
+      console.log('winning hand', data);
     })
   }
 }

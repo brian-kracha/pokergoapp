@@ -3,9 +3,12 @@ import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image } from 'react-native';
-import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer} from '../actions'
+import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner} from '../actions'
 import Messages from './Messages'
+import CardsOnTable from './CardsOnTable'
 import $ from "jquery";
+// let pokerEvaluator = require('poker-evaluator')
+// import pokerEvaluator from 'poker-evaluator'
 class gameRoom extends React.Component{
   constructor(props){
     super(props)
@@ -20,11 +23,17 @@ class gameRoom extends React.Component{
     let activeTableNumbers = []
     let activeUserTableNumber = 0
     let cards = []
+    let cardsToBeEvaluated = []
     this.props.assignCards.forEach(ele => {
+      cardsToBeEvaluated.push(ele.cards.concat(this.props.cardsOntable))
       if(ele.name == this.props.player) {
         cards = ele.cards
       }
     })
+    if(cardsToBeEvaluated.length > 0) {
+      this.props.evalWinner(cardsToBeEvaluated)
+    }
+
     let players = ['sit','sit','sit','sit','sit','sit']
     this.props.people.forEach(ele => {
       players[ele.tableNumber - 1] = ele.name
@@ -41,7 +50,7 @@ class gameRoom extends React.Component{
           source={require('../Images/Table.png')}
           style= { styles.background }>
           <View>
-            <View style={{flexDirection: 'row', marginTop: '7%', marginLeft:'12%'}}>
+            <View style={{flexDirection: 'row', marginTop: '2%', marginLeft:'5%'}}>
               <TouchableHighlight
                  style={styles.button1}
                  onPress={()=>{ this.props.takeSeat(1)}}
@@ -71,7 +80,7 @@ class gameRoom extends React.Component{
                 /> }
               </View>
 
-              <View style={{flexDirection: 'row', marginTop: '5%', marginLeft: '5%'}}>
+              <View style={{flexDirection: 'row', marginTop: '2%', marginLeft: '1%'}}>
                 <TouchableHighlight
                    style={styles.button2}
                    onPress={()=>{this.props.takeSeat(2)}}
@@ -101,7 +110,11 @@ class gameRoom extends React.Component{
                 /> }
               </View>
 
-              <View style={{flexDirection: 'row', marginTop: '5%', marginLeft:'12%'}}>
+              {this.props.cardsOntable.length > 0 ? <View style={{flexDirection: 'row', marginTop: '-9.5%', marginLeft: '30%'}}>
+                <CardsOnTable />
+              </View> : null }
+
+              <View style={{flexDirection: 'row', marginTop: '2%', marginLeft:'5%'}}>
                 <TouchableHighlight
                    style={styles.button3}
                    onPress={()=>{this.props.takeSeat(3)}}
@@ -131,7 +144,11 @@ class gameRoom extends React.Component{
                   source={{uri: ''}}
                 /> }
               </View>
-              <View style={{flexDirection: 'row', marginTop: '-12%', marginLeft:'60%'}}>
+
+
+
+
+              <View style={{flexDirection: 'row', marginTop: '-10%', marginLeft:'70%'}}>
                 {activeUserTableNumber == 4 && cards.length > 0 ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
@@ -160,8 +177,7 @@ class gameRoom extends React.Component{
                  <Text> {players[3]} </Text>
                 </TouchableHighlight>
               </View>
-
-              <View style={{flexDirection: 'row', marginTop: '-25%', marginLeft: '65%'}}>
+              <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '75%'}}>
                 {activeUserTableNumber == 5 && cards.length > 0 ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
@@ -191,7 +207,7 @@ class gameRoom extends React.Component{
                 </TouchableHighlight>
               </View>
 
-            <View style={{flexDirection: 'row', marginTop: '-25%', marginLeft: '60%'}}>
+            <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '70%'}}>
               {activeUserTableNumber == 6 && cards.length > 0 ? <Image
                 style={{width: 50, height: 70, opacity: this.props.player1Display}}
                 source={{uri: `${cards[0].image}`}}
@@ -322,11 +338,12 @@ function mapStateToProps(state) {
     assignCards: state.auth.assignCards,
     player: state.auth.player,
     tableNumber: state.auth.tableNumber,
+    cardsOntable: state.auth.cardsOntable
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
   takeSeat,
-  sendMessage,fetchCards,sendCard,gameReadyToPlay,sendCardToServer
+  sendMessage,fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(gameRoom)

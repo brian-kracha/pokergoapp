@@ -38,7 +38,8 @@ const INITIAL_STATE = {
   playersCard: [],
   player: '',
   assignCards: [],
-  tableNumber: 0
+  tableNumber: 0,
+  cardsOntable: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -91,7 +92,7 @@ export default (state = INITIAL_STATE, action) => {
       }
     case GAME_STATUS:
       return{
-        ...state, assignCards: action.payload
+        ...state, assignCards: action.payload, cardsOntable: action.cardsOntable
       }
     default:
       return state

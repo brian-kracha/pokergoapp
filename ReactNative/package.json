@@ -19,6 +19,7 @@
     "firebase": "^4.8.1",
     "jquery": "^3.3.1",
     "native-base": "^2.3.9",
+    "poker-evaluator": "^0.3.1",
     "react": "^16.2.0",
     "react-native": "^0.52.0",
     "react-native-router-flux": "^3.43.0",

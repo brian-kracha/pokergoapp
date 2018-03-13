@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const server = require("http").createServer(app)
 const io = require('socket.io').listen(server)
+const pokerEval = require("poker-evaluator")
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']
@@ -15,160 +16,160 @@ let startGame
 let isGameStarted = false
 let deckOfCards = [
   {
-    code: "AD",
+    code: "Ad",
     image: "https://deckofcardsapi.com/static/img/aceDiamonds.png"
   }, {
-    code: "AS",
+    code: "As",
     image: "https://deckofcardsapi.com/static/img/AS.png"
   }, {
-    code: "7C",
+    code: "7c",
     image: "https://deckofcardsapi.com/static/img/7C.png"
   }, {
-    code: "2D",
+    code: "2d",
     image: "https://deckofcardsapi.com/static/img/2D.png"
   }, {
-    code: "QH",
+    code: "Qh",
     image: "https://deckofcardsapi.com/static/img/QH.png"
   }, {
-    code: "KC",
+    code: "Kc",
     image: "https://deckofcardsapi.com/static/img/KC.png"
   }, {
-    code: "6D",
+    code: "6d",
     image: "https://deckofcardsapi.com/static/img/6D.png"
   }, {
-    code: "8C",
+    code: "8c",
     image: "https://deckofcardsapi.com/static/img/8C.png"
   }, {
-    code: "QC",
+    code: "Qc",
     image: "https://deckofcardsapi.com/static/img/QC.png"
   }, {
-    code: "6H",
+    code: "6h",
     image: "https://deckofcardsapi.com/static/img/6H.png"
   }, {
-    code: "4S",
+    code: "4s",
     image: "https://deckofcardsapi.com/static/img/4S.png"
   }, {
-    code: "9S",
+    code: "9s",
     image: "https://deckofcardsapi.com/static/img/9S.png"
   }, {
-    code: "3S",
+    code: "3s",
     image: "https://deckofcardsapi.com/static/img/3S.png"
   }, {
-    code: "7D",
+    code: "7d",
     image: "https://deckofcardsapi.com/static/img/7D.png"
   }, {
-    code: "9D",
+    code: "9d",
     image: "https://deckofcardsapi.com/static/img/9D.png"
   }, {
-    code: "7H",
+    code: "7h",
     image: "https://deckofcardsapi.com/static/img/7H.png"
   }, {
-    code: "0C",
+    code: "Tc",
     image: "https://deckofcardsapi.com/static/img/0C.png"
   }, {
-    code: "AH",
+    code: "Ah",
     image: "https://deckofcardsapi.com/static/img/AH.png"
   }, {
-    code: "KD",
+    code: "Kd",
     image: "https://deckofcardsapi.com/static/img/KD.png"
   }, {
-    code: "7S",
+    code: "7s",
     image: "https://deckofcardsapi.com/static/img/7S.png"
   }, {
-    code: "5S",
+    code: "5s",
     image: "https://deckofcardsapi.com/static/img/5S.png"
   }, {
-    code: "2C",
+    code: "2c",
     image: "https://deckofcardsapi.com/static/img/2C.png"
   }, {
-    code: "3H",
+    code: "3h",
     image: "https://deckofcardsapi.com/static/img/3H.png"
   }, {
-    code: "4C",
+    code: "4c",
     image: "https://deckofcardsapi.com/static/img/4C.png"
   }, {
-    code: "4H",
+    code: "4h",
     image: "https://deckofcardsapi.com/static/img/4H.png"
   }, {
-    code: "KS",
+    code: "Ks",
     image: "https://deckofcardsapi.com/static/img/KS.png"
   }, {
-    code: "JC",
+    code: "Jc",
     image: "https://deckofcardsapi.com/static/img/JC.png"
   }, {
-    code: "JS",
+    code: "Js",
     image: "https://deckofcardsapi.com/static/img/JS.png"
   }, {
-    code: "9C",
+    code: "9c",
     image: "https://deckofcardsapi.com/static/img/9C.png"
   }, {
-    code: "0D",
+    code: "Td",
     image: "https://deckofcardsapi.com/static/img/0D.png"
   }, {
-    code: "0S",
+    code: "Ts",
     image: "https://deckofcardsapi.com/static/img/0S.png"
   }, {
-    code: "8H",
+    code: "8h",
     image: "https://deckofcardsapi.com/static/img/8H.png"
   }, {
     code: "8S",
     image: "https://deckofcardsapi.com/static/img/8S.png"
   }, {
-    code: "KH",
+    code: "Kh",
     image: "https://deckofcardsapi.com/static/img/KH.png"
   }, {
-    code: "8D",
+    code: "8d",
     image: "https://deckofcardsapi.com/static/img/8D.png"
   }, {
-    code: "2S",
+    code: "2s",
     image: "https://deckofcardsapi.com/static/img/2S.png"
   }, {
-    code: "6C",
+    code: "6c",
     image: "https://deckofcardsapi.com/static/img/6C.png"
   }, {
-    code: "QD",
+    code: "Qd",
     image: "https://deckofcardsapi.com/static/img/QD.png"
   }, {
-    code: "5H",
+    code: "5h",
     image: "https://deckofcardsapi.com/static/img/5H.png"
   }, {
-    code: "QS",
+    code: "Qs",
     image: "https://deckofcardsapi.com/static/img/QS.png"
   }, {
-    code: "2H",
+    code: "2h",
     image: "https://deckofcardsapi.com/static/img/2H.png"
   }, {
-    code: "3C",
+    code: "3c",
     image: "https://deckofcardsapi.com/static/img/3C.png"
   }, {
-    code: "JD",
+    code: "Jd",
     image: "https://deckofcardsapi.com/static/img/JD.png"
   }, {
-    code: "5D",
+    code: "5d",
     image: "https://deckofcardsapi.com/static/img/5D.png"
   }, {
-    code: "3D",
+    code: "3d",
     image: "https://deckofcardsapi.com/static/img/3D.png"
   }, {
-    code: "AC",
+    code: "Ac",
     image: "https://deckofcardsapi.com/static/img/AC.png"
   }, {
-    code: "5C",
+    code: "5c",
     image: "https://deckofcardsapi.com/static/img/5C.png"
   }, {
-    code: "4D",
+    code: "4d",
     image: "https://deckofcardsapi.com/static/img/4D.png"
   }, {
-    code: "0H",
+    code: "Th",
     image: "https://deckofcardsapi.com/static/img/0H.png"
   }, {
-    code: "6S",
+    code: "6s",
     image: "https://deckofcardsapi.com/static/img/6S.png"
   }, {
-    code: "9H",
+    code: "9h",
     image: "https://deckofcardsapi.com/static/img/9H.png"
   }, {
-    code: "JH",
+    code: "Jh",
     image: "https://deckofcardsapi.com/static/img/JH.png"
   }
 ]
@@ -206,6 +207,11 @@ io.sockets.on('connection', socket => {
     messages.push(msg)
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
+  socket.on('CALCULATE_WINNER_HAND', function(data) {
+    console.log(data);
+    result = highestHand(data)
+    io.in(socket.rooms.table1).emit('WINNING_CARDS', {result: result})
+  })
   startGameFunc = () => {
     isGameStarted = true
     shuffleCardsFunc(deckOfCards);
@@ -216,7 +222,7 @@ io.sockets.on('connection', socket => {
         personObj.cards = shuffleCards.splice(0, 2)
         return personObj
       }),
-      deckOfCards: deckOfCards
+      cardsOntable: shuffleCards.splice(0, 5)
     })
   }
 });
@@ -227,4 +233,30 @@ function shuffleCardsFunc(deckOfCards) {
     shuffleCards.push(tempDeckOfCards.splice((Math.random() * remainingCard).toFixed(0), 1)[0]);
     remainingCard--;
   }
+}
+function highestHand(hands){
+  let array = []
+  for(let i = 0; i < hands.length; i++) {
+    const evalOutput = pokerEval.evalHand(hands[i])
+    array.push([i, evalOutput])
+  }
+
+  var sortedArray  = array.sort(function(a,b) {
+    return b[1].value - a[1].value
+  })
+  const result = []
+  for(let i = 1; i < sortedArray.length; i++) {
+    if(sortedArray[i - 1][1].value > sortedArray[i][1].value) {
+      result.push(hands[sortedArray[i - 1][0]])
+      break
+    }
+    if(sortedArray[ i - 1][1].value == sortedArray[i][1].value) {
+      result.push(hands[sortedArray[ i - 1][0]])
+      if(i === 5) {
+        result.push(hands[sortedArray[5][0]])
+        break
+      }
+    }
+  }
+  return result
 }
