@@ -1,8 +1,16 @@
+// 'use strict';
+// if (process.env.NODE_ENV !== 'development') {
+//   require('dotenv').config();
+// }
 const express = require("express")
 const app = express()
+const bodyParser = require('body-parser')
 const server = require("http").createServer(app)
 const io = require('socket.io').listen(server)
 const pokerEval = require("poker-evaluator")
+const environment = process.env.NODE_ENV || 'development';
+// const knexConfig = require('./knexfile')[environment];
+const knex = require('./knex');
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']

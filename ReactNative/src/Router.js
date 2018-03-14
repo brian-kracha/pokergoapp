@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
 import Header from './components/Header'
 import Table from './components/Table'
+import SignUp from './components/SignUp'
 import SocketIOClient from 'socket.io-client';
 import {joinRoom} from './actions'
 import {connect} from 'react-redux'
@@ -13,9 +14,10 @@ class RouterComponent extends React.Component {
     return(
       <Router style={{paddingTop: 10}}>
         <Scene key='root' hideNavBar>
-          {/* <Scene key='auth'>
+          <Scene key='auth'>
             <Scene key='login' component={LoginForm} title='please login' initial/>
-          </Scene> */}
+            <Scene key='signUp' component={SignUp} title='please signUp'/>
+          </Scene>
           <Scene key='main'>
             <Scene
               onRight={this.props.joinRoom}

@@ -6,22 +6,22 @@ import { bindActionCreators } from 'redux'
 const Betting = ({raise}) => {
   return(
     <View>
-      <View style ={{flexDirection:'column', paddingLeft:5}}>
+      <View style ={{flexDirection:'row', paddingLeft:'38%', paddingTop:5}}>
         <TouchableOpacity
           onPress = {raise}
-          style={{backgroundColor:'black',padding:5, width:45, height:25}}
+          style={{backgroundColor:'black',padding:5, width:65, height:35}}
           underlayColor='blue'>
-          <Text style={{color:'white'}}>Raise</Text>
+          <Text style={{color:'white',textAlign:'center'}}>Raise</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{backgroundColor:'black',padding:5, marginTop: 1, width:45, height:25}}
+          style={{backgroundColor:'black',padding:5, width:65, height:35, marginLeft:2}}
           underlayColor='blue'>
-          <Text style={{color:'white'}}>Call</Text>
+          <Text style={{color:'white',textAlign:'center'}}>Call</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{backgroundColor:'black',padding:5,marginTop: 1, width:45, height:25}}
+          style={{backgroundColor:'black',padding:5, width:65, height:35, marginLeft:2}}
           underlayColor='blue'>
-          <Text style={{color:'white'}}>Fold</Text>
+          <Text style={{color:'white',textAlign:'center'}}>Fold</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -48,7 +48,8 @@ class gameRoom extends React.Component{
           source={require('../Images/pokerTable2.png')}
           style= { styles.background }>
           <View>
-            <View style={{flexDirection: 'row', marginTop: '2%', marginLeft: '5%'}}>
+          <Betting />
+            <View style={{flexDirection: 'row', marginTop: '-4%', marginLeft: '5%'}}>
               <TouchableHighlight
                  style={styles.button1}
                  onPress={()=> {this.props.takeSeat(1)}}
@@ -66,10 +67,10 @@ class gameRoom extends React.Component{
                   source={{uri: ''}}
                 /> }
                 {activeUserTableNumber == 1 && cards.length > 0 ?
-                <View style={{flexDirection: 'row'}}><Image
+                <Image
                   style={{width: 50, height: 70, padding: 5, justifyContent: 'center'}}
                   source={{uri: `${cards[1].image}`}}
-                /><Betting /></View> : activeTableNumbers.includes(1) ? <Image
+                /> : activeTableNumbers.includes(1) ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 /> : <Image
@@ -96,10 +97,10 @@ class gameRoom extends React.Component{
                   source={{uri: ''}}
                 /> }
                 {activeUserTableNumber == 2 && cards.length > 0 ?
-                <View style={{flexDirection:'row'}}><Image
+                <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[1].image}`}}
-                /><Betting /></View> : activeTableNumbers.includes(2) ? <Image
+                /> : activeTableNumbers.includes(2) ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 /> : <Image
@@ -131,10 +132,10 @@ class gameRoom extends React.Component{
                   source={{uri: ''}}
                 /> }
                 {activeUserTableNumber == 3 && cards.length > 0 ?
-                <View style={{flexDirection: 'row'}}><Image
+                <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[1].image}`}}
-                /><Betting/></View> : activeTableNumbers.includes(3) ? <Image
+                /> : activeTableNumbers.includes(3) ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 /> : <Image
@@ -148,10 +149,10 @@ class gameRoom extends React.Component{
 
               <View style={{flexDirection: 'row', marginTop: '-10%', marginLeft: '70%'}}>
                 {activeUserTableNumber == 4 && cards.length > 0 ?
-                <View style={{flexDirection:'row'}}><Betting /><Image
+                <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
-                /></View> : activeTableNumbers.includes(4) ? <Image
+                /> : activeTableNumbers.includes(4) ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 /> : <Image
@@ -178,10 +179,10 @@ class gameRoom extends React.Component{
               </View>
               <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '75%'}}>
                 {activeUserTableNumber == 5 && cards.length > 0 ?
-                  <View style={{flexDirection:'row'}}><Betting /><Image
+                  <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
-                /></View> : activeTableNumbers.includes(5) ? <Image
+                /> : activeTableNumbers.includes(5) ? <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
                 /> : <Image
@@ -209,10 +210,10 @@ class gameRoom extends React.Component{
 
             <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '70%'}}>
               {activeUserTableNumber == 6 && cards.length > 0 ?
-                <View style={{flexDirection:'row'}}><Betting /><Image
+                <Image
                 style={{width: 50, height: 70, opacity: this.props.player1Display}}
                 source={{uri: `${cards[0].image}`}}
-              /></View> : activeTableNumbers.includes(6) ? <Image
+              /> : activeTableNumbers.includes(6) ? <Image
                 style={{width: 50, height: 70, opacity: this.props.player1Display}}
                 source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
               /> : <Image
@@ -247,13 +248,6 @@ class gameRoom extends React.Component{
             onChangeText={(text) => this.setState({text}) }
             value={this.state.text}
             />
-            {/* <Button style={{backgroundColor: '#FF0000'}}
-              onPress={()=> {this.props.sendMessage(this.state.text)}}
-              title="send"
-              color="red"
-              raised={true}
-              accessibilityLabel="Learn more about this purple button"
-            /> */}
             <TouchableOpacity
               style={styles.messageButton}
               onPress={() => {this.props.sendMessage(this.props.player,this.state.text)}}
@@ -261,8 +255,14 @@ class gameRoom extends React.Component{
               <Text style={styles.submitText}>SEND</Text>
             </TouchableOpacity>
             <View style={styles.Messages}>
-              <Messages/>
+              <Messages />
             </View>
+            <TouchableOpacity
+              style={styles.leaveButton}
+              // onPress={() => {this.props.sendMessage(this.props.player, this.state.text)}}
+              underlayColor='#fff'>
+              <Text style={styles.submitText,{marginTop:10,marginLeft:20}}>LEAVE</Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>
@@ -276,6 +276,16 @@ var styles = StyleSheet.create({
     backgroundColor:'red',
     width: 100,
     borderRadius: 20,
+    borderColor: '#fff',
+  },
+  leaveButton: {
+    marginLeft: '87%',
+    marginTop: '-6%',
+    backgroundColor: '#1E6738',
+    width: 80,
+    height: 40,
+    borderRadius: 20,
+
   },
   messageButton: {
     // marginRight: 40,

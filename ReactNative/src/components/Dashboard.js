@@ -9,6 +9,7 @@ import Betting from './Betting'
 class Dashboard extends React.Component{
   render() {
     console.log(this.props.auth);
+    console.log('users', this.props.user);
     return(
       <View>
         <Text>Hello</Text>
@@ -29,7 +30,7 @@ class Dashboard extends React.Component{
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    message: state.auth.message
+    user: state.auth.user
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
