@@ -18,6 +18,7 @@
     "express": "^4.16.2",
     "firebase": "^4.8.1",
     "jquery": "^3.3.1",
+    "knex": "^0.14.4",
     "native-base": "^2.3.9",
     "poker-evaluator": "^0.3.1",
     "react": "^16.2.0",

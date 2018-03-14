@@ -3,6 +3,9 @@ const app = express()
 const server = require("http").createServer(app)
 const io = require('socket.io').listen(server)
 const pokerEval = require("poker-evaluator")
+const knexConfig = require('./knexfile')[environment];
+const knex = require('knex')(knexConfig);
+
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']

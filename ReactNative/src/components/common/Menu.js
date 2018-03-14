@@ -6,6 +6,7 @@ import {
   View,
   Image,
   Text,
+  TouchableOpacity
 } from 'react-native';
 
 const window = Dimensions.get('window');
@@ -60,6 +61,7 @@ export default function Menu() {
       >
         Contacts
       </Text>
+      
       <Text
         style={styles.item}
       >

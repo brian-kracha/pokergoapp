@@ -322,6 +322,7 @@ var styles = StyleSheet.create({
    borderRadius: 100
   },
 })
+StyleSheet.flatten(styles)
 function mapStateToProps(state) {
   return {
     socket: state.auth.socket,

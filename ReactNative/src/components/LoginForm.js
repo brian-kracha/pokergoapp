@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View,Image } from 'react-native'
 // import { GoogleSignin } from 'react-native-google-signin'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../actions'
@@ -46,8 +46,13 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <View style={{paddingTop: 50}}  >
+      <View style={{paddingTop: 80,backgroundColor:'grey',paddingBottom:-85}}   >
+
+      <Image source={require('./images/chip.GIF')}/>
       <Card>
+      <CardSection>
+      <Image style={{width:275,height:45,alignContent:'stretch'}} source={require('../images/Tittle.png')}/>
+      </CardSection>
         <CardSection>
           <Input
             label="Email"
