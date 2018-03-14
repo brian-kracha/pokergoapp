@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "knex": "^0.14.4",
     "pg": "^7.4.1",

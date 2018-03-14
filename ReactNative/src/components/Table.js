@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 
 import { bindActionCreators } from 'redux'
 
-import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image } from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image, TouchableOpacity} from 'react-native';
+
 import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner} from '../actions'
 
 import Messages from './Messages'
 import CardsOnTable from './CardsOnTable'
 
-// let pokerEvaluator = require('poker-evaluator')
-// import pokerEvaluator from 'poker-evaluator'
+import Betting from './Betting'
 class gameRoom extends React.Component{
   constructor(props){
     super(props)
@@ -50,13 +50,16 @@ class gameRoom extends React.Component{
     return (
       <View>
         <ImageBackground
+
           source={require('../images/pokerTable2.png')}
+
           style= { styles.background }>
           <View>
-            <View style={{flexDirection: 'row', marginTop: '2%', marginLeft:'5%'}}>
+          <Betting />
+            <View style={{flexDirection: 'row', marginTop: '-4%', marginLeft: '5%'}}>
               <TouchableHighlight
                  style={styles.button1}
-                 onPress={()=>{ this.props.takeSeat(1)}}
+                 onPress={()=> {this.props.takeSeat(1)}}
                 >
                <Text> {players[0]} </Text>
               </TouchableHighlight>
@@ -83,7 +86,7 @@ class gameRoom extends React.Component{
                 /> }
               </View>
 
-              <View style={{flexDirection: 'row', marginTop: '2%', marginLeft: '1%'}}>
+              <View style={{flexDirection: 'row', marginTop: '3%', marginLeft: '1%'}}>
                 <TouchableHighlight
                    style={styles.button2}
                    onPress={()=>{this.props.takeSeat(2)}}
@@ -117,10 +120,10 @@ class gameRoom extends React.Component{
                 <CardsOnTable />
               </View> : null }
 
-              <View style={{flexDirection: 'row', marginTop: '2%', marginLeft:'5%'}}>
+              <View style={{flexDirection: 'row', marginTop: '2%', marginLeft: '5%'}}>
                 <TouchableHighlight
                    style={styles.button3}
-                   onPress={()=>{this.props.takeSeat(3)}}
+                   onPress={()=> {this.props.takeSeat(3)}}
                   >
                  <Text> {players[2]} </Text>
 
@@ -151,8 +154,9 @@ class gameRoom extends React.Component{
 
 
 
-              <View style={{flexDirection: 'row', marginTop: '-10%', marginLeft:'70%'}}>
-                {activeUserTableNumber == 4 && cards.length > 0 ? <Image
+              <View style={{flexDirection: 'row', marginTop: '-10%', marginLeft: '70%'}}>
+                {activeUserTableNumber == 4 && cards.length > 0 ?
+                <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
                 /> : activeTableNumbers.includes(4) ? <Image
@@ -181,7 +185,8 @@ class gameRoom extends React.Component{
                 </TouchableHighlight>
               </View>
               <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '75%'}}>
-                {activeUserTableNumber == 5 && cards.length > 0 ? <Image
+                {activeUserTableNumber == 5 && cards.length > 0 ?
+                  <Image
                   style={{width: 50, height: 70, opacity: this.props.player1Display}}
                   source={{uri: `${cards[0].image}`}}
                 /> : activeTableNumbers.includes(5) ? <Image
@@ -211,7 +216,8 @@ class gameRoom extends React.Component{
               </View>
 
             <View style={{flexDirection: 'row', marginTop: '-23%', marginLeft: '70%'}}>
-              {activeUserTableNumber == 6 && cards.length > 0 ? <Image
+              {activeUserTableNumber == 6 && cards.length > 0 ?
+                <Image
                 style={{width: 50, height: 70, opacity: this.props.player1Display}}
                 source={{uri: `${cards[0].image}`}}
               /> : activeTableNumbers.includes(6) ? <Image
@@ -243,17 +249,27 @@ class gameRoom extends React.Component{
           </View>
           <View style={{marginTop: 150}}>
             <TextInput
-            style={{height: 40, borderColor: 'blue', borderWidth: 1}}
+            style={{height: 5, borderColor: 'blue', borderWidth: 1, backgroundColor:'grey', width:'50%', marginTop:'11%',color:'white', marginLeft: '2%'}}
+            multiline={true}
+            numberOfLines={4}
             onChangeText={(text) => this.setState({text}) }
             value={this.state.text}
             />
-            <Button
-              onPress={()=> {this.props.sendMessage(this.state.text)}}
-              title="send"
-              color="red"
-              accessibilityLabel="Learn more about this purple button"
-            />
-            <Messages/>
+            <TouchableOpacity
+              style={styles.messageButton}
+              onPress={() => {this.props.sendMessage(this.props.player,this.state.text)}}
+              underlayColor='#fff'>
+              <Text style={styles.submitText}>SEND</Text>
+            </TouchableOpacity>
+            <View style={styles.Messages}>
+              <Messages />
+            </View>
+            <TouchableOpacity
+              style={styles.leaveButton}
+              // onPress={() => {this.props.sendMessage(this.props.player, this.state.text)}}
+              underlayColor='#fff'>
+              <Text style={styles.submitText,{marginTop:10,marginLeft:20}}>LEAVE</Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>
@@ -261,11 +277,49 @@ class gameRoom extends React.Component{
   }
 }
 var styles = StyleSheet.create({
+  Messages: {
+    marginLeft: '70%',
+    marginTop:'-6%',
+    backgroundColor:'red',
+    width: 100,
+    borderRadius: 20,
+    borderColor: '#fff',
+  },
+  leaveButton: {
+    marginLeft: '87%',
+    marginTop: '-6%',
+    backgroundColor: '#1E6738',
+    width: 80,
+    height: 40,
+    borderRadius: 20,
+
+  },
+  messageButton: {
+    // marginRight: 40,
+    marginLeft: '55%',
+    height: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#1E6738',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#fff',
+    width: 80,
+    marginTop: '-6%'
+  },
+  submitText:{
+      color: '#3939cc',
+      textAlign: 'center',
+      // paddingLeft: 10,
+      // paddingRight: 10
+  },
   background: {
-    marginTop:-20,
-    marginBottom:40,
+
     height: '100%',
-    width: '100%'
+    width: '100%',
+    marginTop: '-3%',
+    marginBottom: '7%',
+
   },
   button1: {
    alignItems: 'center',

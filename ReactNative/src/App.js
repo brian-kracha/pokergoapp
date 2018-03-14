@@ -4,9 +4,10 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import ReduxThunk from 'redux-thunk'
+// import history from "./history"
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
-
+// import header from './components/Header'
 import Dashboard from './components/Dashboard'
 import Messages from './components/Messages'
 import Table from './components/Table'
@@ -23,7 +24,6 @@ class App extends Component {
      messagingSenderId: "756523341581"
    }
     firebase.initializeApp(config);
-
   }
   render() {
     console.disableYellowBox = true

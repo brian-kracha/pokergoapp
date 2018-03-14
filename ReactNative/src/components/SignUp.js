@@ -1,13 +1,19 @@
-import React, { Component } from 'react'
-import { Actions } from 'react-native-router-flux'
-
+import React, { Component } from 'react';
+import { View, TextInput, Text, TouchableOpacity, Image, secureTextEntry,autoCorrect, autoCapitalize} from 'react-native'
 import { connect } from 'react-redux'
-import { View, TextInput, Text, TouchableOpacity, Image, secureTextEntry, autoCorrect, autoCapitalize} from 'react-native'
-import { emailChanged, passwordChanged, loginUser, signUp } from '../actions/'
-import SignUp from './SignUp'
-class Login extends Component {
+import { firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser } from '../actions'
+
+
+class SignUp extends Component {
   constructor(props) {
     super(props)
+  }
+  onFirstNameChanged(text) {
+    this.props.firstNameChanged(text)
+  }
+
+  onLastNameChanged(text) {
+    this.props.lastNameChanged(text)
   }
 
   onEmailChange(text) {
@@ -19,9 +25,9 @@ class Login extends Component {
   }
 
   onButtonPress() {
-    const { email, password } = this.props
+    const { first_name, last_name, email, password, address } = this.props
 
-    this.props.loginUser({ email, password })
+    this.props.signUpUser({ first_name, last_name, email, password, address })
   }
 
   renderError() {
@@ -38,21 +44,36 @@ class Login extends Component {
 
   renderButton() {
     return (
-      <TouchableOpacity style={styles.loginButtonStyle} onPress={ this.onButtonPress.bind(this)}>
-        <Text style={styles.loginTextStyles}>Login</Text>
+      <TouchableOpacity style={styles.signUpButtonStyle} onPress={ this.onButtonPress.bind(this)}>
+        <Text style={styles.signUpTextStyles}>Sign Up</Text>
       </TouchableOpacity>
     )
   }
 
-
   render() {
-    const { viewStyles, textInputStyles, emailTextStyles, passwordTextStyles, loginTextStyles,
-            submitTextStyles, loginButtonStyle, submitButtonStyle } = styles
-
+    const { viewStyles, textInputStyles, emailTextStyles, passwordTextStyles,
+            signUpTextStyles, signUpButtonStyle } = styles;
 
     return (
       <View style={viewStyles}>
-        {/* <Image style={{width: '75%', height: 100, resizeMode: 'center', marginTop:25}} source={require('')}/> */}
+        <Text style={emailTextStyles}>First Name</Text>
+        <TextInput
+          style={textInputStyles}
+          placeholder='John'
+          autoCapitalize="none"
+          autoCorrect={ false }
+          onChangeText={ this.onFirstNameChanged.bind(this) }
+          value={ this.props.first_name }/>
+
+        <Text style={emailTextStyles}>Last Name</Text>
+        <TextInput
+          style={textInputStyles}
+          placeholder='Doe'
+          autoCapitalize="none"
+          autoCorrect={ false }
+          onChangeText={ this.onLastNameChanged.bind(this) }
+          value={ this.props.last_name }/>
+
         <Text style={emailTextStyles}>Email</Text>
         <TextInput
           style={textInputStyles}
@@ -61,6 +82,7 @@ class Login extends Component {
           autoCorrect={ false }
           onChangeText={ this.onEmailChange.bind(this) }
           value={ this.props.email}/>
+
         <Text style={passwordTextStyles}>Password</Text>
         <TextInput style={textInputStyles}
           secureTextEntry
@@ -72,13 +94,6 @@ class Login extends Component {
         />
         { this.renderError() }
         { this.renderButton()}
-        <Text>"Don't have a account"</Text>
-        <Text>Create one for FREE</Text>
-        <TouchableOpacity
-          onPress={this.props.signUp}
-          underlayColor='#fff'>
-          <Text>SIGN UP</Text>
-        </TouchableOpacity>
       </View>
     )
   }
@@ -87,14 +102,14 @@ class Login extends Component {
 const styles = {
   viewStyles: {
     flex: 1,
+    backgroundColor:'white',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    alignItems: 'center'
   },
   textInputStyles: {
     height: 60,
     alignSelf: 'stretch',
-    marginTop: 10,
+    marginTop: 1,
     marginLeft: 40,
     marginRight: 40,
     paddingLeft: 10,
@@ -104,7 +119,7 @@ const styles = {
   },
   emailTextStyles: {
     alignSelf: 'flex-start',
-    marginTop: 50,
+    marginTop: 30,
     marginLeft: 40,
     color: '#982D37',
     fontSize: 16,
@@ -112,21 +127,13 @@ const styles = {
   },
   passwordTextStyles: {
     alignSelf: 'flex-start',
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 40,
     color: '#982D37',
     fontSize: 16,
     fontWeight: '600',
   },
-  loginTextStyles: {
-    alignSelf: 'center',
-    color: '#982D37',
-    fontSize: 16,
-    fontWeight: '600',
-    paddingTop: 15,
-    paddingBottom: 15
-  },
-  submitTextStyles: {
+  signUpTextStyles: {
     alignSelf: 'center',
     color: '#fff',
     fontSize: 16,
@@ -134,17 +141,7 @@ const styles = {
     paddingTop: 15,
     paddingBottom: 15
   },
-  loginButtonStyle: {
-    alignSelf: 'stretch',
-    backgroundColor: '#fff',
-    borderRadius: 7,
-    borderWidth: 1.5,
-    borderColor: '#982D37',
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 50
-  },
-  submitButtonStyle: {
+  signUpButtonStyle: {
     alignSelf: 'stretch',
     backgroundColor: '#982D37',
     borderRadius: 7,
@@ -152,15 +149,15 @@ const styles = {
     borderColor: '#982D37',
     marginLeft: 40,
     marginRight: 40,
-    marginTop: 10
+    marginTop: 30
   }
 }
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth
-  return { email, password, error, loading }
+  const { first_name, last_name, email, password, error, loading } = auth
+  return { first_name, last_name, email, password, error, loading }
 }
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, signUp
-})(Login)
+  firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser
+})(SignUp)

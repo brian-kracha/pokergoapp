@@ -1,11 +1,22 @@
+// 'use strict';
+// if (process.env.NODE_ENV !== 'development') {
+//   require('dotenv').config();
+// }
 const express = require("express")
 const app = express()
+const bodyParser = require('body-parser')
 const server = require("http").createServer(app)
 const io = require('socket.io').listen(server)
 const pokerEval = require("poker-evaluator")
+<<<<<<< HEAD
 const knexConfig = require('./knexfile')[environment];
 const knex = require('knex')(knexConfig);
 
+=======
+const environment = process.env.NODE_ENV || 'development';
+// const knexConfig = require('./knexfile')[environment];
+const knex = require('./knex');
+>>>>>>> dfc917a1acfcf5f6f80b00407724af254be3542d
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']
@@ -192,7 +203,7 @@ io.sockets.on('connection', socket => {
     people.push({name: data.name + count, tableNumber: data.tableNumber})
     io.in(socket.rooms.table1).emit('FROM_SERVER', {
       people: people,
-      count: count
+      count: count,
     })
     socket.emit('SET_PLAYER', {name: data.name + count});
     voteCount++
@@ -206,11 +217,13 @@ io.sockets.on('connection', socket => {
     }
   })
   socket.on('sendMessage', function(msg) {
-    messages.push(msg)
+    if(voteCount >= 2){
+      messages.push(`${msg.playerName} : ${msg.message}`)
+    }
+    console.log(messages);
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
   socket.on('CALCULATE_WINNER_HAND', function(data) {
-    console.log(data);
     result = highestHand(data)
     io.in(socket.rooms.table1).emit('WINNING_CARDS', {result: result})
   })
@@ -236,7 +249,7 @@ function shuffleCardsFunc(deckOfCards) {
     remainingCard--;
   }
 }
-function highestHand(hands){
+function highestHand(hands) {
   let array = []
   for(let i = 0; i < hands.length; i++) {
     const evalOutput = pokerEval.evalHand(hands[i])

@@ -2,7 +2,9 @@ import React,{ Component } from 'react'
 import {Scene, Router, Actions} from 'react-native-router-flux'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
+import Header from './components/Header'
 import Table from './components/Table'
+import SignUp from './components/SignUp'
 import SocketIOClient from 'socket.io-client';
 import {joinRoom} from './actions'
 import {connect} from 'react-redux'
@@ -14,8 +16,11 @@ class RouterComponent extends React.Component {
     return(
       <Router style={{paddingTop: 10}}>
         <Scene key='root' hideNavBar>
-        <Scene key='auth'>
+
+          <Scene key='auth'>
             <Scene key='login' component={LoginForm} title='please login' initial/>
+            <Scene key='signUp' component={SignUp} title='please signUp'/>
+
           </Scene>
           <Scene key='main'>
             <Scene
@@ -34,7 +39,8 @@ class RouterComponent extends React.Component {
 
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  joinRoom
+  joinRoom,
+  // header
 }, dispatch)
 
 export default connect(null, mapDispatchToProps)(RouterComponent)

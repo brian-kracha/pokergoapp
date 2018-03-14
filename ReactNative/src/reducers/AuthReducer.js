@@ -39,7 +39,8 @@ const INITIAL_STATE = {
   player: '',
   assignCards: [],
   tableNumber: 0,
-  cardsOntable: []
+  cardsOntable: [],
+  playerStatus: 'active'
 }
 
 export default (state = INITIAL_STATE, action) => {

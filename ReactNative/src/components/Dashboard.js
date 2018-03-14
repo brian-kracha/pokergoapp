@@ -4,6 +4,7 @@ import FlatListTable from './common/List'
 import { connect } from 'react-redux'
 
 import { bindActionCreators } from 'redux'
+
 import SideMenu from 'react-native-side-menu'
 import Menu from './common/Menu'
 
@@ -22,7 +23,7 @@ class Dashboard extends Component{
     this.setState({
       isOpen: !this.state.isOpen,
     });
-  }
+}
   updateMenuState(isOpen) {
     this.setState({ isOpen });
   }
@@ -48,7 +49,7 @@ render(){
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    message: state.auth.message
+    user: state.auth.user
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
