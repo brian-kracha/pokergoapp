@@ -2,6 +2,7 @@ import React,{ Component } from 'react'
 import {Scene, Router, Actions} from 'react-native-router-flux'
 import LoginForm from './components/LoginForm'
 import Dashboard from './components/Dashboard'
+import Header from './components/Header'
 import Table from './components/Table'
 import SocketIOClient from 'socket.io-client';
 import {joinRoom} from './actions'
@@ -31,7 +32,8 @@ class RouterComponent extends React.Component {
 
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  joinRoom
+  joinRoom,
+  // header
 }, dispatch)
 
 export default connect(null, mapDispatchToProps)(RouterComponent)

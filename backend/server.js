@@ -190,7 +190,7 @@ io.sockets.on('connection', socket => {
     people.push({name: data.name + count, tableNumber: data.tableNumber})
     io.in(socket.rooms.table1).emit('FROM_SERVER', {
       people: people,
-      count: count
+      count: count,
     })
     socket.emit('SET_PLAYER', {name: data.name + count});
     voteCount++
@@ -204,11 +204,13 @@ io.sockets.on('connection', socket => {
     }
   })
   socket.on('sendMessage', function(msg) {
-    messages.push(msg)
+    if(voteCount >= 2){
+      messages.push(`${msg.playerName} : ${msg.message}`)
+    }
+    console.log(messages);
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
   socket.on('CALCULATE_WINNER_HAND', function(data) {
-    console.log(data);
     result = highestHand(data)
     io.in(socket.rooms.table1).emit('WINNING_CARDS', {result: result})
   })
@@ -234,7 +236,7 @@ function shuffleCardsFunc(deckOfCards) {
     remainingCard--;
   }
 }
-function highestHand(hands){
+function highestHand(hands) {
   let array = []
   for(let i = 0; i < hands.length; i++) {
     const evalOutput = pokerEval.evalHand(hands[i])

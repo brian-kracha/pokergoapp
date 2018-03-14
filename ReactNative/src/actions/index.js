@@ -34,9 +34,9 @@ export const joinRoom = () => {
   }
 }
 
-export const sendMessage = (message) => {
+export const sendMessage = (playerName,message) => {
   return async (dispatch) => {
-    socket.emit('sendMessage', message)
+    socket.emit('sendMessage', {playerName:playerName, message:message})
     socket.on('server message response', function(data) {
       dispatch({
         type: SEND_MESSAGE,
@@ -58,7 +58,7 @@ export const takeSeat = (tableNumber) => {
       dispatch({
         type: TAKE_SEAT,
         payload: data.people,
-        count: data.count
+        count: data.count,
       })
     })
     socket.on('SET_PLAYER' , function(data) {
@@ -121,6 +121,41 @@ const loginUserSuccess = (dispatch, user) => {
   Actions.main()
 }
 
+export function evalWinner(cards) {
+  console.log(cards);
+  return async (dispatch) => {
+    let cardsSending = []
+    cards.forEach(ele => {
+      let evaluateCard = []
+      for(let i = 0 ; i < 7; i++) {
+        evaluateCard.push(ele[i].code)
+      }
+      cardsSending.push(evaluateCard)
+    })
+    console.log(cardsSending);
+    socket.emit('CALCULATE_WINNER_HAND', cardsSending)
+    socket.on('WINNING_CARDS', function(data) {
+      console.log('winning hand', data);
+    })
+  }
+}
+
+export function raise() {
+  return async (dispatch) => {
+    console.log('hi from raise')
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 // export function fetchCards() {
 //  return async (dispatch) => {
 //    const response = await fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
@@ -160,22 +195,3 @@ const loginUserSuccess = (dispatch, user) => {
 //     })
 //   }
 // }
-
-export function evalWinner(cards) {
-  console.log(cards);
-  return async (dispatch) => {
-    let cardsSending = []
-    cards.forEach(ele => {
-      let evaluateCard = []
-      for(let i = 0 ; i < 7; i++) {
-        evaluateCard.push(ele[i].code)
-      }
-      cardsSending.push(evaluateCard)
-    })
-    console.log(cardsSending);
-    socket.emit('CALCULATE_WINNER_HAND', cardsSending)
-    socket.on('WINNING_CARDS', function(data) {
-      console.log('winning hand', data);
-    })
-  }
-}
