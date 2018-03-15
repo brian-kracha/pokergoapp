@@ -11,7 +11,10 @@ import {
   CARDS_FOR_EACH_PLAYER,
   CARDS_FOR_PLAYER1,
   SET_PLAYER,
-  GAME_STATUS
+  ASSIGN_CARDS,
+  GAME_STATUS,
+  START_GAME,
+  SHOULD_TIMER_UPDATE
 } from '../actions/types'
 import {FIRSTNAME_CHANGED,
 LASTNAME_CHANGED,
@@ -37,14 +40,16 @@ const INITIAL_STATE = {
   cardsReady: false,
   topFifteenCards: [],
   isTopFifteenCardsReady: false,
-  isGameStarting: false,
+  isGameStarted: false,
   display: 0,
   playersCard: [],
   player: '',
   assignCards: [],
   tableNumber: 0,
   cardsOntable: [],
-  playerStatus: 'active'
+  playerStatus: 'active',
+  gameStatus: {},
+  timer: 0,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -89,7 +94,7 @@ export default (state = INITIAL_STATE, action) => {
       }
     case GAME_READY_TO_PLAY:
       return{
-        ...state, isGameStarting: true
+        ...state
       }
     case CARDS_FOR_EACH_PLAYER:
       return{
@@ -99,9 +104,20 @@ export default (state = INITIAL_STATE, action) => {
       return{
         ...state, player: action.payload
       }
-    case GAME_STATUS:
+    case ASSIGN_CARDS:
       return{
         ...state, assignCards: action.payload, cardsOntable: action.cardsOntable
+      }
+    case GAME_STATUS:
+      return{
+        ...state,gameStatus: action.payload, isGameStarted: true
+      }
+    case START_GAME:
+    console.log(action.payload);
+      return{...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
+    case SHOULD_TIMER_UPDATE:
+      return{
+        ...state, shouldTimerUpdate: action.payload
       }
     default:
       return state

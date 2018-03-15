@@ -24,6 +24,7 @@ var cards = []
 let voteCount = 0
 let startGame
 let isGameStarted = false
+let gameStatus = {}
 let deckOfCards = [
   {
     code: "Ad",
@@ -236,7 +237,9 @@ io.sockets.on('connection', socket => {
     if (voteCount > 2 && !isGameStarted) {
       clearTimeout(startGame)
     }
+
     if (voteCount >= 2 && !isGameStarted) {
+      io.in(socket.rooms.table1).emit('START_GAME', 5)
       startGame = setTimeout(function() {
         startGameFunc()
       }, 5000);
@@ -256,7 +259,7 @@ io.sockets.on('connection', socket => {
   startGameFunc = () => {
     isGameStarted = true
     shuffleCardsFunc(deckOfCards);
-    io.in(socket.rooms.table1).emit('GAME_STATUS', {
+    io.in(socket.rooms.table1).emit('ASSIGN_CARDS', {
       people: people.map(person => {
         let personObj = {}
         personObj.name = person.name
@@ -265,6 +268,18 @@ io.sockets.on('connection', socket => {
       }),
       cardsOntable: shuffleCards.splice(0, 5)
     })
+    gameStatus = {
+      people: people.map((person,i) => {
+        let personObj = {}
+        personObj.name = person.name
+        personObj.coins = 1000
+        personObj.dealer = i === 0 ? true : false
+        personObj.isPlayerActive = true
+        return personObj
+      }),
+      totalCoins: 0
+    }
+    io.in(socket.rooms.table1).emit('GAME_STATUS', gameStatus)
   }
 });
 function shuffleCardsFunc(deckOfCards) {

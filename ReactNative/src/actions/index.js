@@ -17,7 +17,10 @@ import {
   CARDS_FOR_PLAYER1,
   CARDS_FOR_PLAYER2,
   SET_PLAYER,
+  ASSIGN_CARDS,
   GAME_STATUS,
+  START_GAME,
+  SHOULD_TIMER_UPDATE
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -33,7 +36,6 @@ export const SIGNUP = 'signup'
 
 
 export const firstNameChanged = (text) => {
-  console.log('text from action', text);
   return {
     type: FIRSTNAME_CHANGED,
     payload: text
@@ -87,19 +89,17 @@ export const signUp = () => {
 }
 
 export const signUpUser = (firstName, lastName, email, password) => {
-  console.log('in sign up');
   let body = {
     first_name: firstName,
     last_name: lastName,
     email: email,
     token: password,
   }
-  console.log('body',body);
   return async (dispatch) => {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => loginUserSuccess(dispatch, user))
           firebase.auth().onAuthStateChanged((user) => {
-            console.log('inside oauth',body);
+            console.log('inside oauth', body);
             if (user) {
               body.token = user.uid
 
@@ -130,7 +130,6 @@ const loginUserSuccess = (dispatch, user) => {
 }
 
 export const joinRoom = () => {
-  console.log('in this room')
   return async (dispatch) => {
     socket = SocketIOClient('http://localhost:3000/', {jsonp: false, transports: ['websocket']})
     Actions.table()
@@ -161,7 +160,7 @@ export const takeSeat = (tableNumber) => {
     // console.log(socket);
     socket.emit('TAKE_SEAT', {name: 'pl' , tableNumber: tableNumber})
     socket.on('FROM_SERVER', function(data) {
-      console.log(data.people)
+      // console.log(data.people)
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT,
@@ -170,24 +169,48 @@ export const takeSeat = (tableNumber) => {
       })
     })
     socket.on('SET_PLAYER' , function(data) {
-      console.log('SET_PLAYER', data);
+      // console.log('SET_PLAYER', data);
       dispatch({
         type: SET_PLAYER,
         payload: data.name,
       })
     })
-    socket.on("GAME_STATUS", function(data) {
+
+    socket.on('START_GAME', function(data) {
+      console.log(data);
+      dispatch({
+        type: START_GAME,
+        payload: data,
+        shouldTimerUpdate: true
+      })
+    })
+
+    socket.on("ASSIGN_CARDS", function(data) {
       console.log(data)
       dispatch({
-        type: GAME_STATUS,
+        type: ASSIGN_CARDS,
         payload: data.people,
         cardsOntable: data.cardsOntable
+      })
+    })
+    socket.on('GAME_STATUS', function(data){
+      // console.log(data);
+      dispatch({
+        type: GAME_STATUS,
+        payload: data
       })
     })
   }
 }
 
-
+export function shouldTimerUpdateFunc(data) {
+  return async (dispatch) => {
+    dispatch({
+      type: SHOULD_TIMER_UPDATE,
+      payload: data
+    })
+  }
+}
 export function evalWinner(cards) {
   console.log(cards);
   return async (dispatch) => {
