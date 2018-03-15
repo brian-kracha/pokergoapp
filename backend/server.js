@@ -238,6 +238,7 @@ io.sockets.on('connection', socket => {
     voteCount++
     if (voteCount > 2 && !isGameStarted) {
       clearTimeout(startGame)
+      io.in(socket.rooms.table1).emit('START_GAME', 5)
     }
 
     if (voteCount >= 2 && !isGameStarted) {
@@ -248,7 +249,7 @@ io.sockets.on('connection', socket => {
     }
   })
   socket.on('sendMessage', function(msg) {
-    if(voteCount >= 2){
+    if(voteCount >= 2) {
       messages.push(`${msg.playerName} : ${msg.message}`)
     }
     console.log(messages);
@@ -273,13 +274,19 @@ io.sockets.on('connection', socket => {
     gameStatus = {
       people: people.map((person,i) => {
         let personObj = {}
+        personObj.tableNumber = person.tableNumber
         personObj.name = person.name
         personObj.coins = 1000
-        personObj.dealer = i === 0 ? true : false
         personObj.isPlayerActive = true
         return personObj
       }),
-      totalCoins: 0
+      totalCoins: 0,
+      bigBlind: false,
+      smallBlind: false,
+      round: 0,
+      coinsDeal: 20,
+      dealerTable: 0,
+      turnTable: people.sort(x => x.tableNumber)[people.length - 1].tableNumber
     }
     io.in(socket.rooms.table1).emit('GAME_STATUS', gameStatus)
   }

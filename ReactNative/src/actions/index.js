@@ -20,7 +20,8 @@ import {
   ASSIGN_CARDS,
   GAME_STATUS,
   START_GAME,
-  SHOULD_TIMER_UPDATE
+  SHOULD_TIMER_UPDATE,
+  RAISE_AMOUNT
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -130,7 +131,6 @@ const loginUserSuccess = (dispatch, user) => {
 }
 
 export const joinRoom = () => {
-
   return async (dispatch) => {
     socket = SocketIOClient('http://localhost:3000/', {jsonp: false, transports: ['websocket']})
     Actions.table()
@@ -140,7 +140,6 @@ export const joinRoom = () => {
         payload: socket,
     })
   }
-
 }
 
 export const sendMessage = (playerName,message) => {
@@ -229,40 +228,40 @@ export function evalWinner(cards) {
     socket.on('WINNING_CARDS', function(data) {
       console.log('winning hand', data);
     })
-
   }
 }
 
-export function raise() {
-  return async (dispatch) =>{
-    console.log('hi from raise')
+export const raise = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: RAISE_AMOUNT,
+        payload: coin * 2
+      })
   }
 }
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(user => loginUserSuccess(dispatch, user))
-          .catch(() => loginUserFail(dispatch))
+export const draw = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: DRAW_AMOUNT,
+        payload: coin
+      })
+  }
+}
 
-// export const onLoginOrRegister = () => {
-//   GoogleSignin.signIn()
-//     .then((data) => {
-//       // Create a new Firebase credential with the token
-//       const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
-//       // Login with the credential
-//       return firebase.auth().signInWithCredential(credential);
-//     })
-//     .then((user) => {
-//       // If you need to do anything with the user, do it here
-//       // The user will be logged in automatically by the
-//       // `onAuthStateChanged` listener we set up in App.js earlier
-//     })
-//     .catch((error) => {
-//       const { code, message } = error;
-//       // For details of error codes, see the docs
-//       // The message contains the default Firebase string
-//       // representation of the error
-//     });
-// }
+export const fold = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: DRAW_AMOUNT,
+        payload: coin
+      })
+  }
+}
+
+
 
 
 

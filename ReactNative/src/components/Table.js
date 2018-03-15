@@ -18,6 +18,7 @@ class gameRoom extends React.Component{
       coins: 0,
       totalCoins: 0,
       message: '',
+      isYourTurn: false,
     }
   }
   componentDidMount() {
@@ -25,36 +26,37 @@ class gameRoom extends React.Component{
   }
   componentWillReceiveProps(nextProps) {
     if(nextProps.isGameStarted) {
-      console.log('in is game started');
-      nextProps.gameStatus.people.forEach(ele => {
+      nextProps.gameStatus.people.forEach((ele) => {
         if(ele.name == nextProps.player) {
-          console.log('inside if');
           this.setState({
             totalCoins: nextProps.gameStatus.totalCoins,
-            coins: ele.coins,
+            coins: ele.coins
           })
+          if(nextProps.gameStatus.turnTable === ele.tableNumber) {
+            console.log('inside setting props for turn');
+            this.setState({isYourTurn: true})
+          }
         }
+
       })
     }
-    console.log('welcome to here', nextProps.timer, this.props.shouldTimerUpdate);
     if(this.props.shouldTimerUpdate)  {
-      console.log('in shoult timer update');
       let timer = nextProps.timer
       let timeout = 1000
       this.setState({message: timer})
-      for(let i=timer; i >= 0; i--){
+      for(let i = timer - 1; i >= 0; i--) {
         setTimeout(() => {
-          console.log('timer inside settime out', timer)
-          this.setState({message: timer})
-          timeout += 1000
-        }, timeout)
+
+          i === 0 ? this.setState({message: ''}) :
+          this.setState({message: i})
+        }, ((timer-i) * 1000))
+
       }
   }
     this.props.shouldTimerUpdateFunc(false)
   }
 
   render() {
-    console.log('timer', this.props.timer, this.state.message);
     let activeTableNumbers = []
     let activeUserTableNumber = 0
     let cards = []
@@ -89,7 +91,7 @@ class gameRoom extends React.Component{
           style= { styles.background }>
           <View>
             <Text style={{color:'white'}}>{this.state.message}</Text>
-          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins}/>
+          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins} isYourTurn={this.state.isYourTurn} />
             <View style={{flexDirection: 'row', marginTop: '-4%', marginLeft: '5%'}}>
               <TouchableHighlight
                  style={styles.button1}

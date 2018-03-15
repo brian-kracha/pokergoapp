@@ -14,7 +14,8 @@ import {
   ASSIGN_CARDS,
   GAME_STATUS,
   START_GAME,
-  SHOULD_TIMER_UPDATE
+  SHOULD_TIMER_UPDATE,
+  RAISE_AMOUNT,
 } from '../actions/types'
 import {FIRSTNAME_CHANGED,
 LASTNAME_CHANGED,
@@ -36,7 +37,6 @@ const INITIAL_STATE = {
   count: 0,
   cards: [],
   cardsFetched: false,
-  round: true,
   cardsReady: false,
   topFifteenCards: [],
   isTopFifteenCardsReady: false,
@@ -113,12 +113,15 @@ export default (state = INITIAL_STATE, action) => {
         ...state,gameStatus: action.payload, isGameStarted: true
       }
     case START_GAME:
-    console.log(action.payload);
       return{...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
     case SHOULD_TIMER_UPDATE:
       return{
         ...state, shouldTimerUpdate: action.payload
       }
+    case RAISE_AMOUNT:
+     return {
+       ...state, gameStatus: {...state.gameStatus, coinsDeal: action.payload}
+     }
     default:
       return state
   }
