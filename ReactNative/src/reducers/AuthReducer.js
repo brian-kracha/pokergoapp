@@ -1,6 +1,4 @@
 import {
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
@@ -15,8 +13,14 @@ import {
   SET_PLAYER,
   GAME_STATUS
 } from '../actions/types'
+import {FIRSTNAME_CHANGED,
+LASTNAME_CHANGED,
+EMAIL_CHANGED,
+PASSWORD_CHANGED,} from '../actions'
 let messages = []
 const INITIAL_STATE = {
+  first_name: '',
+  last_name: '',
   email: '',
   password: '',
   user: null,
@@ -47,6 +51,10 @@ export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 
   switch (action.type) {
+    case FIRSTNAME_CHANGED:
+      return{...state, first_name: action.payload}
+    case LASTNAME_CHANGED:
+      return{...state, last_name: action.payload}
     case EMAIL_CHANGED:
       return { ...state, email: action.payload }
     case PASSWORD_CHANGED:

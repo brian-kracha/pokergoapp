@@ -33,6 +33,7 @@ export const SIGNUP = 'signup'
 
 
 export const firstNameChanged = (text) => {
+  console.log('text from action', text);
   return {
     type: FIRSTNAME_CHANGED,
     payload: text
@@ -73,19 +74,9 @@ export const loginUser = ({ email, password }) => {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
-
-        firebase.auth().currentUser.getIdToken(true)
-        .then(function(idToken) {
-          Actions.main()
-          console.log('from sign in ');
-        // fetch(`http://localhost:3001/users_services/${idToken}`, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Accept': 'application/json',
-        //   },
-        // })
-    })
+      .catch(function(){
+        loginUserFail(dispatch)
+      })
   }
 }
 
@@ -95,35 +86,34 @@ export const signUp = () => {
   }
 }
 
-export const signUpUser = ({ first_name, last_name, email, password, address }) => {
-
+export const signUpUser = (firstName, lastName, email, password) => {
+  console.log('in sign up');
   let body = {
-    first_name: first_name,
-    last_name: last_name,
+    first_name: firstName,
+    last_name: lastName,
     email: email,
-    password: '',
-    address: address
+    token: password,
   }
-
+  console.log('body',body);
   return async (dispatch) => {
-
         await firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => loginUserSuccess(dispatch, user))
           firebase.auth().onAuthStateChanged((user) => {
+            console.log('inside oauth',body);
             if (user) {
-              body.password = user.uid
+              body.token = user.uid
 
-              fetch('http://localhost:3001/users/', {
+              const response = fetch('http://localhost:3000/api', {
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
-                },
+                }
               })
             }
           })
-    dispatch({ type: SIGNUP })
+          dispatch({ type: SIGNUP })
   }
 }
 
@@ -136,6 +126,7 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   })
+  Actions.main()
 }
 
 export const joinRoom = () => {
