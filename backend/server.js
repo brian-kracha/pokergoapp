@@ -8,15 +8,13 @@ const bodyParser = require('body-parser')
 const server = require("http").createServer(app)
 const io = require('socket.io').listen(server)
 const pokerEval = require("poker-evaluator")
-<<<<<<< HEAD
-const knexConfig = require('./knexfile')[environment];
-const knex = require('knex')(knexConfig);
-
-=======
 const environment = process.env.NODE_ENV || 'development';
 // const knexConfig = require('./knexfile')[environment];
 const knex = require('./knex');
->>>>>>> dfc917a1acfcf5f6f80b00407724af254be3542d
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']
@@ -28,6 +26,7 @@ var cards = []
 let voteCount = 0
 let startGame
 let isGameStarted = false
+let gameStatus = {}
 let deckOfCards = [
   {
     code: "Ad",
@@ -191,6 +190,36 @@ let deckOfCards = [
 let shuffleCards = []
 server.listen(process.env.PORT || 3000)
 console.log('server started')
+// app.get('/', (req, res, next) => {
+//    return knex('users')
+//     .select('*')
+//     .then(data => {
+//       res.send(data)
+//     })
+//     .catch(err => {
+//       res.status(404).send(err)
+//     })
+// })
+
+app.post('/api', (req, res, next) => {
+  console.log('post', req.body);
+  return knex('users')
+    .insert({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      token: req.body.token,
+    }, '*')
+    .then(data => {
+      res.send(data[0])
+    })
+    // .catch(err => {
+    //   res.status(404).send(err)
+    // })
+})
+
+
+
 io.sockets.on('connection', socket => {
   socket.on('joinTable1', function(mytable) {
     socket.join(mytable)
@@ -210,7 +239,9 @@ io.sockets.on('connection', socket => {
     if (voteCount > 2 && !isGameStarted) {
       clearTimeout(startGame)
     }
+
     if (voteCount >= 2 && !isGameStarted) {
+      io.in(socket.rooms.table1).emit('START_GAME', 5)
       startGame = setTimeout(function() {
         startGameFunc()
       }, 5000);
@@ -230,7 +261,7 @@ io.sockets.on('connection', socket => {
   startGameFunc = () => {
     isGameStarted = true
     shuffleCardsFunc(deckOfCards);
-    io.in(socket.rooms.table1).emit('GAME_STATUS', {
+    io.in(socket.rooms.table1).emit('ASSIGN_CARDS', {
       people: people.map(person => {
         let personObj = {}
         personObj.name = person.name
@@ -239,6 +270,18 @@ io.sockets.on('connection', socket => {
       }),
       cardsOntable: shuffleCards.splice(0, 5)
     })
+    gameStatus = {
+      people: people.map((person,i) => {
+        let personObj = {}
+        personObj.name = person.name
+        personObj.coins = 1000
+        personObj.dealer = i === 0 ? true : false
+        personObj.isPlayerActive = true
+        return personObj
+      }),
+      totalCoins: 0
+    }
+    io.in(socket.rooms.table1).emit('GAME_STATUS', gameStatus)
   }
 });
 function shuffleCardsFunc(deckOfCards) {

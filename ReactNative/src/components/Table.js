@@ -5,9 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image, TouchableOpacity} from 'react-native';
-
-import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner} from '../actions'
-
+import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner, shouldTimerUpdateFunc} from '../actions'
 import Messages from './Messages'
 import CardsOnTable from './CardsOnTable'
 
@@ -17,12 +15,46 @@ class gameRoom extends React.Component{
     super(props)
     this.state = {
       text: '',
+      coins: 0,
+      totalCoins: 0,
+      message: '',
     }
   }
   componentDidMount() {
     this.props.sendMessage()
   }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.isGameStarted) {
+      console.log('in is game started');
+      nextProps.gameStatus.people.forEach(ele => {
+        if(ele.name == nextProps.player) {
+          console.log('inside if');
+          this.setState({
+            totalCoins: nextProps.gameStatus.totalCoins,
+            coins: ele.coins,
+          })
+        }
+      })
+    }
+    console.log('welcome to here', nextProps.timer, this.props.shouldTimerUpdate);
+    if(this.props.shouldTimerUpdate)  {
+      console.log('in shoult timer update');
+      let timer = nextProps.timer
+      let timeout = 1000
+      this.setState({message: timer})
+      for(let i=timer; i >= 0; i--){
+        setTimeout(() => {
+          console.log('timer inside settime out', timer)
+          this.setState({message: timer})
+          timeout += 1000
+        }, timeout)
+      }
+  }
+    this.props.shouldTimerUpdateFunc(false)
+  }
+
   render() {
+    console.log('timer', this.props.timer, this.state.message);
     let activeTableNumbers = []
     let activeUserTableNumber = 0
     let cards = []
@@ -33,9 +65,9 @@ class gameRoom extends React.Component{
         cards = ele.cards
       }
     })
-    if(cardsToBeEvaluated.length > 0) {
-      this.props.evalWinner(cardsToBeEvaluated)
-    }
+    // if(cardsToBeEvaluated.length > 0) {
+    //   this.props.evalWinner(cardsToBeEvaluated)
+    // }
 
     let players = ['sit','sit','sit','sit','sit','sit']
     this.props.people.forEach(ele => {
@@ -47,6 +79,7 @@ class gameRoom extends React.Component{
         activeTableNumbers.push(ele.tableNumber)
       }
     })
+
     return (
       <View>
         <ImageBackground
@@ -55,7 +88,8 @@ class gameRoom extends React.Component{
 
           style= { styles.background }>
           <View>
-          <Betting />
+            <Text style={{color:'white'}}>{this.state.message}</Text>
+          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins}/>
             <View style={{flexDirection: 'row', marginTop: '-4%', marginLeft: '5%'}}>
               <TouchableHighlight
                  style={styles.button1}
@@ -388,8 +422,6 @@ function mapStateToProps(state) {
     cards: state.auth.cards,
     round: state.auth.round,
     cardsReady: state.auth.cardsReady,
-    isTopFifteenCardsReady: state.auth.isTopFifteenCardsReady,
-    topFifteenCards: state.auth.topFifteenCards,
     isGameStarting: state.auth.isGameStarting,
     display: state.auth.display,
     player1Display: state.auth.player1Display,
@@ -398,12 +430,17 @@ function mapStateToProps(state) {
     assignCards: state.auth.assignCards,
     player: state.auth.player,
     tableNumber: state.auth.tableNumber,
-    cardsOntable: state.auth.cardsOntable
+    cardsOntable: state.auth.cardsOntable,
+    gameStatus: state.auth.gameStatus,
+    isGameStarted: state.auth.isGameStarted,
+    timer: state.auth.timer,
+    shouldTimerUpdate: state.auth.shouldTimerUpdate,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
   takeSeat,
-  sendMessage,fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner
+  sendMessage,fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner,
+  shouldTimerUpdateFunc
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(gameRoom)

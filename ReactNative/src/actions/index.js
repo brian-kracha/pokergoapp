@@ -17,7 +17,10 @@ import {
   CARDS_FOR_PLAYER1,
   CARDS_FOR_PLAYER2,
   SET_PLAYER,
+  ASSIGN_CARDS,
   GAME_STATUS,
+  START_GAME,
+  SHOULD_TIMER_UPDATE
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -73,19 +76,9 @@ export const loginUser = ({ email, password }) => {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
-
-        firebase.auth().currentUser.getIdToken(true)
-        .then(function(idToken) {
-          Actions.main()
-          console.log('from sign in ');
-        // fetch(`http://localhost:3001/users_services/${idToken}`, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Accept': 'application/json',
-        //   },
-        // })
-    })
+      .catch(function(){
+        loginUserFail(dispatch)
+      })
   }
 }
 
@@ -95,35 +88,32 @@ export const signUp = () => {
   }
 }
 
-export const signUpUser = ({ first_name, last_name, email, password, address }) => {
-
+export const signUpUser = (firstName, lastName, email, password) => {
   let body = {
-    first_name: first_name,
-    last_name: last_name,
+    first_name: firstName,
+    last_name: lastName,
     email: email,
-    password: '',
-    address: address
+    token: password,
   }
-
   return async (dispatch) => {
-
         await firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => loginUserSuccess(dispatch, user))
           firebase.auth().onAuthStateChanged((user) => {
+            console.log('inside oauth', body);
             if (user) {
-              body.password = user.uid
+              body.token = user.uid
 
-              fetch('http://localhost:3001/users/', {
+              const response = fetch('http://localhost:3000/api', {
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
-                },
+                }
               })
             }
           })
-    dispatch({ type: SIGNUP })
+          dispatch({ type: SIGNUP })
   }
 }
 
@@ -136,10 +126,10 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload: user
   })
+  Actions.main()
 }
 
 export const joinRoom = () => {
-  console.log('in this room')
 
   return async (dispatch) => {
     socket = SocketIOClient('http://localhost:3000/', {jsonp: false, transports: ['websocket']})
@@ -172,7 +162,7 @@ export const takeSeat = (tableNumber) => {
     // console.log(socket);
     socket.emit('TAKE_SEAT', {name: 'pl' , tableNumber: tableNumber})
     socket.on('FROM_SERVER', function(data) {
-      console.log(data.people)
+      // console.log(data.people)
       // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT,
@@ -181,24 +171,48 @@ export const takeSeat = (tableNumber) => {
       })
     })
     socket.on('SET_PLAYER' , function(data) {
-      console.log('SET_PLAYER', data);
+      // console.log('SET_PLAYER', data);
       dispatch({
         type: SET_PLAYER,
         payload: data.name,
       })
     })
-    socket.on("GAME_STATUS", function(data) {
+
+    socket.on('START_GAME', function(data) {
+      console.log(data);
+      dispatch({
+        type: START_GAME,
+        payload: data,
+        shouldTimerUpdate: true
+      })
+    })
+
+    socket.on("ASSIGN_CARDS", function(data) {
       console.log(data)
       dispatch({
-        type: GAME_STATUS,
+        type: ASSIGN_CARDS,
         payload: data.people,
         cardsOntable: data.cardsOntable
+      })
+    })
+    socket.on('GAME_STATUS', function(data){
+      // console.log(data);
+      dispatch({
+        type: GAME_STATUS,
+        payload: data
       })
     })
   }
 }
 
-
+export function shouldTimerUpdateFunc(data) {
+  return async (dispatch) => {
+    dispatch({
+      type: SHOULD_TIMER_UPDATE,
+      payload: data
+    })
+  }
+}
 export function evalWinner(cards) {
   console.log(cards);
   return async (dispatch) => {

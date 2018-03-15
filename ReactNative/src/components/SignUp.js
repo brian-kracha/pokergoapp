@@ -9,6 +9,7 @@ class SignUp extends Component {
     super(props)
   }
   onFirstNameChanged(text) {
+    console.log('text', text);
     this.props.firstNameChanged(text)
   }
 
@@ -25,9 +26,10 @@ class SignUp extends Component {
   }
 
   onButtonPress() {
-    const { first_name, last_name, email, password, address } = this.props
-
-    this.props.signUpUser({ first_name, last_name, email, password, address })
+    // const {first_name, last_name, email, password} = this.props
+    // console.log('firstName',this.props.first_name);
+    console.log('this.props.first_name', this.props.first_name);
+    this.props.signUpUser(this.props.first_name, this.props.last_name, this.props.email, this.props.password)
   }
 
   renderError() {
@@ -153,11 +155,15 @@ const styles = {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  const { first_name, last_name, email, password, error, loading } = auth
-  return { first_name, last_name, email, password, error, loading }
+function mapStateToProps(state) {
+  return {
+    first_name : state.auth.first_name,
+    last_name : state.auth.last_name,
+    email : state.auth.email,
+    password: state.auth.password
+  }
 }
 
 export default connect(mapStateToProps, {
-  firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser
+  firstNameChanged, lastNameChanged, emailChanged, passwordChanged, loginUser, signUpUser
 })(SignUp)
