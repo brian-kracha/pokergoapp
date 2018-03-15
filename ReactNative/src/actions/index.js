@@ -20,7 +20,8 @@ import {
   ASSIGN_CARDS,
   GAME_STATUS,
   START_GAME,
-  SHOULD_TIMER_UPDATE
+  SHOULD_TIMER_UPDATE,
+  RAISE_AMOUNT
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -230,9 +231,33 @@ export function evalWinner(cards) {
   }
 }
 
-export function raise() {
-  return async (dispatch) =>{
-    console.log('hi from raise')
+export const raise = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: RAISE_AMOUNT,
+        payload: coin * 2
+      })
+  }
+}
+
+export const draw = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: DRAW_AMOUNT,
+        payload: coin
+      })
+  }
+}
+
+export const fold = (coin) => {
+  console.log('coint from raise', coin);
+  return async (dispatch) => {
+      dispatch({
+        type: DRAW_AMOUNT,
+        payload: coin
+      })
   }
 }
 
