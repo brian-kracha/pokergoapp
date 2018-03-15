@@ -1,48 +1,22 @@
 {
-  "name": "pokergoapp",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
-  },
+  "name": "ReactNative",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "dependencies": {
-    "eslint": "^4.14.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-jquery": "^1.0.1",
-    "eslint-plugin-dollar-sign": "^1.0.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jquery": "^1.3.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
-    "express": "^4.16.2",
-    "firebase": "^4.8.1",
-    "jquery": "^3.3.1",
     "knex": "^0.14.4",
-    "native-base": "^2.3.9",
     "poker-evaluator": "^0.3.1",
-    "react": "^16.2.0",
-    "react-native": "^0.52.0",
     "react-native-elements": "^0.19.0",
     "react-native-google-signin": "^0.12.0",
-    "react-native-router-flux": "^3.43.0",
     "react-native-side-menu": "^1.1.3",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-router-native": "^4.2.0",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
     "socket.io-client": "^2.0.4",
     "socketio": "^1.0.0"
   },
-  "devDependencies": {
-    "babel-jest": "22.0.4",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "22.0.4",
-    "react-test-renderer": "16.0.0"
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "jest": {
-    "preset": "react-native"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
