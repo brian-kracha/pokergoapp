@@ -1,32 +1,51 @@
 import React, { Component } from 'react'
-import {View, Text} from 'react-native'
+import {View, FlatList, Text} from 'react-native'
+import FlatListTable from './common/List'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-// class gameRoom extends React.Component
-import {takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,sendMessage} from '../actions'
-import Betting from './Betting'
 
-class Dashboard extends React.Component{
-  render() {
-    console.log(this.props.auth);
-    console.log('users', this.props.user);
-    return(
-      <View>
-        <Text>Hello</Text>
-        <Betting style={{marginTop: '40%'}}/>
-      </View>
-    )
+import { bindActionCreators } from 'redux'
+
+import SideMenu from 'react-native-side-menu'
+import Menu from './common/Menu'
+
+
+const menu = <Menu />
+class Dashboard extends Component{
+  constructor(props){
+    super(props)
+    this.toggle = this.toggle.bind(this)
+
+    this.state= {
+      isOpen:false,
+    }
   }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
 }
-// const Dashboard = ({auth, message})=> {
-//   console.log("auth",auth);
-//   console.log(message);
-//   return(
-//     <View>
-//       <Text>Hello</Text>
-//     </View>
-//   )
-// }
+  updateMenuState(isOpen) {
+    this.setState({ isOpen });
+  }
+
+render(){
+
+
+  return(
+    <SideMenu
+    menu={<Menu/>}
+    isOpen={this.state.isOpen}
+    onChange={isOpen => this.updateMenuState(isOpen)}
+    >
+      <View>
+        <FlatListTable/>
+    </View>
+    </SideMenu>
+  )
+}
+}
+
+
 function mapStateToProps(state) {
   return {
     auth: state.auth,
@@ -34,8 +53,7 @@ function mapStateToProps(state) {
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
-  takeSeat1,takeSeat2,takeSeat3,takeSeat4,takeSeat5,takeSeat6,
-  sendMessage,
+
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

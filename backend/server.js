@@ -11,8 +11,10 @@ const pokerEval = require("poker-evaluator")
 const environment = process.env.NODE_ENV || 'development';
 // const knexConfig = require('./knexfile')[environment];
 const knex = require('./knex');
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
 let connection = []
 let people = []
 let messages = ['Welcome to chat Room']
@@ -188,7 +190,6 @@ let deckOfCards = [
 let shuffleCards = []
 server.listen(process.env.PORT || 3000)
 console.log('server started')
-
 // app.get('/', (req, res, next) => {
 //    return knex('users')
 //     .select('*')
@@ -216,6 +217,7 @@ app.post('/api', (req, res, next) => {
     //   res.status(404).send(err)
     // })
 })
+
 
 
 io.sockets.on('connection', socket => {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Actions } from 'react-native-router-flux'
+
 import { connect } from 'react-redux'
-import { View, TextInput, Text, TouchableOpacity, Image, secureTextEntry, autoCorrect, autoCapitalize} from 'react-native'
+import { View, TextInput, Text, TouchableOpacity, Image, secureTextEntry, autoCorrect, autoCapitalize, ImageBackground} from 'react-native'
 import { emailChanged, passwordChanged, loginUser, signUp } from '../actions/'
 import SignUp from './SignUp'
 class Login extends Component {
@@ -43,13 +44,18 @@ class Login extends Component {
     )
   }
 
+
   render() {
     const { viewStyles, textInputStyles, emailTextStyles, passwordTextStyles, loginTextStyles,
             submitTextStyles, loginButtonStyle, submitButtonStyle } = styles
 
+
     return (
       <View style={viewStyles}>
-        {/* <Image style={{width: '75%', height: 100, resizeMode: 'center', marginTop:25}} source={require('')}/> */}
+      <ImageBackground source={require('../images/stainless-steel.jpg')}
+      style={{height:'100%',width:'100%',justifyContent: 'center',
+      alignItems: 'center',}}>
+         <Image source={require('../images/logo2.png')}/> 
         <Text style={emailTextStyles}>Email</Text>
         <TextInput
           style={textInputStyles}
@@ -69,13 +75,14 @@ class Login extends Component {
         />
         { this.renderError() }
         { this.renderButton()}
-        <Text>Don't have a account</Text>
-        <Text>Create one for FREE</Text>
+        <Text style={styles.text}>"Don't have a account"</Text>
+        <Text style={styles.text}>Create one for FREE</Text>
         <TouchableOpacity
           onPress={this.props.signUp}
           underlayColor='#fff'>
-          <Text>SIGN UP</Text>
+          <Text style={{color:'#982D37',fontWeight:'bold',}}>SIGN UP</Text>
         </TouchableOpacity>
+        </ImageBackground>
       </View>
     )
   }
@@ -88,9 +95,14 @@ const styles = {
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  text:{
+    fontWeight:'bold',
+    color:'white'
+  },
   textInputStyles: {
     height: 60,
     alignSelf: 'stretch',
+    backgroundColor:'white',
     marginTop: 10,
     marginLeft: 40,
     marginRight: 40,

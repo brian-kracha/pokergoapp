@@ -1,13 +1,17 @@
 import React from 'react';
 import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
+
 import { bindActionCreators } from 'redux'
+
 import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image, TouchableOpacity} from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import ProgressCircle from 'react-native-progress-circle'
+
 import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner, shouldTimerUpdateFunc} from '../actions'
 import Messages from './Messages'
 import CardsOnTable from './CardsOnTable'
+
 import Betting from './Betting'
 import EmptyBetting from './EmptyBetting'
 class gameRoom extends React.Component{
@@ -47,12 +51,12 @@ class gameRoom extends React.Component{
       this.setState({message: timer})
       for(let i = timer - 1; i >= 0; i--) {
         setTimeout(() => {
+
           i === 0 ? this.setState({message: ''}) :
           this.setState({message: i})
         }, ((timer - i) * 1000))
 
       }
-
   }
     this.props.shouldTimerUpdateFunc(false)
   }
@@ -86,7 +90,9 @@ class gameRoom extends React.Component{
     return (
       <View>
         <ImageBackground
-          source={require('../Images/pokerTable2.png')}
+
+          source={require('../images/pokerTable2.png')}
+
           style= { styles.background }>
           <View>
           {/* <Text style={{color: 'white'}}>{this.state.message}</Text> */}
@@ -360,10 +366,12 @@ var styles = StyleSheet.create({
       // paddingRight: 10
   },
   background: {
+
     height: '100%',
     width: '100%',
     marginTop: '-3%',
     marginBottom: '7%',
+
   },
   button1: {
    alignItems: 'center',
@@ -420,6 +428,7 @@ var styles = StyleSheet.create({
    borderRadius: 100
   },
 })
+StyleSheet.flatten(styles)
 function mapStateToProps(state) {
   return {
     socket: state.auth.socket,
