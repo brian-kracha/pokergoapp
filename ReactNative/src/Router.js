@@ -9,6 +9,8 @@ import SocketIOClient from 'socket.io-client';
 import {joinRoom} from './actions'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
+
+
 class RouterComponent extends React.Component {
   render() {
     return(
@@ -18,11 +20,13 @@ class RouterComponent extends React.Component {
             <Scene key='login' component={LoginForm} title='please login' initial/>
             <Scene key='signUp' component={SignUp} title='please signUp'/>
           </Scene>
+
           <Scene key='main'>
             <Scene
               onRight={this.props.joinRoom}
               rightTitle='room'
               key='dashboard' component={Dashboard} title='Dashboard' initial/>
+
 
             <Scene key='table' component={Table} hideNavBar />
 

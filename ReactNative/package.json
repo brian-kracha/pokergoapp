@@ -22,9 +22,15 @@
     "poker-evaluator": "^0.3.1",
     "react": "^16.2.0",
     "react-native": "^0.52.0",
+
+    "react-native-cloudinary": "^1.0.1",
+    "react-native-elements": "^0.19.0",
+
     "react-native-circular-progress": "^0.2.0",
     "react-native-progress-circle": "^2.0.0",
+
     "react-native-router-flux": "^3.43.0",
+    "react-native-side-menu": "^1.1.3",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

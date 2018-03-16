@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Image, secureTextEntry,autoCorrect, autoCapitalize} from 'react-native'
+import { View, TextInput, Text, TouchableOpacity, Image, ImageBackground, secureTextEntry,autoCorrect, autoCapitalize} from 'react-native'
 import { connect } from 'react-redux'
+import RNCloudinary from 'react-native-cloudinary'
 import { firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser } from '../actions'
 
 
@@ -58,6 +59,9 @@ class SignUp extends Component {
 
     return (
       <View style={viewStyles}>
+      <ImageBackground source={require('../images/stainless-steel.jpg')}
+      style={{height:'100%',width:'100%',justifyContent: 'center',
+      alignItems: 'center',}}>
         <Text style={emailTextStyles}>First Name</Text>
         <TextInput
           style={textInputStyles}
@@ -94,8 +98,11 @@ class SignUp extends Component {
           onChangeText={ this.onPasswordChange.bind(this) }
           value={ this.props.password }
         />
+        <Image source={this.state.uri}/>
+        <Button> Upload Avatar</Button>
         { this.renderError() }
         { this.renderButton()}
+        </ImageBackground>
       </View>
     )
   }
@@ -111,6 +118,7 @@ const styles = {
   textInputStyles: {
     height: 60,
     alignSelf: 'stretch',
+    backgroundColor: 'white',
     marginTop: 1,
     marginLeft: 40,
     marginRight: 40,
