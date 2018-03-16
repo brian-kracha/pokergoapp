@@ -22,14 +22,22 @@ class Betting extends React.Component {
       bigBlind: nextProps.gameStatus.bigBlind,
       smallBlind: nextProps.gameStatus.smallBlind,
       round: nextProps.gameStatus.round,
-      coinsDeal: nextProps.gameStatus.coinsDeal
+      coinsDeal: nextProps.gameStatus.coinsDeal,
+      activeTableNumbers: nextProps.activeTableNumbers,
+      activeUserTableNumber: nextProps.activeUserTableNumber,
+      cardsLength: nextProps.cardsLength,
+      turn: nextProps.turn,
+      activePlayer: nextProps.activePlayer,
     })
   }
 
   render() {
+    console.log('turn', this.state.turn);
+    console.log('activePlayer', this.state.activePlayer);
+    console.log('activePlayer', this.state.activeUserTableNumber);
     return (
       <View>
-      {this.state.isYourTurn ?
+      {this.state.turn == this.state.activeUserTableNumber && this.state.cardsLength > 0 ?
       <View style={{flexDirection: 'row', paddingLeft: '38%', paddingTop:5}}>
         <Text style={{color:'white', paddingRight:10}}>{this.state.coinsDeal}</Text>
         <Text style={{
@@ -37,7 +45,7 @@ class Betting extends React.Component {
             paddingRight: 10
           }}>{this.state.totalCoins}</Text>
         <TouchableOpacity
-          onPress={() => {this.props.raise(this.state.coinsDeal)}}
+          onPress={() => {this.props.raise(this.state.coinsDeal, this.state.activeTableNumbers)}}
           style={{
             backgroundColor: 'black',
             padding: 5,
@@ -83,7 +91,7 @@ class Betting extends React.Component {
             paddingLeft: 10
           }}>{this.state.coins}
         </Text>
-      </View> : <EmptyBetting /> }
+      </View> : <EmptyBetting />}
     </View>)
   }
 }

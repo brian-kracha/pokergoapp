@@ -50,6 +50,7 @@ const INITIAL_STATE = {
   playerStatus: 'active',
   gameStatus: {},
   timer: 0,
+  activePlayer: 0,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -110,7 +111,7 @@ export default (state = INITIAL_STATE, action) => {
       }
     case GAME_STATUS:
       return{
-        ...state,gameStatus: action.payload, isGameStarted: true
+        ...state,gameStatus: action.payload, isGameStarted: true, activePlayer: action.payload.turnTable
       }
     case START_GAME:
       return{...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
@@ -120,7 +121,7 @@ export default (state = INITIAL_STATE, action) => {
       }
     case RAISE_AMOUNT:
      return {
-       ...state, gameStatus: {...state.gameStatus, coinsDeal: action.payload}
+       ...state, gameStatus: {...state.gameStatus, coinsDeal: action.payload, turnTable: action.turnTable}
      }
     default:
       return state

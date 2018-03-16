@@ -2,11 +2,14 @@ import React from 'react';
 import SocketIOClient from 'socket.io-client';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image, TouchableOpacity} from 'react-native';
+import {Text, View, ImageBackground, StyleSheet, TouchableHighlight, Card, CardSection, Input, Button, TextInput, Image, TouchableOpacity} from 'react-native'
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import ProgressCircle from 'react-native-progress-circle'
 import {takeSeat,sendMessage, fetchCards,sendCard,gameReadyToPlay,sendCardToServer,evalWinner, shouldTimerUpdateFunc} from '../actions'
 import Messages from './Messages'
 import CardsOnTable from './CardsOnTable'
 import Betting from './Betting'
+import EmptyBetting from './EmptyBetting'
 class gameRoom extends React.Component{
   constructor(props){
     super(props)
@@ -24,6 +27,7 @@ class gameRoom extends React.Component{
   componentWillReceiveProps(nextProps) {
     if(nextProps.isGameStarted) {
       nextProps.gameStatus.people.forEach((ele) => {
+        console.log('from will receive props', ele.tableNumber, ele.name);
         if(ele.name == nextProps.player) {
           this.setState({
             totalCoins: nextProps.gameStatus.totalCoins,
@@ -45,7 +49,7 @@ class gameRoom extends React.Component{
         setTimeout(() => {
           i === 0 ? this.setState({message: ''}) :
           this.setState({message: i})
-        }, ((timer-i) * 1000))
+        }, ((timer - i) * 1000))
 
       }
 
@@ -54,6 +58,7 @@ class gameRoom extends React.Component{
   }
 
   render() {
+    console.log('active player from table.js', this.props.activePlayer);
     let activeTableNumbers = []
     let activeUserTableNumber = 0
     let cards = []
@@ -64,9 +69,7 @@ class gameRoom extends React.Component{
         cards = ele.cards
       }
     })
-    // if(cardsToBeEvaluated.length > 0) {
-    //   this.props.evalWinner(cardsToBeEvaluated)
-    // }
+
 
     let players = ['sit','sit','sit','sit','sit','sit']
     this.props.people.forEach(ele => {
@@ -77,6 +80,7 @@ class gameRoom extends React.Component{
       else {
         activeTableNumbers.push(ele.tableNumber)
       }
+      console.log('activeTableNumbers', activeTableNumbers, activeUserTableNumber);
     })
 
     return (
@@ -85,8 +89,8 @@ class gameRoom extends React.Component{
           source={require('../Images/pokerTable2.png')}
           style= { styles.background }>
           <View>
-            <Text style={{color:'white'}}>{this.state.message}</Text>
-          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins} isYourTurn={this.state.isYourTurn} />
+          {/* <Text style={{color: 'white'}}>{this.state.message}</Text> */}
+          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins}  activeUserTableNumber = {activeUserTableNumber} cardsLength = {cards.length} turn ={this.props.gameStatus.turnTable} activeTableNumbers = {activeTableNumbers} activePlayer= {this.props.activePlayer}/>
             <View style={{flexDirection: 'row', marginTop: '-4%', marginLeft: '5%'}}>
               <TouchableHighlight
                  style={styles.button1}
@@ -146,7 +150,18 @@ class gameRoom extends React.Component{
                   source={{uri: ''}}
                 /> }
               </View>
-
+              <View style={{marginLeft: '45%', marginTop:'-5%'}}>
+                <ProgressCircle
+                  percent={this.state.message * 20}
+                  radius={30}
+                  borderWidth={10}
+                  color="#3399FF"
+                  shadowColor="#999"
+                  bgColor="#fff"
+                  >
+                  <Text style={{ fontSize: 18 }}>{this.state.message}</Text>
+              </ProgressCircle>
+            </View>
               {this.props.cardsOntable.length > 0 ? <View style={{flexDirection: 'row', marginTop: '-9.5%', marginLeft: '30%'}}>
                 <CardsOnTable />
               </View> : null }
@@ -278,7 +293,7 @@ class gameRoom extends React.Component{
             </View>
 
           </View>
-          <View style={{marginTop: 150}}>
+          <View style={{marginTop: 130}}>
             <TextInput
             style={{height: 5, borderColor: 'blue', borderWidth: 1, backgroundColor:'grey', width:'50%', marginTop:'11%',color:'white', marginLeft: '2%'}}
             multiline={true}
@@ -429,6 +444,7 @@ function mapStateToProps(state) {
     isGameStarted: state.auth.isGameStarted,
     timer: state.auth.timer,
     shouldTimerUpdate: state.auth.shouldTimerUpdate,
+    activePlayer: state.auth.activePlayer,
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
