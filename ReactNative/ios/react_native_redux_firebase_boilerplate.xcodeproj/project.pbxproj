@@ -53,6 +53,7 @@
 		F5330510BCFD4039A35AA697 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6FF095D09A4490B46151FF /* SafariServices.framework */; };
 		D0F1E6E6164C4A16945F6EAA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B06715C830264D3F9F6FDE93 /* SystemConfiguration.framework */; };
 		6D8958747C0440BA819DA703 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A24BEA93C1844A592FE5B2C /* AddressBook.framework */; };
+		2FC721D69558428B8D687A2C /* libRNCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D2CFC23E1C4523A336642C /* libRNCloudinary.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -319,6 +320,8 @@
 		AC6FF095D09A4490B46151FF /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		B06715C830264D3F9F6FDE93 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		2A24BEA93C1844A592FE5B2C /* AddressBook.framework */ = {isa = PBXFileReference; name = "AddressBook.framework"; path = "System/Library/Frameworks/AddressBook.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		1F305B43178243DA92932B8F /* RNCloudinary.xcodeproj */ = {isa = PBXFileReference; name = "RNCloudinary.xcodeproj"; path = "../node_modules/react-native-cloudinary/ios/RNCloudinary.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		35D2CFC23E1C4523A336642C /* libRNCloudinary.a */ = {isa = PBXFileReference; name = "libRNCloudinary.a"; path = "libRNCloudinary.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +355,7 @@
 				F5330510BCFD4039A35AA697 /* SafariServices.framework in Frameworks */,
 				D0F1E6E6164C4A16945F6EAA /* SystemConfiguration.framework in Frameworks */,
 				6D8958747C0440BA819DA703 /* AddressBook.framework in Frameworks */,
+				2FC721D69558428B8D687A2C /* libRNCloudinary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +545,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				84A924161821421CA55F7FE5 /* RNGoogleSignin.xcodeproj */,
+				1F305B43178243DA92932B8F /* RNCloudinary.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1140,10 +1145,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Debug;
@@ -1165,10 +1172,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Release;
@@ -1192,6 +1201,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Debug;
@@ -1214,6 +1224,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Release;
@@ -1244,10 +1255,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Debug;
@@ -1278,10 +1291,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-cloudinary/ios",
 				);
 			};
 			name = Release;
@@ -1307,6 +1322,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1331,6 +1347,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};

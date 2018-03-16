@@ -95,6 +95,7 @@ export const signUpUser = (firstName, lastName, email, password) => {
     last_name: lastName,
     email: email,
     token: password,
+    uri: ''
   }
   return async (dispatch) => {
         await firebase.auth().createUserWithEmailAndPassword(email, password)

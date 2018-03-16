@@ -3,6 +3,7 @@ package com.react_native_redux_firebase_boilerplate;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rncloudinary.RNCloudinaryPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,6 +25,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCloudinaryPackage(),
             new RNGoogleSigninPackage()
       );
     }
