@@ -307,6 +307,7 @@ export const draw = (coinsDeal, gameStatus) => {
     }
 
     socket.emit('DRAW_AMOUNT', gameStatus_)
+    socket.emit('TURN_VALUE', gameStatus)
   }
 }
 

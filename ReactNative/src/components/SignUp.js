@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Image, ImageBackground, secureTextEntry,autoCorrect, autoCapitalize} from 'react-native'
 import { connect } from 'react-redux'
-import RNCloudinary from 'react-native-cloudinary'
+// import RNCloudinary from 'react-native-cloudinary'
 import { firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser } from '../actions'
 
 
