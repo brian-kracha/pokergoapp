@@ -10,7 +10,7 @@ class Messages extends Component {
   }
   render() {
     return (<View style={{
-        marginTop: 22
+        marginTop: '15%'
       }}>
       <Modal
         animationType="slide" transparent={false} visible={this.state.modalVisible} supportedOrientations={['landscape', 'portrait']}>
@@ -31,7 +31,8 @@ class Messages extends Component {
           this.setModalVisible(true);
         }}>
         <Text style={{
-            textAlign: 'center'
+            textAlign: 'center',
+            fontWeight: '900'
           }}>Messages</Text>
       </TouchableHighlight>
     </View>)

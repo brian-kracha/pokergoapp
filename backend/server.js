@@ -1,7 +1,3 @@
-// 'use strict';
-// if (process.env.NODE_ENV !== 'development') {
-//   require('dotenv').config();
-// }
 const express = require("express")
 const app = express()
 const bodyParser = require('body-parser')
@@ -192,16 +188,6 @@ let Round = 0
 let Turn = 0
 server.listen(process.env.PORT || 3000)
 console.log('server started')
-// app.get('/', (req, res, next) => {
-//    return knex('users')
-//     .select('*')
-//     .then(data => {
-//       res.send(data)
-//     })
-//     .catch(err => {
-//       res.status(404).send(err)
-//     })
-// })
 
 app.post('/api', (req, res, next) => {
   console.log('post', req.body);

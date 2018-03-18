@@ -37,14 +37,11 @@ class Betting extends React.Component {
     console.log(this.props.auth)
     console.log('from betting next props', this.state.gameStatus);
     return (
-      <View>
+      <View style={{marginLeft:'-6%'}}>
       {(this.state.gameStatus && this.state.activeUserTableNumber === this.state.gameStatus.turnTable) ?
-      <View style={{flexDirection: 'row', paddingLeft: '38%', marginTop: '-12%'}}>
-        <Text style={{color: 'white', paddingRight: 10}}>{this.state.coinsDeal}</Text>
-        {/* <Text style={{
-            color: 'white',
-            paddingRight: 10
-          }}>{this.state.totalCoins}</Text> */}
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{color: 'white', paddingRight: 10,
+        fontSize:20,width: 65 }}>{this.state.coinsDeal}</Text>
         <TouchableOpacity
           onPress={() => {this.props.raise(this.state.coinsDeal, this.state.gameStatus)}}
           style={{
@@ -89,7 +86,9 @@ class Betting extends React.Component {
         </TouchableOpacity>
         <Text style={{
             color: 'white',
-            paddingLeft: 10
+            paddingLeft: 10,
+            fontSize:20,
+            width: 65
           }}>{this.state.coins}
         </Text>
       </View> : <EmptyBetting />}
@@ -97,12 +96,7 @@ class Betting extends React.Component {
     </View>)
   }
 }
-function mapStateToProps(state) {
-  // return {
-  //   gameStatus: state.auth.gameStatus,
-  //   auth: state.auth
-  // }
-}
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   raise, draw, fold
 }, dispatch)

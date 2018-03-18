@@ -125,167 +125,440 @@ class gameRoom extends React.Component {
 
     // let players = ['sit','sit','sit','sit','sit','sit']
     console.log('from table ', this.props.Round);
-    if(this.props.Round == 3) {
+    if (this.props.Round == 3) {
       console.log('the Round is three');
       this.props.evalWinner(cardsToBeEvaluated)
     }
     console.log('We are rerednering', this.state.gameStatus)
-    return (<View flexDirection= 'column' >
+    return (<View >
       <ImageBackground source={require('../Images/pokerTable2.png')} style={styles.background}>
-        <View flexDirection='column'>
-          {/* for the totla money */}
 
-
-          <View style={{marginTop:'2%'}}>
-          <View style={{
-              flexDirection: 'row',
-              marginLeft: '6%',
-
-            }}>
-            <TouchableHighlight style={styles.button1} onPress={() => {
-                this.props.takeSeat(1)
+        <View>
+          <View flexDirection='row'>
+            <View style={{
+                flexDirection: 'row',
+                marginLeft: '6%',
+                marginTop: '3%'
               }}>
-              <Text>
-                {this.state.players[0]}
-              </Text>
-            </TouchableHighlight>
-            {
-              this.state.activeUserTableNumber == 1 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      padding: 5,
-                      alignContent: 'center'
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(1)
+              <TouchableHighlight style={styles.button1} onPress={() => {
+                  this.props.takeSeat(1)
+                }}>
+                <Text>
+                  {this.state.players[0]}
+                </Text>
+              </TouchableHighlight>
+              {
+                this.state.activeUserTableNumber == 1 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        padding: 5,
+                        alignContent: 'center'
+                      }} source={{
+                        uri: `${cards[0].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(1)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 1 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        padding: 5,
+                        justifyContent: 'center'
+                      }} source={{
+                        uri: `${cards[1].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(1)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+            </View>
+
+            <Betting coins={this.state.coins} totalCoins={this.state.totalCoins} activeUserTableNumber={this.state.activeUserTableNumber} cardsLength={cards.length} gameStatus={this.state.gameStatus}/>
+
+            <View style={{
+                flexDirection: 'row',
+                marginTop: '3%',
+                marginLeft: '-6%'
+              }}>
+              {
+                this.state.activeUserTableNumber == 6 && cards.length > 0
                   ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        uri: `${cards[0].image}`
                       }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 1 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      padding: 5,
-                      justifyContent: 'center'
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(1)
+                  : this.state.activeTableNumbers.includes(6)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 6 && cards.length > 0
                   ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        uri: `${cards[1].image}`
                       }}/>
-                  : <Image style={{
+                  : this.state.activeTableNumbers.includes(6)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              <TouchableHighlight style={styles.button6} onPress={() => {
+                  this.props.takeSeat(6)
+                }}>
+                <Text>
+                  {this.state.players[5]}
+                </Text>
+              </TouchableHighlight>
+            </View>
+
+          </View>
+          <View flexDirection='row' style={{
+              marginTop: '5%'
+            }}>
+            <View style={{
+                flexDirection: 'row',
+                // marginTop: '3%',
+                marginLeft: '1%'
+              }}>
+              <TouchableHighlight style={styles.button2} onPress={() => {
+                  this.props.takeSeat(2)
+                }}>
+                <Text>
+                  {this.state.players[1]}
+                </Text>
+              </TouchableHighlight>
+              {
+                this.state.activeUserTableNumber == 2 && cards.length > 0
+                  ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: ''
+                        uri: `${cards[0].image}`
                       }}/>
+                  : this.state.activeTableNumbers.includes(2)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 2 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        opacity: this.props.player1Display
+                      }} source={{
+                        uri: `${cards[1].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(2)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+            </View>
+            {
+              cards.length > 0
+                ? <View style={{
+                      height: 30,
+                      marginLeft: '16%',
+                      marginTop: '-5%'
+                    }}>
+                    <Text style={{
+                        color: 'white',
+                        fontSize: 30,
+                        width: 150
+                      }}>$ {this.state.totalCoins}</Text>
+                  </View>
+                : <View style={{
+                      height: 30,
+                      marginLeft: '20%',
+                      marginTop: '-5%'
+                    }}>
+                    <Text style={{
+                        color: 'white',
+                        fontSize: 30,
+                        width: 150
+                      }}></Text>
+                  </View>
             }
+            <View style={{
+                flexDirection: 'row',
+                // marginTop: '-27%',
+                marginLeft: '5%'
+              }}>
+              {
+                this.state.activeUserTableNumber == 5 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        opacity: this.props.player1Display
+                      }} source={{
+                        uri: `${cards[0].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(5)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 5 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        opacity: this.props.player1Display
+                      }} source={{
+                        uri: `${cards[1].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(5)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              <TouchableHighlight style={styles.button5} onPress={() => {
+                  this.props.takeSeat(5)
+                }}>
+                <Text>
+                  {this.state.players[4]}
+                </Text>
+              </TouchableHighlight>
+            </View>
           </View>
 
-          <Betting coins={this.state.coins} totalCoins={this.state.totalCoins} activeUserTableNumber={this.state.activeUserTableNumber} cardsLength={cards.length} gameStatus={this.state.gameStatus}/>
-          {
-            cards.length > 0
-              ? <Text style={{
-                      color: 'white',
-                      paddingRight: 10,
-                      paddingLeft: '38%',
-                      marginTop: '5%'
-                    }}>$ {this.state.totalCoins}</Text>
-              : <Text style={{
-                      color: 'white',
-                      paddingRight: 10,
-                      paddingLeft: '38%',
-                      marginTop: '5%'
-                    }}></Text>
-          }
-          <View style={{
-              flexDirection: 'row',
-              marginTop: '-1%',
-              marginLeft: '1%'
+          <View flexDirection='row' style={{
+              marginTop: '5%'
             }}>
-            <TouchableHighlight style={styles.button2} onPress={() => {
-                this.props.takeSeat(2)
+            <View style={{
+                flexDirection: 'row',
+                // marginTop: '2%',
+                marginLeft: '5%'
               }}>
-              <Text>
-                {this.state.players[1]}
-              </Text>
-            </TouchableHighlight>
-            {
-              this.state.activeUserTableNumber == 2 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(2)
+              <TouchableHighlight style={styles.button3} onPress={() => {
+                  this.props.takeSeat(3)
+                }}>
+                <Text>
+                  {this.state.players[2]}
+                </Text>
+
+              </TouchableHighlight>
+              {
+                this.state.activeUserTableNumber == 3 && cards.length > 0
                   ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        uri: `${cards[0].image}`
                       }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 2 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(2)
+                  : this.state.activeTableNumbers.includes(3)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 3 && cards.length > 0
                   ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        uri: `${cards[1].image}`
                       }}/>
-                  : <Image style={{
+                  : this.state.activeTableNumbers.includes(3)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+            </View>
+            <View style={{
+                flexDirection: 'row',
+                // marginTop: '-8%',
+                marginLeft: '37%'
+              }}>
+              {
+                this.state.activeUserTableNumber == 4 && cards.length > 0
+                  ? <Image style={{
                         width: 50,
                         height: 70,
                         opacity: this.props.player1Display
                       }} source={{
-                        uri: ''
+                        uri: `${cards[0].image}`
                       }}/>
-            }
+                  : this.state.activeTableNumbers.includes(4)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              {
+                this.state.activeUserTableNumber == 4 && cards.length > 0
+                  ? <Image style={{
+                        width: 50,
+                        height: 70,
+                        opacity: this.props.player1Display
+                      }} source={{
+                        uri: `${cards[1].image}`
+                      }}/>
+                  : this.state.activeTableNumbers.includes(4)
+                    ? <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+                        }}/>
+                    : <Image style={{
+                          width: 50,
+                          height: 70,
+                          opacity: this.props.player1Display
+                        }} source={{
+                          uri: ''
+                        }}/>
+              }
+              <TouchableHighlight style={styles.button4} onPress={() => {
+                  this.props.takeSeat(4)
+                }}>
+                <Text>
+                  {this.state.players[3]}
+                </Text>
+              </TouchableHighlight>
+            </View>
           </View>
 
           <View style={{
               marginLeft: '45%',
-              marginTop: '-6%'
+              marginTop: '-22%%'
             }}>
             <ProgressCircle percent={this.state.message * 20} radius={30} borderWidth={10} color="#3399FF" shadowColor="#999" bgColor="#fff">
               <Text style={{
@@ -297,292 +570,34 @@ class gameRoom extends React.Component {
             this.props.cardsOntable.length > 0
               ? <View style={{
                     flexDirection: 'row',
-                    marginTop: '-9.5%',
-                    marginLeft: '30%'
+                    marginTop: '-10%',
+                    marginLeft: '35%'
                   }}>
                   <CardsOnTable/>
                 </View>
               : null
           }
 
-          <View style={{
-              flexDirection: 'row',
-              marginTop: '2%',
-              marginLeft: '5%'
-            }}>
-            <TouchableHighlight style={styles.button3} onPress={() => {
-                this.props.takeSeat(3)
-              }}>
-              <Text>
-                {this.state.players[2]}
-              </Text>
-
-            </TouchableHighlight>
-            {
-              this.state.activeUserTableNumber == 3 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(3)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 3 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(3)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-          </View>
-
-          <View style={{
-              flexDirection: 'row',
-              marginTop: '-8%',
-              marginLeft: '70%'
-            }}>
-            {
-              this.state.activeUserTableNumber == 4 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(4)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 4 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(4)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            <TouchableHighlight style={styles.button4} onPress={() => {
-                this.props.takeSeat(4)
-              }}>
-              <Text>
-                {this.state.players[3]}
-              </Text>
-            </TouchableHighlight>
-          </View>
-          <View style={{
-              flexDirection: 'row',
-              marginTop: '-27%',
-              marginLeft: '75%'
-            }}>
-            {
-              this.state.activeUserTableNumber == 5 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(5)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 5 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(5)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            <TouchableHighlight style={styles.button5} onPress={() => {
-                this.props.takeSeat(5)
-              }}>
-              <Text>
-                {this.state.players[4]}
-              </Text>
-            </TouchableHighlight>
-          </View>
-
-          <View style={{
-              flexDirection: 'row',
-              marginTop: '-28%',
-              marginLeft: '70%'
-            }}>
-            {
-              this.state.activeUserTableNumber == 6 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[0].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(6)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            {
-              this.state.activeUserTableNumber == 6 && cards.length > 0
-                ? <Image style={{
-                      width: 50,
-                      height: 70,
-                      opacity: this.props.player1Display
-                    }} source={{
-                      uri: `${cards[1].image}`
-                    }}/>
-                : this.state.activeTableNumbers.includes(6)
-                  ? <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-                      }}/>
-                  : <Image style={{
-                        width: 50,
-                        height: 70,
-                        opacity: this.props.player1Display
-                      }} source={{
-                        uri: ''
-                      }}/>
-            }
-            <TouchableHighlight style={styles.button6} onPress={() => {
-                this.props.takeSeat(6)
-              }}>
-              <Text>
-                {this.state.players[5]}
-              </Text>
-            </TouchableHighlight>
-          </View>
+          {
+            this.props.Round == 3
+              ? this.refs.toast.show('Game Ended', DURATION.LENGTH_LONG)
+              : null
+          }
+          <Toast ref="toast" style={{
+              backgroundColor: 'black'
+            }} position='top' positionValue={200} fadeInDuration={750} fadeOutDuration={1000} opacity={0.8} textStyle={{
+              color: 'white'
+            }}/>
         </View>
-        {this.props.Round == 3 ? this.refs.toast.show('Game Ended', DURATION.LENGTH_LONG) : null}
-        <Toast
-                    ref="toast"
-                    style={{backgroundColor:'black'}}
-                    position='top'
-                    positionValue={200}
-                    fadeInDuration={750}
-                    fadeOutDuration={1000}
-                    opacity={0.8}
-                    textStyle={{color:'white'}}
-        />
-        </View>
-        <View style={{
-            marginTop: 130
+        <View flexDirection='row' style={{
+            marginTop: '17%'
           }}>
           <TextInput style={{
-              height: 5,
+              height: 40,
               borderColor: 'blue',
               borderWidth: 1,
               backgroundColor: 'grey',
               width: '50%',
-              marginTop: '15%',
               color: 'white',
               marginLeft: '2%'
             }} multiline={true} numberOfLines={4} onChangeText={(text) => this.setState({text})} value={this.state.text}/>
@@ -597,9 +612,9 @@ class gameRoom extends React.Component {
           <TouchableOpacity style={styles.leaveButton}
             // onPress={() => {this.props.sendMessage(this.props.player, this.state.text)}}
             underlayColor='#fff'>
-            <Text style={styles.submitText, {
-                marginTop: 10,
-                marginLeft: 20,
+            <Text style={{
+                marginTop: '13%',
+                textAlign: 'center',
                 fontWeight: '900'
               }}>LEAVE</Text>
           </TouchableOpacity>
@@ -610,40 +625,38 @@ class gameRoom extends React.Component {
 }
 var styles = StyleSheet.create({
   Messages: {
-    marginLeft: '70%',
-    marginTop: '-6%',
-    backgroundColor: 'red',
-    width: 100,
+    marginLeft: '2%',
+    // marginTop: '-6%',
+    backgroundColor: '#1E6738',
+    width: 80,
     borderRadius: 20,
-    borderColor: '#fff'
+    borderColor: '#fff',
+    borderWidth: 1
   },
   leaveButton: {
-    marginLeft: '87%',
-    marginTop: '-6%',
+    marginLeft: '2%',
+    // marginTop: '-6%',
     backgroundColor: '#1E6738',
     width: 80,
     height: 40,
-    borderRadius: 20
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#fff'
   },
   messageButton: {
-    // marginRight: 40,
-    marginLeft: '55%',
+    marginLeft: '2%',
     height: 40,
-    paddingTop: 10,
-    paddingBottom: 10,
     backgroundColor: '#1E6738',
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#fff',
-    width: 80,
-    marginTop: '-6%'
+    width: 80
   },
   submitText: {
     color: 'black',
     textAlign: 'center',
-    fontWeight: '900'
-    // paddingLeft: 10,
-    // paddingRight: 10
+    fontWeight: '900',
+    paddingTop: '13%'
   },
   background: {
 
@@ -700,7 +713,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
     padding: 15,
     width: 70,
-    //  marginLeft: '80%',
+    //  marginLeft: '-1%',
     //  marginTop: '-18%',
     borderRadius: 100
   }
@@ -731,7 +744,7 @@ function mapStateToProps(state) {
     timer: state.auth.timer,
     shouldTimerUpdate: state.auth.shouldTimerUpdate,
     activePlayer: state.auth.activePlayer,
-    Round: state.auth.Round,
+    Round: state.auth.Round
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({
