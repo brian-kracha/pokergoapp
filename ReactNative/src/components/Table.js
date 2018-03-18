@@ -33,7 +33,8 @@ import {
 } from '../actions'
 import Messages from './Messages'
 import CardsOnTable from './CardsOnTable'
-
+import WinningHand from './WinningHand'
+import WinnerCardsOnTable from './WinnerCardsOnTable'
 import Betting from './Betting'
 import EmptyBetting from './EmptyBetting'
 class gameRoom extends React.Component {
@@ -54,22 +55,21 @@ class gameRoom extends React.Component {
         'sit',
         'sit',
         'sit'
-      ]
+      ],
+      winner: false
     }
   }
   componentDidMount() {
     this.props.sendMessage()
   }
   componentWillReceiveProps(nextProps) {
-    console.log('We are receiving values', nextProps.gameStatus);
+    this.setState({winner: nextProps.winner})
     this.setState({gameStatus: nextProps.gameStatus})
     if (nextProps.isGameStarted) {
       nextProps.gameStatus.people.forEach((ele) => {
-        console.log('from will receive props', ele.tableNumber, ele.name);
         if (ele.name == nextProps.player) {
           this.setState({totalCoins: nextProps.gameStatus.totalCoins, coins: ele.coins})
           if (nextProps.gameStatus.turnTable === ele.tableNumber) {
-            console.log('inside setting props for turn');
             this.setState({isYourTurn: true})
           }
         }
@@ -94,26 +94,22 @@ class gameRoom extends React.Component {
     let activeTableNumbers = []
 
     nextProps.people.forEach(ele => {
-      console.log('from table.js ele', ele);
       this.state.players[ele.tableNumber - 1] = ele.name
-      console.log('from table', nextProps.player, ele.name);
+
       if (nextProps.player === ele.name) {
         // this.state.activeUserTableNumber = ele.tableNumber
         this.setState({activeUserTableNumber: ele.tableNumber})
-        console.log('this.state.activeUserTableNumber', this.state.activeUserTableNumber);
       } else {
         activeTableNumbers.push(ele.tableNumber)
 
       }
-      // console.log('activeTableNumbers', activeTableNumbers, activeUserTableNumber);
     })
     this.setState({activeTableNumbers: activeTableNumbers})
 
   }
 
   render() {
-    // console.log('active player from table.js', this.props.activePlayer)
-    // let activeUserTableNumber = 0
+    console.log('winne from tthe table is ', this.props.winner);
     let cards = []
     let cardsToBeEvaluated = []
     this.props.assignCards.forEach(ele => {
@@ -123,13 +119,9 @@ class gameRoom extends React.Component {
       }
     })
 
-    // let players = ['sit','sit','sit','sit','sit','sit']
-    console.log('from table ', this.props.Round);
     if (this.props.Round == 3) {
-      console.log('the Round is three');
       this.props.evalWinner(cardsToBeEvaluated)
     }
-    console.log('We are rerednering', this.state.gameStatus)
     return (<View >
       <ImageBackground source={require('../Images/pokerTable2.png')} style={styles.background}>
 
@@ -148,7 +140,7 @@ class gameRoom extends React.Component {
                 </Text>
               </TouchableHighlight>
               {
-                this.state.activeUserTableNumber == 1 && cards.length > 0
+                (this.state.activeUserTableNumber == 1 && cards.length > 0 && this.props.winner == false)
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -174,7 +166,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 1 && cards.length > 0
+                (this.state.activeUserTableNumber == 1 && cards.length > 0 && this.props.winner == false)
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -209,7 +201,7 @@ class gameRoom extends React.Component {
                 marginLeft: '-6%'
               }}>
               {
-                this.state.activeUserTableNumber == 6 && cards.length > 0
+                (this.state.activeUserTableNumber == 6 && cards.length > 0 && this.props.winner == false)
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -234,7 +226,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 6 && cards.length > 0
+                this.state.activeUserTableNumber == 6 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -284,7 +276,7 @@ class gameRoom extends React.Component {
                 </Text>
               </TouchableHighlight>
               {
-                this.state.activeUserTableNumber == 2 && cards.length > 0
+                (this.props.winner === false && this.state.activeUserTableNumber == 2 && cards.length > 0)
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -292,7 +284,7 @@ class gameRoom extends React.Component {
                       }} source={{
                         uri: `${cards[0].image}`
                       }}/>
-                  : this.state.activeTableNumbers.includes(2)
+                  : (this.state.activeTableNumbers.includes(2) && this.props.winner === false)
                     ? <Image style={{
                           width: 50,
                           height: 70,
@@ -309,7 +301,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 2 && cards.length > 0
+                this.state.activeUserTableNumber == 2 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -335,7 +327,7 @@ class gameRoom extends React.Component {
               }
             </View>
             {
-              cards.length > 0
+              cards.length > 0 && this.props.winner == false
                 ? <View style={{
                       height: 30,
                       marginLeft: '16%',
@@ -365,7 +357,7 @@ class gameRoom extends React.Component {
                 marginLeft: '5%'
               }}>
               {
-                this.state.activeUserTableNumber == 5 && cards.length > 0
+                (this.state.activeUserTableNumber == 5) && (this.props.winner == false) && (cards.length > 0) && (this.props.winner == false)
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -390,7 +382,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 5 && cards.length > 0
+                this.state.activeUserTableNumber == 5 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -441,7 +433,7 @@ class gameRoom extends React.Component {
 
               </TouchableHighlight>
               {
-                this.state.activeUserTableNumber == 3 && cards.length > 0
+                this.state.activeUserTableNumber == 3 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -466,7 +458,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 3 && cards.length > 0
+                this.state.activeUserTableNumber == 3 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -497,7 +489,7 @@ class gameRoom extends React.Component {
                 marginLeft: '37%'
               }}>
               {
-                this.state.activeUserTableNumber == 4 && cards.length > 0
+                this.state.activeUserTableNumber == 4 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -522,7 +514,7 @@ class gameRoom extends React.Component {
                         }}/>
               }
               {
-                this.state.activeUserTableNumber == 4 && cards.length > 0
+                this.state.activeUserTableNumber == 4 && cards.length > 0 && this.props.winner == false
                   ? <Image style={{
                         width: 50,
                         height: 70,
@@ -556,7 +548,7 @@ class gameRoom extends React.Component {
             </View>
           </View>
 
-          <View style={{
+          {this.props.Round !== 3 ? <View style={{
               marginLeft: '45%',
               marginTop: '-22%%'
             }}>
@@ -565,9 +557,18 @@ class gameRoom extends React.Component {
                   fontSize: 18
                 }}>{this.state.message}</Text>
             </ProgressCircle>
-          </View>
+          </View> : <View style={{
+              marginLeft: '45%',
+              marginTop: '-22%%'
+            }}>
+            <ProgressCircle  radius={0} borderWidth={0} color="#3399FF" shadowColor="#999" bgColor="#fff">
+              <Text style={{
+                  fontSize: 18
+                }}></Text>
+            </ProgressCircle>
+          </View>}
           {
-            this.props.cardsOntable.length > 0
+            this.props.cardsOntable.length > 0 && this.props.winner == false
               ? <View style={{
                     flexDirection: 'row',
                     marginTop: '-10%',
@@ -575,7 +576,8 @@ class gameRoom extends React.Component {
                   }}>
                   <CardsOnTable/>
                 </View>
-              : null
+              : this.props.winner == true ? <View flexDirection= 'row' style={{marginTop: '-1%',
+              marginLeft: '23%'}}><WinningHand /><View style={{paddingLeft: 20}}><WinnerCardsOnTable /></View></View> : null
           }
 
           {
@@ -588,6 +590,7 @@ class gameRoom extends React.Component {
             }} position='top' positionValue={200} fadeInDuration={750} fadeOutDuration={1000} opacity={0.8} textStyle={{
               color: 'white'
             }}/>
+
         </View>
         <View flexDirection='row' style={{
             marginTop: '17%'
@@ -603,6 +606,7 @@ class gameRoom extends React.Component {
             }} multiline={true} numberOfLines={4} onChangeText={(text) => this.setState({text})} value={this.state.text}/>
           <TouchableOpacity style={styles.messageButton} onPress={() => {
               this.props.sendMessage(this.props.player, this.state.text)
+              this.setState({text: ''})
             }} underlayColor='#fff'>
             <Text style={styles.submitText}>SEND</Text>
           </TouchableOpacity>
@@ -744,7 +748,8 @@ function mapStateToProps(state) {
     timer: state.auth.timer,
     shouldTimerUpdate: state.auth.shouldTimerUpdate,
     activePlayer: state.auth.activePlayer,
-    Round: state.auth.Round
+    Round: state.auth.Round,
+    winner: state.auth.winner
   }
 }
 const mapDispatchToProps = dispatch => bindActionCreators({

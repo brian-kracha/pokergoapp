@@ -25,6 +25,7 @@ import {
   RAISE_AMOUNT_RESPONSE,
   DRAW_AMOUNT_RESPONSE,
   TURN_VALUE_RESPONSE,
+  WINNING_CARDS,
 } from './types'
 var socket = null
 let countPlayer = 0
@@ -252,9 +253,14 @@ export function evalWinner(cards) {
       }
       cardsSending.push(evaluateCard)
     })
+    console.log('from evaluation index', cardsSending);
     socket.emit('CALCULATE_WINNER_HAND', cardsSending)
     socket.on('WINNING_CARDS', function(data) {
       console.log('winning hand', data);
+      dispatch({
+        type: WINNING_CARDS,
+        payload: data.result
+      })
     })
   }
 }

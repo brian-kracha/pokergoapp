@@ -98,8 +98,8 @@ class SignUp extends Component {
           onChangeText={ this.onPasswordChange.bind(this) }
           value={ this.props.password }
         />
-        <Image source={this.state.uri}/>
-        <Button> Upload Avatar</Button>
+        {/* <Image source={this.state.uri}/> */}
+        {/* <Button> Upload Avatar</Button> */}
         { this.renderError() }
         { this.renderButton()}
         </ImageBackground>

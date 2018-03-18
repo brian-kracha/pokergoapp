@@ -190,7 +190,6 @@ server.listen(process.env.PORT || 3000)
 console.log('server started')
 
 app.post('/api', (req, res, next) => {
-  console.log('post', req.body);
   return knex('users')
     .insert({
       first_name: req.body.first_name,
@@ -238,14 +237,12 @@ io.sockets.on('connection', socket => {
   })
 
   socket.on('RAISE_AMOUNT', function(data) {
-    console.log('Raise amount is called', data);
     gameStatus = data
     // For sending raise amount response to all clients
     io.in(socket.rooms.table1).emit('RAISE_AMOUNT_RESPONSE', data)
   })
 
   socket.on('DRAW_AMOUNT', function(data) {
-    console.log('Raise amount is called', data);
     gameStatus = data;
     // For sending raise amount response to all clients
     io.in(socket.rooms.table1).emit('DRAW_AMOUNT_RESPONSE', data)
@@ -255,7 +252,6 @@ io.sockets.on('connection', socket => {
     if(voteCount >= 2) {
       messages.push(`${msg.playerName} : ${msg.message}`)
     }
-    console.log(messages);
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
   socket.on('CALCULATE_WINNER_HAND', function(data) {
@@ -268,7 +264,6 @@ io.sockets.on('connection', socket => {
       Round++
       Turn = 0
     }
-    console.log('IN TURN VALUE', data, Turn, Round);
     io.in(socket.rooms.table1).emit('TURN_VALUE_RESPONSE', Round)
   })
   startGameFunc = () => {
@@ -335,5 +330,15 @@ function highestHand(hands) {
       }
     }
   }
-  return result
+  console.log('winning hand', result);
+  let results = []
+  for(let i = 0; i < result[0].length; i++) {
+    deckOfCards.filter(ele => {
+      if(ele.code == result[0][i]) {
+        results.push(ele)
+      }
+    })
+  }
+  console.log('results', results);
+  return results
 }

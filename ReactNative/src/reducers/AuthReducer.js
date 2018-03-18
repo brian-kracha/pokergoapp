@@ -18,7 +18,8 @@ import {
   RAISE_AMOUNT,
   RAISE_AMOUNT_RESPONSE,
   DRAW_AMOUNT_RESPONSE,
-  TURN_VALUE_RESPONSE
+  TURN_VALUE_RESPONSE,
+  WINNING_CARDS,
 } from '../actions/types'
 import {FIRSTNAME_CHANGED,
 LASTNAME_CHANGED,
@@ -55,6 +56,8 @@ const INITIAL_STATE = {
   timer: 0,
   activePlayer: 0,
   Round: 0,
+  winningCards: [],
+  winner: false,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -134,6 +137,10 @@ export default (state = INITIAL_STATE, action) => {
     case TURN_VALUE_RESPONSE:
       return{
         ...state, Round: action.payload
+      }
+    case WINNING_CARDS:
+      return{
+        ...state, winningCards: action.payload, winner: true
       }
     default:
       return state
