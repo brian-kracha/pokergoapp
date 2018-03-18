@@ -16,6 +16,9 @@ import {
   START_GAME,
   SHOULD_TIMER_UPDATE,
   RAISE_AMOUNT,
+  RAISE_AMOUNT_RESPONSE,
+  DRAW_AMOUNT_RESPONSE,
+  TURN_VALUE_RESPONSE
 } from '../actions/types'
 import {FIRSTNAME_CHANGED,
 LASTNAME_CHANGED,
@@ -51,6 +54,7 @@ const INITIAL_STATE = {
   gameStatus: {},
   timer: 0,
   activePlayer: 0,
+  Round: 0,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -62,15 +66,15 @@ export default (state = INITIAL_STATE, action) => {
     case LASTNAME_CHANGED:
       return{...state, last_name: action.payload}
     case EMAIL_CHANGED:
-      return { ...state, email: action.payload }
+      return {...state, email: action.payload }
     case PASSWORD_CHANGED:
-      return { ...state, password: action.payload }
+      return {...state, password: action.payload }
     case LOGIN_USER:
-      return { ...state, loading: true, error: '' }
+      return {...state, loading: true, error: '' }
     case LOGIN_USER_SUCCESS:
-      return { ...state, ...INITIAL_STATE, user: action.payload }
+      return {...state, ...INITIAL_STATE, user: action.payload }
     case LOGIN_USER_FAIL:
-      return { ...state, error: 'Authentication Failed.', password: '', loading: false }
+      return {...state, error: 'Authentication Failed.', password: '', loading: false}
     case ROOM_JOINED:
       return {...state, socket: action.payload}
     case TAKE_SEAT:
@@ -94,35 +98,43 @@ export default (state = INITIAL_STATE, action) => {
         isTopFifteenCardsReady: true,
       }
     case GAME_READY_TO_PLAY:
-      return{
+      return {
         ...state
       }
     case CARDS_FOR_EACH_PLAYER:
-      return{
+      return {
         ...state, display: 1, playersCard: action.playersCard, player1Display: 1, player2Display: 1
       }
     case SET_PLAYER:
-      return{
+      return {
         ...state, player: action.payload
       }
     case ASSIGN_CARDS:
-      return{
+      return {
         ...state, assignCards: action.payload, cardsOntable: action.cardsOntable
       }
     case GAME_STATUS:
-      return{
-        ...state,gameStatus: action.payload, isGameStarted: true, activePlayer: action.payload.turnTable
+      return {
+        ...state, gameStatus: action.payload, isGameStarted: true, activePlayer: action.payload.turnTable
       }
     case START_GAME:
-      return{...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
+      return {...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
     case SHOULD_TIMER_UPDATE:
-      return{
+      return {
         ...state, shouldTimerUpdate: action.payload
       }
-    case RAISE_AMOUNT:
-     return {
-       ...state, gameStatus: {...state.gameStatus, coinsDeal: action.payload, turnTable: action.turnTable}
+    case RAISE_AMOUNT_RESPONSE:
+      return {
+       ...state, gameStatus: action.payload
      }
+     case DRAW_AMOUNT_RESPONSE:
+      return{
+        ...state, gameStatus: action.payload
+      }
+    case TURN_VALUE_RESPONSE:
+      return{
+        ...state, Round: action.payload
+      }
     default:
       return state
   }

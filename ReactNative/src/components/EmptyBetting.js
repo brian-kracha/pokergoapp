@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, View, TouchableOpacity} from 'react-native'
 const EmptyBetting = () => {
   return(
-    <View style={{flexDirection: 'row', paddingLeft: '38%', paddingTop:5}}>
+    <View style={{flexDirection: 'row', paddingLeft: '38%', paddingTop:'-12%'}}>
       <Text style={{color:'white', paddingRight:10}}></Text>
       <Text style={{
           color: 'white',

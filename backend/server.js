@@ -186,8 +186,10 @@ let deckOfCards = [
     image: "https://deckofcardsapi.com/static/img/JH.png"
   }
 ]
-
+let turnReturnFromServer = 0
 let shuffleCards = []
+let Round = 0
+let Turn = 0
 server.listen(process.env.PORT || 3000)
 console.log('server started')
 // app.get('/', (req, res, next) => {
@@ -213,9 +215,9 @@ app.post('/api', (req, res, next) => {
     .then(data => {
       res.send(data[0])
     })
-    // .catch(err => {
-    //   res.status(404).send(err)
-    // })
+    .catch(err => {
+      res.status(404).send(err)
+    })
 })
 
 
@@ -248,6 +250,21 @@ io.sockets.on('connection', socket => {
       }, 5000);
     }
   })
+
+  socket.on('RAISE_AMOUNT', function(data) {
+    console.log('Raise amount is called', data);
+    gameStatus = data
+    // For sending raise amount response to all clients
+    io.in(socket.rooms.table1).emit('RAISE_AMOUNT_RESPONSE', data)
+  })
+
+  socket.on('DRAW_AMOUNT', function(data) {
+    console.log('Raise amount is called', data);
+    gameStatus = data;
+    // For sending raise amount response to all clients
+    io.in(socket.rooms.table1).emit('DRAW_AMOUNT_RESPONSE', data)
+  })
+
   socket.on('sendMessage', function(msg) {
     if(voteCount >= 2) {
       messages.push(`${msg.playerName} : ${msg.message}`)
@@ -258,6 +275,15 @@ io.sockets.on('connection', socket => {
   socket.on('CALCULATE_WINNER_HAND', function(data) {
     result = highestHand(data)
     io.in(socket.rooms.table1).emit('WINNING_CARDS', {result: result})
+  })
+  socket.on('TURN_VALUE', function(data) {
+    Turn++
+    if(Turn == data.people.length) {
+      Round++
+      Turn = 0
+    }
+    console.log('IN TURN VALUE', data, Turn, Round);
+    io.in(socket.rooms.table1).emit('TURN_VALUE_RESPONSE', Round)
   })
   startGameFunc = () => {
     isGameStarted = true
@@ -286,7 +312,7 @@ io.sockets.on('connection', socket => {
       round: 0,
       coinsDeal: 20,
       dealerTable: 0,
-      turnTable: people.sort(x => x.tableNumber)[people.length - 1].tableNumber
+      turnTable: people.sort((a,b) => a.tableNumber - b.tableNumber)[people.length - 1].tableNumber
     }
     io.in(socket.rooms.table1).emit('GAME_STATUS', gameStatus)
   }

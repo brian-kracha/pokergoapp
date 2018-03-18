@@ -52,10 +52,10 @@ class Login extends Component {
 
     return (
       <View style={viewStyles}>
-      <ImageBackground source={require('../images/stainless-steel.jpg')}
+      <ImageBackground source={require('../Images/stainless-steel.jpg')}
       style={{height:'100%',width:'100%',justifyContent: 'center',
       alignItems: 'center',}}>
-         <Image source={require('../images/logo2.png')}/> 
+         <Image source={require('../Images/logo2.png')}/>
         <Text style={emailTextStyles}>Email</Text>
         <TextInput
           style={textInputStyles}

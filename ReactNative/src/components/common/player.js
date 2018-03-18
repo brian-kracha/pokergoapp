@@ -42,7 +42,7 @@ import {Text, View, ImageBackground, StyleSheet, hairlineWidth, TouchableHighlig
        <View>
          <Card>
           <CardSection style={{bottomBorderWidth:StyleSheet.hairlineWidth}}>
-            <Image style={{width:50, height:50}} source={require('../../images/3 copy.png')}/>
+            <Image style={{width:50, height:50}} source={require('../../Images/3 copy.png')}/>
             {this.name.value}
           </CardSection>
           <CardSection>

@@ -59,7 +59,7 @@ class SignUp extends Component {
 
     return (
       <View style={viewStyles}>
-      <ImageBackground source={require('../images/stainless-steel.jpg')}
+      <ImageBackground source={require('../Images/stainless-steel.jpg')}
       style={{height:'100%',width:'100%',justifyContent: 'center',
       alignItems: 'center',}}>
         <Text style={emailTextStyles}>First Name</Text>

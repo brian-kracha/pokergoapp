@@ -7,16 +7,14 @@ import { bindActionCreators } from 'redux'
 
 import SideMenu from 'react-native-side-menu'
 import Menu from './common/Menu'
-
-
 const menu = <Menu />
 class Dashboard extends Component{
-  constructor(props){
+  constructor(props) {
     super(props)
     this.toggle = this.toggle.bind(this)
 
-    this.state= {
-      isOpen:false,
+    this.state = {
+      isOpen: false,
     }
   }
   toggle() {
@@ -25,26 +23,23 @@ class Dashboard extends Component{
     });
 }
   updateMenuState(isOpen) {
-    this.setState({ isOpen });
+    this.setState({isOpen});
   }
 
-render(){
-
-
-  return(
-    <SideMenu
-    menu={<Menu/>}
-    isOpen={this.state.isOpen}
-    onChange={isOpen => this.updateMenuState(isOpen)}
-    >
-      <View>
-        <FlatListTable/>
-    </View>
-    </SideMenu>
-  )
+  render() {
+    return(
+      <SideMenu
+      menu={<Menu/>}
+      isOpen={this.state.isOpen}
+      onChange={isOpen => this.updateMenuState(isOpen)}
+      >
+        <View>
+          <FlatListTable/>
+      </View>
+      </SideMenu>
+    )
+  }
 }
-}
-
 
 function mapStateToProps(state) {
   return {
