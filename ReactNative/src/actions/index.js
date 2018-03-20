@@ -22,10 +22,16 @@ import {
   GAME_STATUS,
   START_GAME,
   SHOULD_TIMER_UPDATE,
-  RAISE_AMOUNT
+  RAISE_AMOUNT,
+  RAISE_AMOUNT_RESPONSE,
+  DRAW_AMOUNT_RESPONSE,
+  TURN_VALUE_RESPONSE,
+  WINNING_CARDS,
 } from './types'
 var socket = null
 let countPlayer = 0
+let turn = 0
+let Round = 0
 export const FIRSTNAME_CHANGED = 'firstName_changed'
 export const LASTNAME_CHANGED = 'lastName_changed'
 export const ADDRESS_CHANGED = 'address_changed'
@@ -132,12 +138,12 @@ export const signUpUser = (firstName, lastName, email, password) => {
               })
             }
           })
-          dispatch({ type: SIGNUP })
+          dispatch({type: SIGNUP})
   }
 }
 
 const loginUserFail = (dispatch) => {
-  dispatch({ type: LOGIN_USER_FAIL })
+  dispatch({type: LOGIN_USER_FAIL})
 }
 
 const loginUserSuccess = (dispatch, user) => {
@@ -162,7 +168,7 @@ export const joinRoom = () => {
 
 export const sendMessage = (playerName,message) => {
   return async (dispatch) => {
-    socket.emit('sendMessage', {playerName:playerName, message:message})
+    socket.emit('sendMessage', {playerName: playerName, message: message})
     socket.on('server message response', function(data) {
       dispatch({
         type: SEND_MESSAGE,
@@ -174,13 +180,8 @@ export const sendMessage = (playerName,message) => {
 
 export const takeSeat = (tableNumber) => {
   return async (dispatch) => {
-    // console.log('count', tableNumber);
-    // console.log('seat taken')
-    // console.log(socket);
     socket.emit('TAKE_SEAT', {name: 'pl' , tableNumber: tableNumber})
     socket.on('FROM_SERVER', function(data) {
-      // console.log(data.people)
-      // console.log(typeof(data))
       dispatch({
         type: TAKE_SEAT,
         payload: data.people,
@@ -188,7 +189,6 @@ export const takeSeat = (tableNumber) => {
       })
     })
     socket.on('SET_PLAYER' , function(data) {
-      // console.log('SET_PLAYER', data);
       dispatch({
         type: SET_PLAYER,
         payload: data.name,
@@ -212,10 +212,38 @@ export const takeSeat = (tableNumber) => {
         cardsOntable: data.cardsOntable
       })
     })
+
     socket.on('GAME_STATUS', function(data) {
       console.log('game status', data);
       dispatch({
         type: GAME_STATUS,
+        payload: data
+      })
+    })
+
+    // Since every player call this method on starting, wa are doing this...
+    socket.on('RAISE_AMOUNT_RESPONSE', function(data) {
+      console.log('rounds' , Round);
+      console.log('Raise amount response', data);
+      dispatch({
+        type: RAISE_AMOUNT_RESPONSE,
+        payload: data,
+        Round: Round
+      })
+    })
+
+    socket.on('DRAW_AMOUNT_RESPONSE', function(data) {
+      console.log('draw amount response', data);
+      dispatch({
+        type: DRAW_AMOUNT_RESPONSE,
+        payload: data,
+      })
+    })
+
+    socket.on('TURN_VALUE_RESPONSE', function(data) {
+      console.log('TURN_VALUE_RESPONSE', data);
+      dispatch({
+        type: TURN_VALUE_RESPONSE,
         payload: data
       })
     })
@@ -230,7 +258,9 @@ export function shouldTimerUpdateFunc(data) {
     })
   }
 }
+
 export function evalWinner(cards) {
+  console.log('from eval winner', cards);
   return async (dispatch) => {
     let cardsSending = []
     cards.forEach(ele => {
@@ -240,36 +270,71 @@ export function evalWinner(cards) {
       }
       cardsSending.push(evaluateCard)
     })
+    console.log('from evaluation index', cardsSending);
     socket.emit('CALCULATE_WINNER_HAND', cardsSending)
     socket.on('WINNING_CARDS', function(data) {
       console.log('winning hand', data);
+      dispatch({
+        type: WINNING_CARDS,
+        payload: data.result
+      })
     })
   }
 }
 
-export const raise = (coin,activeTableNumbers) => {
-  console.log('active table numbers from index.js', activeTableNumbers);
+export const raise = (coinsDeal, gameStatus) => {
   return async (dispatch) => {
-      dispatch({
-        type: RAISE_AMOUNT,
-        payload: coin * 2,
-        turnTable: activeTableNumbers[0]
-      })
+    let index = 0
+    let turnTable = 0
+    let sortedTables = gameStatus.people.map(people => people.tableNumber).sort()
+    sortedTables.forEach((x,i) => {
+      if(x == gameStatus.turnTable) {
+        index = i
+      }
+    })
+    if(sortedTables[sortedTables.length - 1] != gameStatus.turnTable) {
+      turnTable = sortedTables[index + 1]
+    }
+    else {
+      turnTable = sortedTables[0]
+    }
+    let gameStatus_ = {...gameStatus, coinsDeal: coinsDeal,
+      turnTable: turnTable,
+      totalCoins: gameStatus.totalCoins + coinsDeal * 2
+    }
+    socket.emit('RAISE_AMOUNT', gameStatus_)
+    socket.emit('TURN_VALUE', gameStatus)
   }
 }
 
-export const draw = (coin) => {
-  console.log('coint from raise', coin);
+
+export const draw = (coinsDeal, gameStatus) => {
   return async (dispatch) => {
-      dispatch({
-        type: DRAW_AMOUNT,
-        payload: coin
-      })
+    let index = 0
+    let turnTable = 0
+    let sortedTables = gameStatus.people.map(people => people.tableNumber).sort()
+    sortedTables.forEach((x,i) => {
+      if(x == gameStatus.turnTable) {
+        index = i
+      }
+    })
+    if(sortedTables[sortedTables.length - 1] != gameStatus.turnTable) {
+      turnTable = sortedTables[index + 1]
+    }
+    else {
+      turnTable = sortedTables[0]
+    }
+    let gameStatus_ = {...gameStatus, coinsDeal: coinsDeal,
+      turnTable: turnTable,
+      totalCoins: gameStatus.totalCoins + coinsDeal
+    }
+
+    socket.emit('DRAW_AMOUNT', gameStatus_)
+    socket.emit('TURN_VALUE', gameStatus)
   }
 }
 
 export const fold = (coin) => {
-  console.log('coint from raise', coin);
   return async (dispatch) => {
       dispatch({
         type: DRAW_AMOUNT,

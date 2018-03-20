@@ -28,24 +28,22 @@ class Betting extends React.Component {
       cardsLength: nextProps.cardsLength,
       turn: nextProps.turn,
       activePlayer: nextProps.activePlayer,
+      gameStatus: nextProps.gameStatus
     })
+    console.log('nextProps ', nextProps);
   }
 
   render() {
-    console.log('turn', this.state.turn);
-    console.log('activePlayer', this.state.activePlayer);
-    console.log('activePlayer', this.state.activeUserTableNumber);
+    console.log(this.props.auth)
+    console.log('from betting next props', this.state.gameStatus);
     return (
-      <View>
-      {this.state.turn == this.state.activeUserTableNumber && this.state.cardsLength > 0 ?
-      <View style={{flexDirection: 'row', paddingLeft: '38%', paddingTop:5}}>
-        <Text style={{color:'white', paddingRight:10}}>{this.state.coinsDeal}</Text>
-        <Text style={{
-            color: 'white',
-            paddingRight: 10
-          }}>{this.state.totalCoins}</Text>
+      <View style={{marginLeft:'-6%'}}>
+      {(this.state.gameStatus && this.state.activeUserTableNumber === this.state.gameStatus.turnTable) ?
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{color: 'white', paddingRight: 10,
+        fontSize:20,width: 65 }}>{this.state.coinsDeal}</Text>
         <TouchableOpacity
-          onPress={() => {this.props.raise(this.state.coinsDeal, this.state.activeTableNumbers)}}
+          onPress={() => {this.props.raise(this.state.coinsDeal, this.state.gameStatus)}}
           style={{
             backgroundColor: 'black',
             padding: 5,
@@ -59,7 +57,7 @@ class Betting extends React.Component {
             }}>Raise</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {this.props.draw(this.state.coinsDeal)}}
+          onPress={() => {this.props.draw(this.state.coinsDeal,this.state.gameStatus)}}
           style={{
             backgroundColor: 'black',
             padding: 5,
@@ -88,20 +86,19 @@ class Betting extends React.Component {
         </TouchableOpacity>
         <Text style={{
             color: 'white',
-            paddingLeft: 10
+            paddingLeft: 10,
+            fontSize:20,
+            width: 65
           }}>{this.state.coins}
         </Text>
       </View> : <EmptyBetting />}
+
     </View>)
   }
 }
-function mapStateToProps(state) {
-  return {
-    gameStatus: state.auth.gameStatus
-  }
-}
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   raise, draw, fold
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Betting)
+export default connect(null, mapDispatchToProps)(Betting)

@@ -66,7 +66,7 @@ class SignUp extends Component {
 
     return (
       <View style={viewStyles}>
-      <ImageBackground source={require('../images/stainless-steel.jpg')}
+      <ImageBackground source={require('../Images/stainless-steel.jpg')}
       style={{height:'100%',width:'100%',justifyContent: 'center',
       alignItems: 'center',}}>
         <Text style={emailTextStyles}>First Name</Text>
@@ -105,9 +105,9 @@ class SignUp extends Component {
           onChangeText={ this.onPasswordChange.bind(this) }
           value={ this.props.password }
         />
-        
 
-
+        {/* <Image source={this.state.uri}/> */}
+        {/* <Button> Upload Avatar</Button> */}
 
         { this.renderError() }
         { this.renderButton()}

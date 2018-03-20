@@ -1,7 +1,3 @@
-// 'use strict';
-// if (process.env.NODE_ENV !== 'development') {
-//   require('dotenv').config();
-// }
 const express = require("express")
 const app = express()
 const bodyParser = require('body-parser')
@@ -186,23 +182,14 @@ let deckOfCards = [
     image: "https://deckofcardsapi.com/static/img/JH.png"
   }
 ]
-
+let turnReturnFromServer = 0
 let shuffleCards = []
+let Round = 0
+let Turn = 0
 server.listen(process.env.PORT || 3000)
 console.log('server started')
-// app.get('/', (req, res, next) => {
-//    return knex('users')
-//     .select('*')
-//     .then(data => {
-//       res.send(data)
-//     })
-//     .catch(err => {
-//       res.status(404).send(err)
-//     })
-// })
 
 app.post('/api', (req, res, next) => {
-  console.log('post', req.body);
   return knex('users')
     .insert({
       first_name: req.body.first_name,
@@ -213,9 +200,9 @@ app.post('/api', (req, res, next) => {
     .then(data => {
       res.send(data[0])
     })
-    // .catch(err => {
-    //   res.status(404).send(err)
-    // })
+    .catch(err => {
+      res.status(404).send(err)
+    })
 })
 
 
@@ -248,16 +235,36 @@ io.sockets.on('connection', socket => {
       }, 5000);
     }
   })
+
+  socket.on('RAISE_AMOUNT', function(data) {
+    gameStatus = data
+    // For sending raise amount response to all clients
+    io.in(socket.rooms.table1).emit('RAISE_AMOUNT_RESPONSE', data)
+  })
+
+  socket.on('DRAW_AMOUNT', function(data) {
+    gameStatus = data;
+    // For sending raise amount response to all clients
+    io.in(socket.rooms.table1).emit('DRAW_AMOUNT_RESPONSE', data)
+  })
+
   socket.on('sendMessage', function(msg) {
     if(voteCount >= 2) {
       messages.push(`${msg.playerName} : ${msg.message}`)
     }
-    console.log(messages);
     io.in(socket.rooms.table1).emit('server message response', {messages: messages})
   })
   socket.on('CALCULATE_WINNER_HAND', function(data) {
     result = highestHand(data)
     io.in(socket.rooms.table1).emit('WINNING_CARDS', {result: result})
+  })
+  socket.on('TURN_VALUE', function(data) {
+    Turn++
+    if(Turn == data.people.length) {
+      Round++
+      Turn = 0
+    }
+    io.in(socket.rooms.table1).emit('TURN_VALUE_RESPONSE', Round)
   })
   startGameFunc = () => {
     isGameStarted = true
@@ -286,7 +293,7 @@ io.sockets.on('connection', socket => {
       round: 0,
       coinsDeal: 20,
       dealerTable: 0,
-      turnTable: people.sort(x => x.tableNumber)[people.length - 1].tableNumber
+      turnTable: people.sort((a,b) => a.tableNumber - b.tableNumber)[people.length - 1].tableNumber
     }
     io.in(socket.rooms.table1).emit('GAME_STATUS', gameStatus)
   }
@@ -323,5 +330,15 @@ function highestHand(hands) {
       }
     }
   }
-  return result
+  console.log('winning hand', result);
+  let results = []
+  for(let i = 0; i < result[0].length; i++) {
+    deckOfCards.filter(ele => {
+      if(ele.code == result[0][i]) {
+        results.push(ele)
+      }
+    })
+  }
+  console.log('results', results);
+  return results
 }

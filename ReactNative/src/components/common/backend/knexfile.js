@@ -3,12 +3,12 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/pokergodb_dev'
+    connection: 'postgres://localhost/pokergo'
   },
 
   test: {
     client: 'pg',
-    connection: 'postgres://localhost/pokergodb_test'
+    connection: 'postgres://localhost/pokergo'
   },
 
   production: {
