@@ -28,13 +28,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   avatar: {
-    width: 48,
-    height: 48,
+    width: 65,
+    height: 65,
     borderRadius: 24,
     flex: 1,
   },
   name: {
+    color:'white',
     position: 'absolute',
+    fontWeight:'200',
+    fontSize:20,
     left: 70,
     top: 20,
   },
@@ -52,9 +55,9 @@ const styles = StyleSheet.create({
       <View style={styles.avatarContainer}>
         <Image
           style={styles.avatar}
-          source={{ uri }}
+          source={require('../../images/3copy.png')}
         />
-        <Text style={styles.name}>{this.props.first_name} {this.props.last_name}</Text>
+        <Text style={styles.name}>Brian Kracha</Text>
       </View>
       <Text
         style={styles.item}
@@ -86,8 +89,8 @@ const styles = StyleSheet.create({
 //
 // }, dispatch)
 
-const mapStateToProps = ({ body }) => {
-  const { first_name, last_name } = body
+const mapStateToProps = ({ auth }) => {
+  const { first_name, last_name } = auth
   console.log('first, last', first_name, last_name);
   return { first_name, last_name }
 }

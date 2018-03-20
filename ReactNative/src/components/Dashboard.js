@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 
 import SideMenu from 'react-native-side-menu'
 import Menu from './common/Menu'
-const menu = <Menu />
+// const menu = <Menu />
 class Dashboard extends Component{
   constructor(props) {
     super(props)
@@ -32,7 +32,7 @@ render(){
 
   return(
     <SideMenu
-    menu={menu}
+    menu={<Menu/>}
     isOpen={this.state.isOpen}
     onChange={isOpen => this.updateMenuState(isOpen)}
     >

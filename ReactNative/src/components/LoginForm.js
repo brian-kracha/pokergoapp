@@ -52,7 +52,7 @@ class Login extends Component {
 
     return (
       <View style={viewStyles}>
-      <ImageBackground source={require('../Images/stainless-steel.jpg')}
+      <ImageBackground source={require('../images/stainless-steel.jpg')}
       style={{height:'100%',width:'100%',justifyContent: 'center',
       alignItems: 'center',}}>
          <Image style={{alignSelf:'center'}} source={require('../images/logo2.png')}/>

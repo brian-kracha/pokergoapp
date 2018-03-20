@@ -123,7 +123,7 @@ class gameRoom extends React.Component {
       this.props.evalWinner(cardsToBeEvaluated)
     }
     return (<View >
-      <ImageBackground source={require('../Images/pokerTable2.png')} style={styles.background}>
+      <ImageBackground source={require('../images/pokerTable2.png')} style={styles.background}>
 
         <View>
           <View flexDirection='row'>

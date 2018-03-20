@@ -16,10 +16,10 @@ class RouterComponent extends React.Component {
     return(
       <Router style={{paddingTop: 10}}>
         <Scene key='root' hideNavBar>
-          {/* <Scene key='auth'>
+           <Scene key='auth'>
             <Scene key='login' component={LoginForm} title='please login' initial/>
             <Scene key='signUp' component={SignUp} title='please signUp'/>
-          </Scene> */}
+          </Scene> 
 
           <Scene key='main'>
             <Scene
