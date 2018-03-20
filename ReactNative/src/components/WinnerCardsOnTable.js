@@ -2,8 +2,6 @@ import React from 'react'
 import {View, Image} from 'react-native'
 import {connect} from 'react-redux'
 const WinnerCardsOnTable = ({winningCards}) => {
-  console.log(Array.isArray(winningCards));
-  console.log(winningCards);
   return (<View flexDirection='row'>
     {winningCards.map((ele,i)=> {
       if(i > 1){

@@ -13,19 +13,20 @@ class Messages extends Component {
         marginTop: '15%'
       }}>
       <Modal
-        animationType="slide" transparent={false} visible={this.state.modalVisible} supportedOrientations={['landscape', 'portrait']}>
+        animationType="slide" transparent={false} visible={this.state.modalVisible} supportedOrientations={['landscape', 'portrait']} presentationStyle= 'formSheet'>
         <View>
           {
             this.props.message.map((ele, i) => {
-              return (<Text key={i}>{ele}</Text>)
+              return (<Text style={{fontSize:20, fontWeight:'500', color:'green', fontStyle:'oblique'}} key={i}>{ele}</Text>)
             })
           }
+
           <TouchableHighlight onPress={() => {
               this.setModalVisible(!this.state.modalVisible);
-            }}>
-            <Text>Hide Modal</Text>
+            }}  style={{alignSelf:'center',marginTop:'50%', position:'absolute'}}>
+            <Text style={{fontSize:20, fontWeight:'900', color:'red', textAlign:'center'}}>CLOSE</Text>
           </TouchableHighlight>
-        </View>
+      </View>
       </Modal>
       <TouchableHighlight onPress={() => {
           this.setModalVisible(true);

@@ -214,6 +214,10 @@ io.sockets.on('connection', socket => {
   connection.push(socket)
   sockets.push(socket.id)
   console.log('socket connected', connection.length, socket.id)
+  socket.on('disconnect', data => {
+    connection.splice(connection.indexOf(socket), 1)
+    console.log('disconnected', connection.length)
+  })
   socket.on('TAKE_SEAT', function(data) {
     count++
     people.push({name: data.name + count, tableNumber: data.tableNumber})

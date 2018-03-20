@@ -56,7 +56,10 @@ class gameRoom extends React.Component {
         'sit',
         'sit'
       ],
-      winner: false
+      winner: false,
+      button1Opacity: 0.2,
+      reStart: 0,
+      isEnded: true
     }
   }
   componentDidMount() {
@@ -104,12 +107,23 @@ class gameRoom extends React.Component {
 
       }
     })
+    if(this.props.Round === 3 && this.state.isEnded) {
+      this.setState({reStart: 20})
+      for(let i= 19; i>= 0; i--){
+        setTimeout(() => {
+                    i === 0
+                      ? this.setState({reStart: ''})
+                      : this.setState({reStart: i})
+                      console.log(this.state.reStart)
+                  }, ((20 - i) * 1000))
+      }
+      this.setState({isEnded: false})
+    }
     this.setState({activeTableNumbers: activeTableNumbers})
 
   }
 
   render() {
-    console.log('winne from tthe table is ', this.props.winner);
     let cards = []
     let cardsToBeEvaluated = []
     this.props.assignCards.forEach(ele => {
@@ -134,8 +148,9 @@ class gameRoom extends React.Component {
               }}>
               <TouchableHighlight style={styles.button1} onPress={() => {
                   this.props.takeSeat(1)
+                  // this.setState({button1Opacity: 0.2})
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[0]}
                 </Text>
               </TouchableHighlight>
@@ -192,7 +207,6 @@ class gameRoom extends React.Component {
                         }}/>
               }
             </View>
-
             <Betting coins={this.state.coins} totalCoins={this.state.totalCoins} activeUserTableNumber={this.state.activeUserTableNumber} cardsLength={cards.length} gameStatus={this.state.gameStatus}/>
 
             <View style={{
@@ -253,7 +267,7 @@ class gameRoom extends React.Component {
               <TouchableHighlight style={styles.button6} onPress={() => {
                   this.props.takeSeat(6)
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[5]}
                 </Text>
               </TouchableHighlight>
@@ -271,7 +285,7 @@ class gameRoom extends React.Component {
               <TouchableHighlight style={styles.button2} onPress={() => {
                   this.props.takeSeat(2)
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[1]}
                 </Text>
               </TouchableHighlight>
@@ -280,7 +294,7 @@ class gameRoom extends React.Component {
                   ? <Image style={{
                         width: 50,
                         height: 70,
-                        opacity: this.props.player1Display
+                        opacity: this.props.player1Display,
                       }} source={{
                         uri: `${cards[0].image}`
                       }}/>
@@ -330,7 +344,7 @@ class gameRoom extends React.Component {
               cards.length > 0 && this.props.winner == false
                 ? <View style={{
                       height: 30,
-                      marginLeft: '16%',
+                      marginLeft: '20%',
                       marginTop: '-5%'
                     }}>
                     <Text style={{
@@ -409,7 +423,7 @@ class gameRoom extends React.Component {
               <TouchableHighlight style={styles.button5} onPress={() => {
                   this.props.takeSeat(5)
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[4]}
                 </Text>
               </TouchableHighlight>
@@ -427,7 +441,7 @@ class gameRoom extends React.Component {
               <TouchableHighlight style={styles.button3} onPress={() => {
                   this.props.takeSeat(3)
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[2]}
                 </Text>
 
@@ -541,13 +555,12 @@ class gameRoom extends React.Component {
               <TouchableHighlight style={styles.button4} onPress={() => {
                   this.props.takeSeat(4)
                 }}>
-                <Text>
+                <Text style={{alignSelf: 'center', marginTop:'25%'}}>
                   {this.state.players[3]}
                 </Text>
               </TouchableHighlight>
             </View>
           </View>
-
           {this.props.Round !== 3 ? <View style={{
               marginLeft: '45%',
               marginTop: '-22%%'
@@ -558,15 +571,18 @@ class gameRoom extends React.Component {
                 }}>{this.state.message}</Text>
             </ProgressCircle>
           </View> : <View style={{
-              marginLeft: '45%',
-              marginTop: '-22%%'
+              marginLeft: '42%',
+              marginTop: '-43%',
+              paddingBottom: 20,
             }}>
-            <ProgressCircle  radius={0} borderWidth={0} color="#3399FF" shadowColor="#999" bgColor="#fff">
+            <ProgressCircle  percent={this.state.reStart * 5} radius={62} borderWidth={10} color="#3399FF" shadowColor="#999" bgColor="green" >
               <Text style={{
-                  fontSize: 18
-                }}></Text>
+                  fontSize: 30,
+                  color:'red',
+                  fontWight: '900'
+                }}>{this.state.reStart}</Text>
             </ProgressCircle>
-          </View>}
+          </View> }
           {
             this.props.cardsOntable.length > 0 && this.props.winner == false
               ? <View style={{
@@ -582,12 +598,12 @@ class gameRoom extends React.Component {
 
           {
             this.props.Round == 3
-              ? this.refs.toast.show('Game Ended', DURATION.LENGTH_LONG)
+              ? this.refs.toast.show('WINNING CARDS IS', DURATION.LENGTH_LONG)
               : null
           }
           <Toast ref="toast" style={{
               backgroundColor: 'black'
-            }} position='top' positionValue={200} fadeInDuration={750} fadeOutDuration={1000} opacity={0.8} textStyle={{
+            }} position='top' positionValue={200} fadeInDuration={750} fadeOutDuration={10000} opacity={0.8} textStyle={{
               color: 'white'
             }}/>
 
@@ -674,8 +690,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
     padding: 15,
     width: 70,
-    //  marginLeft: '12%',
-    //  marginTop: '7%',
     borderRadius: 100
   },
   button2: {

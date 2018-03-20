@@ -19,8 +19,8 @@ class Betting extends React.Component {
       totalCoins: nextProps.totalCoins,
       coins: nextProps.coins,
       isYourTurn: nextProps.isYourTurn,
-      bigBlind: nextProps.gameStatus.bigBlind,
-      smallBlind: nextProps.gameStatus.smallBlind,
+      // bigBlind: nextProps.gameStatus.bigBlind,
+      // smallBlind: nextProps.gameStatus.smallBlind,
       round: nextProps.gameStatus.round,
       coinsDeal: nextProps.gameStatus.coinsDeal,
       activeTableNumbers: nextProps.activeTableNumbers,
@@ -30,12 +30,9 @@ class Betting extends React.Component {
       activePlayer: nextProps.activePlayer,
       gameStatus: nextProps.gameStatus
     })
-    console.log('nextProps ', nextProps);
   }
 
   render() {
-    console.log(this.props.auth)
-    console.log('from betting next props', this.state.gameStatus);
     return (
       <View style={{marginLeft:'-6%'}}>
       {(this.state.gameStatus && this.state.activeUserTableNumber === this.state.gameStatus.turnTable) ?

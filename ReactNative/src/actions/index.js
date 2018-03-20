@@ -107,7 +107,6 @@ export const signUpUser = (firstName, lastName, email, password) => {
         await firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => loginUserSuccess(dispatch, user))
           firebase.auth().onAuthStateChanged((user) => {
-            console.log('inside oauth', body);
             if (user) {
               body.token = user.uid
 
@@ -179,7 +178,6 @@ export const takeSeat = (tableNumber) => {
     })
 
     socket.on('START_GAME', function(data) {
-      console.log(data);
       dispatch({
         type: START_GAME,
         payload: data,
@@ -188,7 +186,6 @@ export const takeSeat = (tableNumber) => {
     })
 
     socket.on("ASSIGN_CARDS", function(data) {
-      console.log(data)
       dispatch({
         type: ASSIGN_CARDS,
         payload: data.people,
@@ -197,7 +194,6 @@ export const takeSeat = (tableNumber) => {
     })
 
     socket.on('GAME_STATUS', function(data) {
-      console.log('game status', data);
       dispatch({
         type: GAME_STATUS,
         payload: data
@@ -206,8 +202,6 @@ export const takeSeat = (tableNumber) => {
 
     // Since every player call this method on starting, wa are doing this...
     socket.on('RAISE_AMOUNT_RESPONSE', function(data) {
-      console.log('rounds' , Round);
-      console.log('Raise amount response', data);
       dispatch({
         type: RAISE_AMOUNT_RESPONSE,
         payload: data,
@@ -216,7 +210,6 @@ export const takeSeat = (tableNumber) => {
     })
 
     socket.on('DRAW_AMOUNT_RESPONSE', function(data) {
-      console.log('draw amount response', data);
       dispatch({
         type: DRAW_AMOUNT_RESPONSE,
         payload: data,
@@ -224,7 +217,6 @@ export const takeSeat = (tableNumber) => {
     })
 
     socket.on('TURN_VALUE_RESPONSE', function(data) {
-      console.log('TURN_VALUE_RESPONSE', data);
       dispatch({
         type: TURN_VALUE_RESPONSE,
         payload: data
@@ -243,7 +235,6 @@ export function shouldTimerUpdateFunc(data) {
 }
 
 export function evalWinner(cards) {
-  console.log('from eval winner', cards);
   return async (dispatch) => {
     let cardsSending = []
     cards.forEach(ele => {
@@ -253,10 +244,8 @@ export function evalWinner(cards) {
       }
       cardsSending.push(evaluateCard)
     })
-    console.log('from evaluation index', cardsSending);
     socket.emit('CALCULATE_WINNER_HAND', cardsSending)
     socket.on('WINNING_CARDS', function(data) {
-      console.log('winning hand', data);
       dispatch({
         type: WINNING_CARDS,
         payload: data.result
@@ -281,9 +270,11 @@ export const raise = (coinsDeal, gameStatus) => {
     else {
       turnTable = sortedTables[0]
     }
+    gameStatus.people[index].coins  = gameStatus.people[index].coins - coinsDeal * 2
     let gameStatus_ = {...gameStatus, coinsDeal: coinsDeal,
       turnTable: turnTable,
-      totalCoins: gameStatus.totalCoins + coinsDeal * 2
+      totalCoins: gameStatus.totalCoins + coinsDeal * 2,
+      coinsDeal: coinsDeal * 2
     }
     socket.emit('RAISE_AMOUNT', gameStatus_)
     socket.emit('TURN_VALUE', gameStatus)
@@ -307,9 +298,11 @@ export const draw = (coinsDeal, gameStatus) => {
     else {
       turnTable = sortedTables[0]
     }
+    gameStatus.people[index].coins  = gameStatus.people[index].coins - coinsDeal
     let gameStatus_ = {...gameStatus, coinsDeal: coinsDeal,
       turnTable: turnTable,
-      totalCoins: gameStatus.totalCoins + coinsDeal
+      totalCoins: gameStatus.totalCoins + coinsDeal,
+      coinsDeal: coinsDeal
     }
 
     socket.emit('DRAW_AMOUNT', gameStatus_)
@@ -325,94 +318,3 @@ export const fold = (coin) => {
       })
   }
 }
-
-
-
-
-
-
-// export const emailChanged = (text) => {
-//   return {
-//     type: EMAIL_CHANGED,
-//     payload: text
-//   }
-// }
-//
-// export const passwordChanged = (text) => {
-//   return {
-//     type: PASSWORD_CHANGED,
-//     payload: text
-//   }
-// }
-//
-// // return (dispatch) is from thunk
-// export const loginUser = ({email, password }) => {
-//   return (dispatch) => {
-//     dispatch({ type: LOGIN_USER })
-//
-//     firebase.auth().signInWithEmailAndPassword(email, password)
-//       .then(user => loginUserSuccess(dispatch, user))
-//       .catch((error) => {
-//         console.log('action/index error', error)
-//
-//         firebase.auth().createUserWithEmailAndPassword(email, password)
-//           .then(user => loginUserSuccess(dispatch, user))
-//           .catch(() => loginUserFail(dispatch))
-//       })
-//   }
-// }
-//
-// const loginUserFail = (dispatch) => {
-//   dispatch({ type: LOGIN_USER_FAIL })
-// }
-//
-// const loginUserSuccess = (dispatch, user) => {
-//   dispatch({
-//     type: LOGIN_USER_SUCCESS,
-//     payload: user
-//   })
-//   Actions.main()
-// }
-
-
-
-
-// export function fetchCards() {
-//  return async (dispatch) => {
-//    const response = await fetch(`https://deckofcardsapi.com/api/deck/new/draw/?count=52`)
-//    const json = await response.json()
-//    dispatch({
-//      type: CARDS_RECEIVED,
-//      cards: json.cards
-//    })
-//  }
-// }
-
-// export function sendCard(cards) {
-//  return async (dispatch) => {
-//    let topFifteenCards = []
-//    for(let i = 0; i < 17; i++) {
-//      topFifteenCards.push(cards[i])
-//    }
-//    dispatch({
-//      type: SEND_CARDS,
-//      topFifteenCards: topFifteenCards,
-//    })
-//  }
-// }
-
-// export function gameReadyToPlay(cards,totalPeople) {
-//   return async (dispatch) => {
-//     var objectOfCardsAndPeople = {
-//       cards: cards,
-//       people: totalPeople
-//     }
-//     socket.emit('game is starting', objectOfCardsAndPeople)
-//     socket.on('game starting now', function(data) {
-//       console.log('from server hello' + data)
-//       dispatch({
-//         type: GAME_READY_TO_PLAY,
-//       })
-//     })
-//   }
-// }
