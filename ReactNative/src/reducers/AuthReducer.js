@@ -25,8 +25,8 @@ let messages = []
 const INITIAL_STATE = {
   first_name: '',
   last_name: '',
-  email: '',
-  password: '',
+  email: 'ballz@baller.com',
+  password: '12341234',
   user: null,
   error: '',
   loading: false,
@@ -71,6 +71,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE, user: action.payload }
     case LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed.', password: '', loading: false }
+    // case UPLOAD_FILE:
+    //   return {...state,...INITIAL_STATE, avatarSource:action.payload}
     case ROOM_JOINED:
       return {...state, socket: action.payload}
     case TAKE_SEAT:

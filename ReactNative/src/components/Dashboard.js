@@ -33,7 +33,7 @@ render(){
 
   return(
     <SideMenu
-    menu={<Menu/>}
+    menu={menu}
     isOpen={this.state.isOpen}
     onChange={isOpen => this.updateMenuState(isOpen)}
     >

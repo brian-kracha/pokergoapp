@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, DeviceEventEmitter } from 'react-native'
-// import RNCloudinary from 'react-native-cloudinary'
+
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
@@ -8,7 +8,6 @@ import ReduxThunk from 'redux-thunk'
 // import history from "./history"
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
-
 import Dashboard from './components/Dashboard'
 import Messages from './components/Messages'
 import Table from './components/Table'

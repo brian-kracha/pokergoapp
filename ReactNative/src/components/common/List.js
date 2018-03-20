@@ -77,7 +77,7 @@ class FlatListTable extends Component {
        style={{
          paddingVertical: 20,
          borderTopWidth: 1,
-         borderColor: "#CED0CE"
+         borderColor: "#982D38"
        }}
      >
        <ActivityIndicator animating size="large" />
@@ -105,7 +105,7 @@ class FlatListTable extends Component {
              keyExtractor={item => item.email}
              ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
-            
+
           />
         </List>
 

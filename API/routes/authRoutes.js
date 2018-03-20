@@ -16,6 +16,7 @@ router.get('/:id', (req, res) => {
   admin.auth().verifyIdToken(token)
     .then(decodedToken => {
       console.log('you are logged in >>>', decodedToken)
+      return {first_name, }
     })
     .catch(error => console.log('error', error))
 })

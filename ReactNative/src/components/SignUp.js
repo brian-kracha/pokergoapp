@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Image, ImageBackground, secureTextEntry,autoCorrect, autoCapitalize} from 'react-native'
 import { connect } from 'react-redux'
-import RNCloudinary from 'react-native-cloudinary'
 import { firstNameChanged, lastNameChanged, addressChanged, emailChanged, passwordChanged, loginUser, signUpUser } from '../actions'
 
 
+//
+
 class SignUp extends Component {
   constructor(props) {
+
     super(props)
+
   }
+
+
   onFirstNameChanged(text) {
     console.log('text', text);
     this.props.firstNameChanged(text)
@@ -51,7 +56,9 @@ class SignUp extends Component {
         <Text style={styles.signUpTextStyles}>Sign Up</Text>
       </TouchableOpacity>
     )
+
   }
+
 
   render() {
     const { viewStyles, textInputStyles, emailTextStyles, passwordTextStyles,
@@ -98,8 +105,10 @@ class SignUp extends Component {
           onChangeText={ this.onPasswordChange.bind(this) }
           value={ this.props.password }
         />
-        <Image source={this.state.uri}/>
-        <Button> Upload Avatar</Button>
+        
+
+
+
         { this.renderError() }
         { this.renderButton()}
         </ImageBackground>
@@ -168,7 +177,8 @@ function mapStateToProps(state) {
     first_name : state.auth.first_name,
     last_name : state.auth.last_name,
     email : state.auth.email,
-    password: state.auth.password
+    password: state.auth.password,
+
   }
 }
 

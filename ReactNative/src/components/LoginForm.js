@@ -48,14 +48,14 @@ class Login extends Component {
   render() {
     const { viewStyles, textInputStyles, emailTextStyles, passwordTextStyles, loginTextStyles,
             submitTextStyles, loginButtonStyle, submitButtonStyle } = styles
-
+            const account= "Don't have an account?"
 
     return (
       <View style={viewStyles}>
       <ImageBackground source={require('../images/stainless-steel.jpg')}
       style={{height:'100%',width:'100%',justifyContent: 'center',
       alignItems: 'center',}}>
-         <Image source={require('../images/logo2.png')}/> 
+         <Image style={{alignSelf:'center'}} source={require('../images/logo2.png')}/>
         <Text style={emailTextStyles}>Email</Text>
         <TextInput
           style={textInputStyles}
@@ -75,12 +75,13 @@ class Login extends Component {
         />
         { this.renderError() }
         { this.renderButton()}
-        <Text style={styles.text}>"Don't have a account"</Text>
+        <Text style={styles.text}>{account}</Text>
         <Text style={styles.text}>Create one for FREE</Text>
         <TouchableOpacity
           onPress={this.props.signUp}
           underlayColor='#fff'>
-          <Text style={{color:'#982D37',fontWeight:'bold',}}>SIGN UP</Text>
+
+          <Text style={{color:'#982D38',fontSize: 30,fontWeight:'700', borderColor:'#982D37',borderRadius:2,borderWidth:2,backgroundColor:'white'}}>SIGN UP</Text>
         </TouchableOpacity>
         </ImageBackground>
       </View>
@@ -97,7 +98,8 @@ const styles = {
   },
   text:{
     fontWeight:'bold',
-    color:'white'
+    color:'white',
+    paddingTop:10
   },
   textInputStyles: {
     height: 60,
@@ -126,6 +128,12 @@ const styles = {
     color: '#982D37',
     fontSize: 16,
     fontWeight: '600',
+  },
+  errorTextStyle: {
+    color:'white',
+    fontSize:15,
+    shadowColor:'red',
+    fontWeight: '700',
   },
   loginTextStyles: {
     alignSelf: 'center',

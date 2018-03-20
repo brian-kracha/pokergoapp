@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import {Actions} from 'react-native-router-flux'
+// import RNFetchBlob from 'react-native-fetch-blob'
 import SocketIOClient from 'socket.io-client';
 import {
   // EMAIL_CHANGED,
@@ -34,6 +35,7 @@ export const LOGIN_USER_SUCCESS = 'login_user_success'
 export const LOGIN_USER_FAIL = 'login_user_fail'
 export const LOGIN_USER = 'login_user'
 export const SIGNUP = 'signup'
+export const UPLOAD_FILE= 'uploadFile'
 
 
 export const firstNameChanged = (text) => {
@@ -76,7 +78,10 @@ export const loginUser = ({ email, password }) => {
     dispatch({ type: LOGIN_USER })
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(user => loginUserSuccess(dispatch, user))
+      .then(user => {
+        console.log('user ball', user);
+        loginUserSuccess(dispatch, user)
+      })
       .catch(function(){
         loginUserFail(dispatch)
       })
@@ -87,6 +92,18 @@ export const signUp = () => {
   return async (dispatch) => {
     Actions.signUp()
   }
+}
+export const uploadFile =(file)=> {
+  return async (dispatch) =>{
+    dispatch({
+      type:UPLOAD_FILE,
+      payload:file})
+  }
+    return RNFetchBlob.fetch('POST', 'https://api.cloudinary.com/v1_1/' + YOUR_CLOUDINARY_NAME + '/image/upload?upload_preset=' + YOUR_CLOUDINARY_PRESET, {
+        'Content-Type': 'multipart/form-data'
+    }, [
+            { name: 'file', filename: file.fileName, data: RNFetchBlob.wrap(file.origURL) }
+        ])
 }
 
 export const signUpUser = (firstName, lastName, email, password) => {
