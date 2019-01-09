@@ -1,49 +1,148 @@
 import {
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
   ROOM_JOINED,
   TAKE_SEAT,
   SEND_MESSAGE,
+  CARDS_RECEIVED,
+  SEND_CARDS,
+  GAME_READY_TO_PLAY,
+  CARDS_FOR_EACH_PLAYER,
+  CARDS_FOR_PLAYER1,
+  SET_PLAYER,
+  ASSIGN_CARDS,
+  GAME_STATUS,
+  START_GAME,
+  SHOULD_TIMER_UPDATE,
+  RAISE_AMOUNT,
+  RAISE_AMOUNT_RESPONSE,
+  DRAW_AMOUNT_RESPONSE,
+  TURN_VALUE_RESPONSE,
+  WINNING_CARDS,
 } from '../actions/types'
+import {FIRSTNAME_CHANGED,
+LASTNAME_CHANGED,
+EMAIL_CHANGED,
+PASSWORD_CHANGED,} from '../actions'
 let messages = []
 const INITIAL_STATE = {
-  email: '',
-  password: '',
+  first_name: '',
+  last_name: '',
+  email: 'ballz@baller.com',
+  password: '12341234',
   user: null,
   error: '',
   loading: false,
   socket: null,
-  sit: 'sit',
+  sit: ['sit','sit','sit','sit','sit','sit'],
   message: [],
+  people: [],
+  count: 0,
+  cards: [],
+  cardsFetched: false,
+  cardsReady: false,
+  topFifteenCards: [],
+  isTopFifteenCardsReady: false,
+  isGameStarted: false,
+  display: 0,
+  playersCard: [],
+  player: '',
+  assignCards: [],
+  tableNumber: 0,
+  cardsOntable: [],
+  playerStatus: 'active',
+  gameStatus: {},
+  timer: 0,
+  activePlayer: 0,
+  Round: 0,
+  winningCards: [],
+  winner: false,
 }
+
 export default (state = INITIAL_STATE, action) => {
   // console.log(action)
 
   switch (action.type) {
+    case FIRSTNAME_CHANGED:
+      return{...state, first_name: action.payload}
+    case LASTNAME_CHANGED:
+      return{...state, last_name: action.payload}
     case EMAIL_CHANGED:
-      return { ...state, email: action.payload }
+      return {...state, email: action.payload }
     case PASSWORD_CHANGED:
-      return { ...state, password: action.payload }
+      return {...state, password: action.payload }
     case LOGIN_USER:
-      return { ...state, loading: true, error: '' }
+      return {...state, loading: true, error: '' }
     case LOGIN_USER_SUCCESS:
-      return { ...state, ...INITIAL_STATE, user: action.payload }
+      return {...state, ...INITIAL_STATE, user: action.payload }
     case LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed.', password: '', loading: false }
+    // case UPLOAD_FILE:
+    //   return {...state,...INITIAL_STATE, avatarSource:action.payload}
     case ROOM_JOINED:
       return {...state, socket: action.payload}
     case TAKE_SEAT:
-      console.log(action.payload)
-      return{...state, sit: action.payload}
+      return{...state, people: action.payload, count: action.count}
     case SEND_MESSAGE:
-      messages.push(action.payload)
-      console.log(messages)
       return {
         ...state,
-        message: messages
+        message: action.payload
+      }
+    case CARDS_RECEIVED:
+      return {
+        ...state,
+        cards: action.cards,
+        cardsFetched: true,
+        round: false,
+        cardsReady: true,
+      }
+    case SEND_CARDS:
+      return{
+        ...state,cardsReady: false, topFifteenCards: action.topFifteenCards,
+        isTopFifteenCardsReady: true,
+      }
+    case GAME_READY_TO_PLAY:
+      return {
+        ...state
+      }
+    case CARDS_FOR_EACH_PLAYER:
+      return {
+        ...state, display: 1, playersCard: action.playersCard, player1Display: 1, player2Display: 1
+      }
+    case SET_PLAYER:
+      return {
+        ...state, player: action.payload
+      }
+    case ASSIGN_CARDS:
+      return {
+        ...state, assignCards: action.payload, cardsOntable: action.cardsOntable
+      }
+    case GAME_STATUS:
+      return {
+        ...state, gameStatus: action.payload, isGameStarted: true, activePlayer: action.payload.turnTable
+      }
+    case START_GAME:
+      return {...state, timer: action.payload, shouldTimerUpdate: action.shouldTimerUpdate}
+    case SHOULD_TIMER_UPDATE:
+      return {
+        ...state, shouldTimerUpdate: action.payload
+      }
+    case RAISE_AMOUNT_RESPONSE:
+      return {
+       ...state, gameStatus: action.payload
+     }
+     case DRAW_AMOUNT_RESPONSE:
+      return{
+        ...state, gameStatus: action.payload
+      }
+    case TURN_VALUE_RESPONSE:
+      return{
+        ...state, Round: action.payload
+      }
+    case WINNING_CARDS:
+      return{
+        ...state, winningCards: action.payload, winner: true
       }
     default:
       return state

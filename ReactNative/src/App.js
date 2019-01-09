@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, DeviceEventEmitter } from 'react-native'
+
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
@@ -7,7 +8,6 @@ import ReduxThunk from 'redux-thunk'
 // import history from "./history"
 import reducers from './reducers'
 import LoginForm from './components/LoginForm'
-import header from './components/Header'
 import Dashboard from './components/Dashboard'
 import Messages from './components/Messages'
 import Table from './components/Table'
@@ -15,7 +15,7 @@ import Router from './Router'
 class App extends Component {
   componentWillMount() {
     // make new web proj in firebase
-    var config = {
+    var configs = {
      apiKey: "AIzaSyCKDkWCy04iN7MA2jXz-QIjtC8czvjkdJU",
      authDomain: "pokergoapp.firebaseapp.com",
      databaseURL: "https://pokergoapp.firebaseio.com",
@@ -23,8 +23,10 @@ class App extends Component {
      storageBucket: "",
      messagingSenderId: "756523341581"
    }
-    firebase.initializeApp(config);
+
+    firebase.initializeApp(configs);
   }
+
 
   render() {
     console.disableYellowBox = true
